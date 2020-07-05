@@ -1,25 +1,104 @@
 <template>
-  <section class="welcome">
-    <div class="application_content welcome_content ">
-      <h1 class="welcome_subtitle" >Pulse en el botón para jugar</h1>
-      <Button @click="onClick()">
-        Jugar
-      </Button>
-    </div>
-  </section>
+  <b-container>
+    <h2>Creacion de una cuenta</h2>
+    <b-row align-h="center">
+      <b-col cols="6">
+        <b-form>
+          <b-form-group
+            id="userName-group"
+            label="Usuario"
+            label-for="userName">
+            <b-form-input
+              id="user"
+              type="text"
+              placeholder="Introduzca su nombre de usuario"
+              @keydown.space.prevent
+              @keydown.ñ.prevent
+              v-model.lazy="$v.userName.$model"
+              :state="$v.userName.$dirty ? !$v.userName.$error : null"
+              @input="$v.userName.$reset()"
+              @blur="$v.userName.$touch()">
+            </b-form-input>
+            <div class="error" v-if="!$v.userName.minLength">
+              El nombre de usuario tiene que tener mínimo 5 caracteres</div>
+          </b-form-group>
+          <b-form-group
+            id="password-group"
+            label="Contraseña"
+            label-for="password">
+            <b-form-input
+              id="pass"
+              type="password"
+              placeholder="Introduzca su contraseña"
+              @keydown.space.prevent
+              @keydown.ñ.prevent
+              v-model.lazy="$v.password.$model"
+              :state="$v.password.$dirty ? !$v.password.$error : null"
+              @input="$v.password.$reset()"
+              @blur="$v.password.$touch()">
+            </b-form-input>
+            <div class="error" v-if="!$v.password.minLength">
+              La contraseña tiene que tener mínimo 8 caracteres</div>
+          </b-form-group>
+          <b-form-group
+            id="repeatPassword-group"
+            label="Repite la contraseña"
+            label-for="repeatPassword">
+            <b-form-input
+              id="repeatPass"
+              type="password"
+              placeholder="Introduzca de nuevo su contraseña"
+              @keydown.space.prevent
+              @keydown.ñ.prevent
+              v-model.lazy="$v.repeatPassword.$model"
+              :state="$v.repeatPassword.$dirty ? !$v.repeatPassword.$error : null"
+              @input="$v.repeatPassword.$reset()"
+              @blur="$v.repeatPassword.$touch()">
+            </b-form-input>
+            <div class="error" v-if="!$v.repeatPassword.sameAsPassword && $v.repeatPassword.$dirty">
+              Las contraseñas tienen coincidir.</div>
+          </b-form-group>
+          <b-button
+            class="mt-5"
+            variant="primary"
+            block
+            @click="onSubmit"
+            :disabled="$v.$invalid">Crear cuenta</b-button>
+        </b-form>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import Button from '@/components/Button.vue';
+import {
+  required, minLength, sameAs,
+} from 'vuelidate/lib/validators';
 
 export default {
-  name: 'Home',
-  components: {
-    Button,
+  data() {
+    return {
+      userName: '',
+      password: '',
+      repeatPassword: '',
+    };
+  },
+  validations: {
+    userName: {
+      required,
+      minLength: minLength(5),
+    },
+    password: {
+      required,
+      minLength: minLength(8),
+    },
+    repeatPassword: {
+      sameAsPassword: sameAs('password'),
+    },
   },
   methods: {
-    onClick() {
-      console.log('Has pulsado el botón');
+    onSubmit() {
+      console.log({ userName: this.userName, password: this.password });
     },
   },
 };

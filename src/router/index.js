@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Vuelidate from 'vuelidate';
 import DataForm from '../views/dataForm.vue';
 
 Vue.use(VueRouter);
-Vue.use(Vuelidate);
 
 const routes = [
   {
