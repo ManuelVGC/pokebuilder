@@ -1,8 +1,8 @@
 <template>
   <b-container>
-    <h2>Creacion de una cuenta</h2>
+    <h2 class="mt-5">Creacion de una cuenta</h2>
     <b-row align-h="center">
-      <b-col cols="6">
+      <b-col cols="12" lg="12">
         <b-form>
           <b-form-group
             id="userName-group"
@@ -67,6 +67,7 @@
         </b-form>
       </b-col>
     </b-row>
+  <b-button @click="sendMessage('Hola')">Enviar mensaje</b-button>
   </b-container>
 </template>
 
@@ -81,6 +82,7 @@ export default {
       userName: '',
       password: '',
       repeatPassword: '',
+      connection: null,
     };
   },
   validations: {
@@ -100,6 +102,23 @@ export default {
     onSubmit() {
       console.log({ userName: this.userName, password: this.password });
     },
+    sendMessage(message) {
+      console.log(this.connection);
+      this.connection.send(message);
+    },
+  },
+  created() {
+    console.log('Conectando al server...');
+    this.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
+
+    this.connection.onopen = function (event) {
+      console.log(event);
+      console.log('Conexión exitosa');
+    };
+
+    this.connection.onmessage = function (event) {
+      console.log(event);
+    };
   },
 };
 </script>
