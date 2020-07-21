@@ -3,7 +3,7 @@
     <h2 class="mt-5">Creacion de una cuenta</h2>
     <b-row align-h="center">
       <b-col cols="12" lg="12">
-        <b-form>
+        <b-form @submit.stop.prevent>
           <b-form-group
             id="userName-group"
             label="Usuario"
@@ -62,12 +62,11 @@
             class="mt-5"
             variant="primary"
             block
-            @click="onSubmit"
+            @click="postRequest"
             :disabled="$v.$invalid">Crear cuenta</b-button>
         </b-form>
       </b-col>
     </b-row>
-  <b-button @click="sendMessage('Hola')">Enviar mensaje</b-button>
   </b-container>
 </template>
 
@@ -76,6 +75,8 @@ import {
   required, minLength, sameAs,
 } from 'vuelidate/lib/validators';
 
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -83,6 +84,9 @@ export default {
       password: '',
       repeatPassword: '',
       connection: null,
+      challstr: '',
+      challid: '',
+      chall: '',
     };
   },
   validations: {
@@ -102,23 +106,43 @@ export default {
     onSubmit() {
       console.log({ userName: this.userName, password: this.password });
     },
-    sendMessage(message) {
-      console.log(this.connection);
-      this.connection.send(message);
+    onOpen() {
+      console.log('Conectando al server...');
+      this.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
+      this.connection.onopen = function () {
+        // console.log(event);
+        console.log('Conexión exitosa');
+      };
+    },
+    messageListener() {
+      this.connection.onmessage = function (event) {
+        console.log('Me ha llegado un mensaje');
+        this.challstr = event.data.split('|');
+        if (this.challstr[1] === 'challstr') {
+          // eslint-disable-next-line prefer-destructuring
+          this.challid = this.challstr[2];
+          // eslint-disable-next-line prefer-destructuring
+          this.chall = this.challstr[3];
+        }
+      };
+    },
+    postRequest() {
+      const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+      const url = 'https://play.pokemonshowdown.com/action.php?';
+      const data = `act=login&name=${this.userName}&pass=${this.password}&challengekeyid=${this.connection.challid}&challenge=${this.connection.chall}`;
+      console.log(data);
+      axios.post(proxyurl + url, data).then((result) => {
+        console.log(result);
+        const dataJSON = JSON.parse(result.data.substr(1));
+        console.log(`|/trn ${this.userName},0,${dataJSON.assertion}`);
+        this.connection.send(`|/trn ${this.userName},0,${dataJSON.assertion}`);
+        // this.connection.send('/avatar 158');
+      });
     },
   },
   created() {
-    console.log('Conectando al server...');
-    this.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
-
-    this.connection.onopen = function (event) {
-      console.log(event);
-      console.log('Conexión exitosa');
-    };
-
-    this.connection.onmessage = function (event) {
-      console.log(event);
-    };
+    this.onOpen();
+    this.messageListener();
   },
 };
 </script>
