@@ -2,7 +2,7 @@
   <section class="welcome">
     <div class="application_content welcome_content ">
       <h1 class="welcome_subtitle" >Pulse en el botón para jugar</h1>
-      <Button @click="onClick()">
+      <Button @click="onClick">
         Jugar
       </Button>
     </div>

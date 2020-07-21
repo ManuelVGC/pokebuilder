@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <h2 class="mt-5">Creacion de una cuenta</h2>
+    <h2 class="mt-5">Acceso a Pokémon Showdown</h2>
     <b-row align-h="center">
       <b-col cols="12" lg="12">
         <b-form @submit.stop.prevent>
@@ -62,8 +62,8 @@
             class="mt-5"
             variant="primary"
             block
-            @click="postRequest"
-            :disabled="$v.$invalid">Crear cuenta</b-button>
+            @click="postRequest([userName, password])"
+            :disabled="$v.$invalid">Acceder a Pokémon Showdown</b-button>
         </b-form>
       </b-col>
     </b-row>
@@ -75,7 +75,7 @@ import {
   required, minLength, sameAs,
 } from 'vuelidate/lib/validators';
 
-import axios from 'axios';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -83,10 +83,6 @@ export default {
       userName: '',
       password: '',
       repeatPassword: '',
-      connection: null,
-      challstr: '',
-      challid: '',
-      chall: '',
     };
   },
   validations: {
@@ -103,42 +99,11 @@ export default {
     },
   },
   methods: {
-    onSubmit() {
-      console.log({ userName: this.userName, password: this.password });
-    },
-    onOpen() {
-      console.log('Conectando al server...');
-      this.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
-      this.connection.onopen = function () {
-        // console.log(event);
-        console.log('Conexión exitosa');
-      };
-    },
-    messageListener() {
-      this.connection.onmessage = function (event) {
-        console.log('Me ha llegado un mensaje');
-        this.challstr = event.data.split('|');
-        if (this.challstr[1] === 'challstr') {
-          // eslint-disable-next-line prefer-destructuring
-          this.challid = this.challstr[2];
-          // eslint-disable-next-line prefer-destructuring
-          this.chall = this.challstr[3];
-        }
-      };
-    },
-    postRequest() {
-      const proxyurl = 'https://cors-anywhere.herokuapp.com/';
-      const url = 'https://play.pokemonshowdown.com/action.php?';
-      const data = `act=login&name=${this.userName}&pass=${this.password}&challengekeyid=${this.connection.challid}&challenge=${this.connection.chall}`;
-      console.log(data);
-      axios.post(proxyurl + url, data).then((result) => {
-        console.log(result);
-        const dataJSON = JSON.parse(result.data.substr(1));
-        console.log(`|/trn ${this.userName},0,${dataJSON.assertion}`);
-        this.connection.send(`|/trn ${this.userName},0,${dataJSON.assertion}`);
-        // this.connection.send('/avatar 158');
-      });
-    },
+    ...mapMutations('webSocket', [
+      'onOpen',
+      'messageListener',
+      'postRequest',
+    ]),
   },
   created() {
     this.onOpen();
