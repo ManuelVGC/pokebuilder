@@ -2,7 +2,7 @@
   <section class="welcome">
     <div class="application_content welcome_content ">
       <h1 class="welcome_subtitle" >Pulse en el botón para jugar</h1>
-      <Button @click="onClick">
+      <Button @click="searchBattleWithTeam({ format, team })">
         Jugar
       </Button>
     </div>
@@ -12,15 +12,54 @@
 <script>
 import Button from '@/components/Button.vue';
 
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'Home',
   components: {
     Button,
   },
+  data() {
+    return {
+      teamOu3: ['Skarmory||leftovers|keeneye|spikes,whirlwind,toxic,protect|Impish|252,,4,,252,|||||]'
+      + 'Dugtrio||choiceband|arenatrap|earthquake,rockslide,aerialace,substitute|Jolly|4,252,,,,252|||||]'
+      + 'Gengar||leftovers|levitate|thunderbolt,icepunch,gigadrain,firepunch|Timid|4,,,252,,252|||||]'
+      + 'Swampert||leftovers|torrent|earthquake,icebeam,hydropump,roar|Relaxed|252,,216,40,,|||||]'
+      + 'Salamence||choiceband|intimidate|crunch,rockslide,earthquake,fireblast|Adamant|4,252,,,,252|||||]'
+      + 'Celebi||leftovers|naturalcure|calmmind,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
+      formatOu3: 'gen3ou',
+      // eslint-disable-next-line
+      // ['Jose Juan|Cloyster|focussash|skilllink|shellsmash,iciclespear,spikes,explosion|Jolly|,252,,,4,252|||||]'
+      // eslint-disable-next-line
+      // team: ['Ninjask||focussash|speedboost|swordsdance,sandstorm,acrobatics,bugbuzz|Jolly|,252,,,4,252|||||]'
+      // eslint-disable-next-line
+      // + 'Magearna||choicespecs|soulheart|fleurcannon,flashcannon,voltswitch,trick|Modest|88,,,252,,168|||||]'
+      // eslint-disable-next-line
+      // + 'Amoonguss||rockyhelmet|regenerator|spore,sludgebomb,gigadrain,toxic|Calm|248,,,8,252,|||||]'
+      // eslint-disable-next-line
+      // + 'Hippowdon||rockyhelmet|sandstream|stealthrock,whirlwind,slackoff,earthquake|Impish|248,8,252,,,|||||]'
+      // eslint-disable-next-line
+      // + 'Incineroar||heavydutyboots|intimidate|knockoff,flareblitz,partingshot,willowisp|Careful|248,,,,200,60|||||]'
+      // eslint-disable-next-line
+      // + 'Alakazam||focussash|magicguard|nastyplot,dazzlinggleam,focusblast,psyshock|Timid|,,,252,4,252|||||'],
+      team: ['Togedemaru||focussash|sturdy|nuzzle,ironhead,spikyshield,roleplay|Jolly|,252,,,4,252|female||||]'
+        + 'Snorlax||aguavberry|gluttony|protect,bellydrum,firepunch,darkestlariat|Bold|,,252,,4,252|||||]'
+        // eslint-disable-next-line
+        + 'Amoonguss||rockyhelmet|regenerator|spore,sludgebomb,gastroacid,toxic|Calm|248,,,8,252,|||||]'
+        // eslint-disable-next-line
+        + 'Hippowdon||rockyhelmet|sandstream|stealthrock,whirlwind,slackoff,earthquake|Impish|248,8,252,,,|||||]'
+        // eslint-disable-next-line
+        + 'Incineroar||stickybarb|intimidate|knockoff,flareblitz,partingshot,willowisp|Careful|248,,,,200,60|||||]'
+        // eslint-disable-next-line
+        + 'Togekiss||focussash|serenegrace|sweetkiss,airslash,dazzlinggleam,followme|Timid|,,,252,4,252|||||'],
+      format: 'gen8ou',
+    };
+  },
   methods: {
     onClick() {
       console.log('Has pulsado el botón');
     },
+    ...mapMutations('webSocket', ['searchBattleWithTeam']),
   },
 };
 </script>

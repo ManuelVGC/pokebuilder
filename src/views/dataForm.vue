@@ -62,7 +62,7 @@
             class="mt-5"
             variant="primary"
             block
-            @click="postRequest([userName, password])"
+            @click="postRequest({ userName, password })"
             :disabled="$v.$invalid">Acceder a Pokémon Showdown</b-button>
         </b-form>
       </b-col>
@@ -75,7 +75,7 @@ import {
   required, minLength, sameAs,
 } from 'vuelidate/lib/validators';
 
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -101,9 +101,9 @@ export default {
   methods: {
     ...mapMutations('webSocket', [
       'onOpen',
-      'messageListener',
       'postRequest',
     ]),
+    ...mapActions('webSocket', ['messageListener']),
   },
   created() {
     this.onOpen();
