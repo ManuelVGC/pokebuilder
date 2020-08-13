@@ -341,18 +341,18 @@ const BattleText = {
     start: "  It created a bizarre area in which Pok\u00E9mon's held items lose their effects!",
     end: "  Magic Room wore off, and held items' effects returned to normal!",
   },
-  mudsport: {
-    start: "  Electricity's power was weakened!",
-    end: "  The effects of Mud Sport have faded.",
-  },
+  // mudsport: {
+    // start: "  Electricity's power was weakened!",
+    // end: "  The effects of Mud Sport have faded.",
+  // },
   trickroom: {
     start: "  [POKEMON] twisted the dimensions!",
     end: "  The twisted dimensions returned to normal!",
   },
-  watersport: {
-    start: "  Fire's power was weakened!",
-    end: "  The effects of Water Sport have faded.",
-  },
+  // watersport: {
+    // start: "  Fire's power was weakened!",
+    // end: "  The effects of Water Sport have faded.",
+  // },
   wonderroom: {
     start: "  It created a bizarre area in which Defense and Sp. Def stats are swapped!",
     end: "  Wonder Room wore off, and Defense and Sp. Def stats returned to normal!",
@@ -384,20 +384,20 @@ const BattleText = {
   autotomize: {
     start: "  [POKEMON] became nimble!",
   },
-  beakblast: {
-    start: "  [POKEMON] started heating up its beak!",
-  },
+  // beakblast: {
+    // start: "  [POKEMON] started heating up its beak!",
+  // },
   beatup: {
     activate: "  [NAME]'s attack!", // past gen only
   },
-  bestow: {
-    takeItem: "  [SOURCE] gave [POKEMON] its [ITEM]!",
-  },
-  bide: {
-    start: "  [POKEMON] is storing energy!",
-    end: "  [POKEMON] unleashed its energy!",
-    activate: "  [POKEMON] is storing energy!",
-  },
+  // bestow: {
+    // takeItem: "  [SOURCE] gave [POKEMON] its [ITEM]!",
+  // },
+  // bide: {
+    // start: "  [POKEMON] is storing energy!",
+    // end: "  [POKEMON] unleashed its energy!",
+    // activate: "  [POKEMON] is storing energy!",
+  // },
   bind: {
     start: "  [POKEMON] was squeezed by [SOURCE]!",
     move: "#wrap", // gen 1 only
@@ -423,16 +423,16 @@ const BattleText = {
   charge: {
     start: "  [POKEMON] began charging power!",
   },
-  clamp: {
-    start: "  [SOURCE] clamped down on [POKEMON]!",
-    move: "#wrap", // gen 1 only
-  },
+  // clamp: {
+    // start: "  [SOURCE] clamped down on [POKEMON]!",
+    // move: "#wrap", // gen 1 only
+  // },
   corrosivegas: {
     removeItem: "  [SOURCE] corroded [POKEMON]'s [ITEM]!",
   },
-  courtchange: {
-    activate: "  [POKEMON] swapped the battle effects affecting each side of the field!",
-  },
+  // courtchange: {
+    // activate: "  [POKEMON] swapped the battle effects affecting each side of the field!",
+  // },
   craftyshield: {
     start: "  Crafty Shield protected [TEAM]!",
     block: "  Crafty Shield protected [POKEMON]!",
@@ -472,10 +472,10 @@ const BattleText = {
   electrify: {
     start: "  [POKEMON]'s moves have been electrified!",
   },
-  embargo: {
-    start: "  [POKEMON] can't use items anymore!",
-    end: "  [POKEMON] can use items again!",
-  },
+  // embargo: {
+    // start: "  [POKEMON] can't use items anymore!",
+    // end: "  [POKEMON] can use items again!",
+  // },
   encore: {
     start: "  [POKEMON] must do an encore!",
     end: "  [POKEMON]'s encore ended!",
@@ -512,7 +512,7 @@ const BattleText = {
   focusenergy: {
     start: "  [POKEMON] is getting pumped!",
     startFromItem: "  [POKEMON] used the [ITEM] to get pumped!",
-    startFromZEffect: "  [POKEMON] boosted its critical-hit ratio using its Z-Power!",
+    // startFromZEffect: "  [POKEMON] boosted its critical-hit ratio using its Z-Power!",
   },
   focuspunch: {
     start: "  [POKEMON] is tightening its focus!",
@@ -520,14 +520,14 @@ const BattleText = {
   },
   followme: {
     start: "  [POKEMON] became the center of attention!",
-    startFromZEffect: "  [POKEMON] became the center of attention!",
+    // startFromZEffect: "  [POKEMON] became the center of attention!",
   },
-  foresight: {
-    start: "  [POKEMON] was identified!",
-  },
-  freezeshock: {
-    prepare: "  [POKEMON] became cloaked in a freezing light!",
-  },
+  // foresight: {
+    // start: "  [POKEMON] was identified!",
+  // },
+  // freezeshock: {
+    // prepare: "  [POKEMON] became cloaked in a freezing light!",
+  // },
   futuresight: {
     start: "  [POKEMON] foresaw an attack!",
     activate: "  [TARGET] took the Future Sight attack!",
@@ -535,33 +535,33 @@ const BattleText = {
   gastroacid: {
     start: "  [POKEMON]'s Ability was suppressed!",
   },
-  geomancy: {
-    prepare: "[POKEMON] is absorbing power!",
-  },
-  gmaxcannonade: {
-    start: "  [PARTY] got caught in the vortex of water!",
-    damage: "  [POKEMON] is hurt by G-Max Cannonade’s vortex!",
-  },
-  gmaxchistrike: {
-    start: "#focusenergy",
-  },
-  gmaxsteelsurge: {
-    start: "  Sharp-pointed pieces of steel started floating around [PARTY]!",
-    end: "  The pieces of steel surrounding [PARTY] disappeared!",
-    damage: "  The sharp steel bit into [POKEMON]!",
-  },
-  gmaxvinelash: {
-    start: "  [PARTY] got trapped with vines!",
-    damage: "  [POKEMON] is hurt by G-Max Vine Lash’s ferocious beating!",
-  },
-  gmaxvolcalith: {
-    start: "  [PARTY] became surrounded by rocks!",
-    damage: "  [POKEMON] is hurt by the rocks thrown out by G-Max Volcalith!",
-  },
-  gmaxwildfire: {
-    start: "  [PARTY] were surrounded by fire!",
-    damage: "  [POKEMON] is burning up within G-Max Wildfire’s flames!",
-  },
+  // geomancy: {
+    // prepare: "[POKEMON] is absorbing power!",
+  // },
+  // gmaxcannonade: {
+    // start: "  [PARTY] got caught in the vortex of water!",
+    // damage: "  [POKEMON] is hurt by G-Max Cannonade’s vortex!",
+  // },
+  // gmaxchistrike: {
+    // start: "#focusenergy",
+  // },
+  // gmaxsteelsurge: {
+    // start: "  Sharp-pointed pieces of steel started floating around [PARTY]!",
+    // end: "  The pieces of steel surrounding [PARTY] disappeared!",
+    // damage: "  The sharp steel bit into [POKEMON]!",
+  // },
+  // gmaxvinelash: {
+    // start: "  [PARTY] got trapped with vines!",
+    // damage: "  [POKEMON] is hurt by G-Max Vine Lash’s ferocious beating!",
+  // },
+  // gmaxvolcalith: {
+    // start: "  [PARTY] became surrounded by rocks!",
+    // damage: "  [POKEMON] is hurt by the rocks thrown out by G-Max Volcalith!",
+  // },
+  // gmaxwildfire: {
+    // start: "  [PARTY] were surrounded by fire!",
+    // damage: "  [POKEMON] is burning up within G-Max Wildfire’s flames!",
+  // },
   grasspledge: {
     activate: "#waterpledge",
     start: "  A swamp enveloped [TEAM]!",
@@ -574,9 +574,9 @@ const BattleText = {
   guardsplit: {
     activate: "  [POKEMON] shared its guard with the target!",
   },
-  happyhour: {
-    activate: "  Everyone is caught up in the happy atmosphere!",
-  },
+  // happyhour: {
+    // activate: "  Everyone is caught up in the happy atmosphere!",
+  // },
   healbell: {
     activate: "  A bell chimed!",
   },
@@ -598,12 +598,12 @@ const BattleText = {
     // activate: "#shadowforce",
     // fail: "#darkvoid",
   // },
-  hyperspacehole: {
-    activate: "#shadowforce",
-  },
-  iceburn: {
-    prepare: "  [POKEMON] became cloaked in freezing air!",
-  },
+  // hyperspacehole: {
+    // activate: "#shadowforce",
+  // },
+  // iceburn: {
+    // prepare: "  [POKEMON] became cloaked in freezing air!",
+  // },
   imprison: {
     start: "  [POKEMON] sealed any moves its target shares with it!",
     cant: "[POKEMON] can't use its sealed [MOVE]!",
@@ -622,12 +622,12 @@ const BattleText = {
   instruct: {
     activate: "  [TARGET] followed [POKEMON]'s instructions!",
   },
-  iondeluge: {
-    activate: "  A deluge of ions showers the battlefield!",
-  },
-  jumpkick: {
-    damage: "#crash",
-  },
+  // iondeluge: {
+    // activate: "  A deluge of ions showers the battlefield!",
+  // },
+  // jumpkick: {
+    // damage: "#crash",
+  // },
   knockoff: {
     removeItem: "  [SOURCE] knocked off [POKEMON]'s [ITEM]!",
   },
@@ -648,10 +648,10 @@ const BattleText = {
   lockon: {
     start: "  [SOURCE] took aim at [POKEMON]!",
   },
-  luckychant: {
-    start: "  Lucky Chant shielded [TEAM] from critical hits!",
-    end: "  [TEAM]'s Lucky Chant wore off!",
-  },
+  // luckychant: {
+    // start: "  Lucky Chant shielded [TEAM] from critical hits!",
+    // end: "  [TEAM]'s Lucky Chant wore off!",
+  // },
   lunardance: {
     heal: "  [POKEMON] became cloaked in mystical moonlight!",
   },
@@ -662,23 +662,23 @@ const BattleText = {
   // magikarpsrevenge: {
     // fail: "#darkvoid",
   // },
-  magmastorm: {
-    start: "  [POKEMON] became trapped by swirling magma!",
-  },
+  // magmastorm: {
+    // start: "  [POKEMON] became trapped by swirling magma!",
+  // },
   magnetrise: {
     start: "  [POKEMON] levitated with electromagnetism!",
     end: "  [POKEMON]'s electromagnetism wore off!",
   },
-  magnitude: {
-    activate: "  Magnitude [NUMBER]!",
-  },
+  // magnitude: {
+    // activate: "  Magnitude [NUMBER]!",
+  // },
   matblock: {
     start: "  [POKEMON] intends to flip up a mat and block incoming attacks!",
     block: "  [MOVE] was blocked by the kicked-up mat!",
   },
-  maxguard: {
-    activate: "  [POKEMON] protected itself!",
-  },
+  // maxguard: {
+    // activate: "  [POKEMON] protected itself!",
+  // },
   // memento: {
     // heal: "  [POKEMON]'s HP was restored by the Z-Power!",
   // },
@@ -691,9 +691,9 @@ const BattleText = {
   mindreader: {
     start: "#lockon",
   },
-  miracleeye: {
-    start: "#foresight",
-  },
+  // miracleeye: {
+    // start: "#foresight",
+  // },
   mist: {
     start: "  [TEAM] became shrouded in mist!",
     end: "  [TEAM] is no longer protected by mist!",
@@ -702,10 +702,10 @@ const BattleText = {
   naturepower: {
     move: "Nature Power turned into [MOVE]!",
   },
-  nightmare: {
-    start: "  [POKEMON] began having a nightmare!",
-    damage: "  [POKEMON] is locked in a nightmare!",
-  },
+  // nightmare: {
+    // start: "  [POKEMON] began having a nightmare!",
+    // damage: "  [POKEMON] is locked in a nightmare!",
+  // },
   noretreat: {
     start: "  [POKEMON] can no longer escape because it used No Retreat!",
   },
@@ -735,10 +735,10 @@ const BattleText = {
   poltergeist: {
     activate: "  [POKEMON] is about to be attacked by its [ITEM]!",
   },
-  powder: {
-    start: "  [POKEMON] is covered in powder!",
-    activate: "  When the flame touched the powder on the Pok\u00E9mon, it exploded!",
-  },
+  // powder: {
+    // start: "  [POKEMON] is covered in powder!",
+    // activate: "  When the flame touched the powder on the Pok\u00E9mon, it exploded!",
+  // },
   powersplit: {
     activate: "  [POKEMON] shared its power with the target!",
   },
@@ -750,9 +750,9 @@ const BattleText = {
     start: "  [POKEMON] protected itself!",
     block: "  [POKEMON] protected itself!",
   },
-  pursuit: {
-    activate: "  ([TARGET] is being withdrawn...)",
-  },
+  // pursuit: {
+    // activate: "  ([TARGET] is being withdrawn...)",
+  // },
   quash: {
     activate: "  [TARGET]'s move was postponed!",
   },
@@ -762,11 +762,11 @@ const BattleText = {
   },
   ragepowder: {
     start: '#followme',
-    startFromZEffect: '#followme',
+    // startFromZEffect: '#followme',
   },
-  razorwind: {
-    prepare: "  [POKEMON] whipped up a whirlwind!",
-  },
+  // razorwind: {
+    // prepare: "  [POKEMON] whipped up a whirlwind!",
+  // },
   recycle: {
     addItem: "  [POKEMON] found one [ITEM]!",
   },
@@ -793,18 +793,18 @@ const BattleText = {
   sandtomb: {
     start: "  [POKEMON] became trapped by the quicksand!",
   },
-  shadowforce: {
-    activate: "  It broke through [TARGET]'s protection!",
-    prepare: "[POKEMON] vanished instantly!",
-  },
+  // shadowforce: {
+    // activate: "  It broke through [TARGET]'s protection!",
+    // prepare: "[POKEMON] vanished instantly!",
+  //},
   shelltrap: {
     start: "  [POKEMON] set a shell trap!",
     prepare: "  [POKEMON] set a shell trap!",
     cant: "[POKEMON]'s shell trap didn't work!",
   },
-  sketch: {
-    activate: "  [POKEMON] sketched [MOVE]!",
-  },
+  // sketch: {
+    // activate: "  [POKEMON] sketched [MOVE]!",
+  //},
   skillswap: {
     activate: "  [POKEMON] swapped Abilities with its target!",
   },
@@ -823,10 +823,10 @@ const BattleText = {
   smackdown: {
     start: "  [POKEMON] fell straight down!",
   },
-  snatch: {
-    start: "  [POKEMON] is waiting for a target to make a move!",
-    activate: "  [POKEMON] snatched [TARGET]'s move!",
-  },
+  // snatch: {
+    // start: "  [POKEMON] is waiting for a target to make a move!",
+    // activate: "  [POKEMON] snatched [TARGET]'s move!",
+  // },
   solarbeam: {
     prepare: "  [POKEMON] absorbed light!",
   },
@@ -855,7 +855,7 @@ const BattleText = {
   },
   spotlight: {
     start: "#followme",
-    startFromZEffect: "#followme",
+    // startFromZEffect: "#followme",
   },
   stealthrock: {
     start: "  Pointed stones float in the air around [TEAM]!",
@@ -893,10 +893,10 @@ const BattleText = {
     end: "  [POKEMON] shook off the taunt!",
     cant: "[POKEMON] can't use [MOVE] after the taunt!",
   },
-  telekinesis: {
-    start: "  [POKEMON] was hurled into the air!",
-    end: "  [POKEMON] was freed from the telekinesis!",
-  },
+  // telekinesis: {
+    // start: "  [POKEMON] was hurled into the air!",
+    // end: "  [POKEMON] was freed from the telekinesis!",
+  // },
   throatchop: {
     cant: "The effects of Throat Chop prevent [POKEMON] from using certain moves!",
   },
@@ -957,9 +957,9 @@ const BattleText = {
   aftermath: {
     damage: "  [POKEMON] was hurt!",
   },
-  airlock: {
-    start: "  The effects of the weather disappeared.",
-  },
+  // airlock: {
+    // start: "  The effects of the weather disappeared.",
+  // },
   angerpoint: {
     boost: "  [POKEMON] maxed its Attack!",
   },
@@ -969,31 +969,31 @@ const BattleText = {
   aromaveil: {
     block: "  [POKEMON] is protected by an aromatic veil!",
   },
-  aurabreak: {
-    start: "  [POKEMON] reversed all other Pok\u00E9mon's auras!",
-  },
+  // aurabreak: {
+    // start: "  [POKEMON] reversed all other Pok\u00E9mon's auras!",
+  // },
   baddreams: {
     damage: "  [POKEMON] is tormented!",
   },
-  battlebond: {
-    activate: "  [POKEMON] became fully charged due to its bond with its Trainer!",
-    transform: "[POKEMON] became Ash-Greninja!",
-  },
+  // battlebond: {
+    // activate: "  [POKEMON] became fully charged due to its bond with its Trainer!",
+    // transform: "[POKEMON] became Ash-Greninja!",
+  // },
   blacksludge: {
     heal: "  [POKEMON] restored a little HP using its Black Sludge!",
   },
   cloudnine: {
     start: "#airlock",
   },
-  comatose: {
-    start: "  [POKEMON] is drowsing!",
-  },
+  // comatose: {
+    // start: "  [POKEMON] is drowsing!",
+  // },
   damp: {
     block: "  [SOURCE] cannot use [MOVE]!",
   },
-  darkaura: {
-    start: "  [POKEMON] is radiating a dark aura!",
-  },
+  // darkaura: {
+    // start: "  [POKEMON] is radiating a dark aura!",
+  // },
   // dazzling: {
     // block: "#damp",
   // },
@@ -1004,9 +1004,9 @@ const BattleText = {
   dryskin: {
     damage: "  ([POKEMON] was hurt by its Dry Skin.)",
   },
-  fairyaura: {
-    start: "  [POKEMON] is radiating a fairy aura!",
-  },
+  // fairyaura: {
+    // start: "  [POKEMON] is radiating a fairy aura!",
+  // },
   flashfire: {
     start: "  The power of [POKEMON]'s Fire-type moves rose!",
   },
@@ -1070,16 +1070,16 @@ const BattleText = {
   perishbody: {
     start: "  Both Pok\u00E9mon will faint in three turns!",
   },
-  persistent: {
-    activate: "  [POKEMON] extends [MOVE] by 2 turns!",
-  },
+  // persistent: {
+    // activate: "  [POKEMON] extends [MOVE] by 2 turns!",
+  // },
   pickup: {
     addItem: '#recycle',
   },
-  powerconstruct: {
-    activate: "  You sense the presence of many!",
-    transform: "[POKEMON] transformed into its Complete Forme!",
-  },
+  // powerconstruct: {
+    // activate: "  You sense the presence of many!",
+    // transform: "[POKEMON] transformed into its Complete Forme!",
+  // },
   // powerofalchemy: {
     // changeAbility: "#receiver",
   // },
@@ -1111,16 +1111,16 @@ const BattleText = {
   shellbell: {
     heal: "  [POKEMON] restored a little HP using its Shell Bell!",
   },
-  shieldsdown: {
+  // shieldsdown: {
     // n.b. this isn't a bug, the game actually says "Shields Down deactivated" on first transformation
     // https://www.youtube.com/watch?v=SThjYBz4SEA
-    transform: "Shields Down deactivated!\n([POKEMON] shielded itself.)",
-    transformEnd: "Shields Down activated!\n([POKEMON] stopped shielding itself.)",
-  },
-  slowstart: {
-    start: "  [POKEMON] can't get it going!",
-    end: "  [POKEMON] finally got its act together!",
-  },
+    // transform: "Shields Down deactivated!\n([POKEMON] shielded itself.)",
+    // transformEnd: "Shields Down activated!\n([POKEMON] stopped shielding itself.)",
+  // },
+  // slowstart: {
+    // start: "  [POKEMON] can't get it going!",
+    // end: "  [POKEMON] finally got its act together!",
+  // },
   stancechange: {
     transform: "Changed to Blade Forme!",
     transformEnd: "Changed to Shield Forme!",
@@ -1146,18 +1146,18 @@ const BattleText = {
   // telepathy: {
     // block: "  [POKEMON] can't be hit by attacks from its ally Pok\u00E9mon!",
   // },
-  teravolt: {
-    start: "  [POKEMON] is radiating a bursting aura!",
-  },
+  // teravolt: {
+    // start: "  [POKEMON] is radiating a bursting aura!",
+  // },
   trace: {
     changeAbility: "  [POKEMON] traced [SOURCE]'s [ABILITY]!",
   },
   truant: {
     cant: "[POKEMON] is loafing around!",
   },
-  turboblaze: {
-    start: "  [POKEMON] is radiating a blazing aura!",
-  },
+  // turboblaze: {
+    // start: "  [POKEMON] is radiating a blazing aura!",
+  // },
   unnerve: {
     start: "  [TEAM] is too nervous to eat Berries!",
   },
@@ -1174,9 +1174,9 @@ const BattleText = {
     start: "  [POKEMON] floats in the air with its Air Balloon!",
     end: "  [POKEMON]'s Air Balloon popped!",
   },
-  custapberry: {
-    activate: "  [POKEMON] can act faster than normal, thanks to its Custap Berry!",
-  },
+  // custapberry: {
+    // activate: "  [POKEMON] can act faster than normal, thanks to its Custap Berry!",
+  // },
   ejectbutton: {
     end: "  [POKEMON] is switched out with the Eject Button!",
   },
@@ -1192,9 +1192,9 @@ const BattleText = {
   lifeorb: {
     damage: "  [POKEMON] lost some of its HP!",
   },
-  mysteryberry: {
-    activate: "  [POKEMON] restored PP to its [MOVE] move using Mystery Berry!",
-  },
+  // mysteryberry: {
+    // activate: "  [POKEMON] restored PP to its [MOVE] move using Mystery Berry!",
+  // },
   powerherb: {
     end: "  [POKEMON] became fully charged due to its Power Herb!",
   },
@@ -1210,10 +1210,10 @@ const BattleText = {
   safetygoggles: {
     block: "  [POKEMON] is not affected by [MOVE] thanks to its Safety Goggles!",
   },
-  ultranecroziumz: {
-    transform: "  Bright light is about to burst out of [POKEMON]!",
-    activate: "[POKEMON] regained its true power through Ultra Burst!",
-  },
+  // ultranecroziumz: {
+    // transform: "  Bright light is about to burst out of [POKEMON]!",
+    // activate: "[POKEMON] regained its true power through Ultra Burst!",
+  // },
   whiteherb: {
     end: "  [POKEMON] returned its stats to normal using its White Herb!",
   },

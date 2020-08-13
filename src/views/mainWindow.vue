@@ -42,16 +42,16 @@ export default {
       // + 'Incineroar||heavydutyboots|intimidate|knockoff,flareblitz,partingshot,willowisp|Careful|248,,,,200,60|||||]'
       // eslint-disable-next-line
       // + 'Alakazam||focussash|magicguard|nastyplot,dazzlinggleam,focusblast,psyshock|Timid|,,,252,4,252|||||'],
-      team: ['Togedemaru||focussash|sturdy|nuzzle,ironhead,spikyshield,roleplay|Jolly|,252,,,4,252|female||||]'
-        + 'Snorlax||aguavberry|gluttony|protect,bellydrum,firepunch,darkestlariat|Bold|,,252,,4,252|||||]'
+      team: ['Rillaboom||focussash|grassysurge|protect,swordsdance,uproar,woodhammer|Jolly|,252,,,4,252|female||||]'
+        + 'Ferrothorn||focussash|ironbarbs|protect,spikes,magnetrise,gyroball|Bold|,,252,,4,252|||||]'
         // eslint-disable-next-line
-        + 'Amoonguss||rockyhelmet|regenerator|spore,sludgebomb,gastroacid,toxic|Calm|248,,,8,252,|||||]'
+        + 'Amoonguss||focussash|regenerator|protect,energyball,gigadrain,toxic|Calm|248,,,8,,252|||||]'
         // eslint-disable-next-line
-        + 'Hippowdon||rockyhelmet|sandstream|stealthrock,whirlwind,slackoff,earthquake|Impish|248,8,252,,,|||||]'
+        + 'Alakazam||focussash|magicguard|protect,psyshock,futuresight,attract|Impish|248,8,252,,,|female||||]'
         // eslint-disable-next-line
-        + 'Incineroar||stickybarb|intimidate|knockoff,flareblitz,partingshot,willowisp|Careful|248,,,,200,60|||||]'
+        + 'Jirachi||focussash|serenegrace|protect,doomdesire,ironhead,healingwish|Careful|248,,,,200,60|||||]'
         // eslint-disable-next-line
-        + 'Togekiss||focussash|serenegrace|sweetkiss,airslash,dazzlinggleam,followme|Timid|,,,252,4,252|||||'],
+        + 'Gengar||focussash|cursedbody|protect,disable,encore,shadowball|Timid|,,,252,4,252|||||'],
       format: 'gen8ou',
     };
   },
