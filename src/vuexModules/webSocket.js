@@ -55,7 +55,7 @@ export default {
         },
       },
       formeChange: {
-        hasChange: '',
+        hasChange: false,
         form: '',
       },
     },
@@ -69,10 +69,10 @@ export default {
           spd: '',
           spe: '',
         },
-        formeChange: {
-          hasChange: '',
-          form: '',
-        },
+      },
+      formeChange: {
+        hasChange: false,
+        form: '',
       },
     },
     splitted1: '',
@@ -604,10 +604,8 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = 0;
                 state.currentPokemonP1.boost.stats.spd = 0;
                 state.currentPokemonP1.boost.stats.spe = 0;
-                console.log('1');
                 state.currentPokemonP1.formeChange.hasChange = false;
                 state.currentPokemonP1.formeChange.form = '';
-                console.log('2');
                 if (state.userNumber === 'p1') {
                   state.userTeam.forEach((pokemon) => {
                     // eslint-disable-next-line
@@ -1006,7 +1004,8 @@ export default {
           } else if (this.dataSplitted[i] === 'move') {
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
               state.userTeam.forEach((pokemon) => {
-                console.log(`el pokemon.name es ${pokemon.name}, el nickname es ${pokemon.nickname} y el que te dan es ${this.dataSplitted[i + 1].substr(5).trim()}`);
+                // eslint-disable-next-line
+                // console.log(`el pokemon.name es ${pokemon.name}, el nickname es ${pokemon.nickname} y el que te dan es ${this.dataSplitted[i + 1].substr(5).trim()}`);
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
@@ -1015,7 +1014,8 @@ export default {
               });
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
               state.rivalTeam.forEach((pokemon) => {
-                console.log(`el pokemon.name es ${pokemon.name}, el nickname es ${pokemon.nickname} y el que te dan es ${this.dataSplitted[i + 1].substr(5).trim()}`);
+                // eslint-disable-next-line
+                // console.log(`el pokemon.name es ${pokemon.name}, el nickname es ${pokemon.nickname} y el que te dan es ${this.dataSplitted[i + 1].substr(5).trim()}`);
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
@@ -1045,6 +1045,7 @@ export default {
               });
             }
           } else if (this.dataSplitted[i] === '-damage') {
+            let damage = '';
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
               state.userTeam.forEach((pokemon) => {
                 // eslint-disable-next-line
@@ -1052,118 +1053,64 @@ export default {
                   // eslint-disable-next-line
                   if (this.dataSplitted[i + 2].substr(2).trim() === 'fnt'){
                     // eslint-disable-next-line
-                    const damage = (100*(state.userTeam[state.userTeam.indexOf(pokemon)].currentHP))/state.userTeam[state.userTeam.indexOf(pokemon)].maxHP;
+                    damage = (100*(state.userTeam[state.userTeam.indexOf(pokemon)].currentHP))/state.userTeam[state.userTeam.indexOf(pokemon)].maxHP;
                     state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = 0;
-                    if (this.dataSplitted[i + 4] !== null) {
-                      if (this.dataSplitted[i + 4].substr(0, 6) !== '[from]') {
-                        commit('addMessageToChat', { text: `${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 4].substr(0, 6) === '[from]') {
-                        if (this.dataSplitted[i + 4].substr(7, 4) === 'item') {
-                          if (this.dataSplitted[i + 5].substr(0, 4) === '[of]') {
-                            if (state.rivalNumber === 'p1') {
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else {
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          } else {
-                            commit('addMessageToChat', { text: `${pokemon.name} was hurt by its ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          }
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'brn') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'psn' || this.dataSplitted[i + 4].substr(7).trim() === 'tox') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'confusion') {
-                          commit('addMessageToChat', { text: `${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 4].substr(7).trim() === 'recoil') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Sandstorm') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Hail') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'highjumpkick') {
-                          commit('addMessageToChat', { text: `${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Curse') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Leech Seed') {
-                          commit('addMessageToChat', { text: `${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Spikes') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Stealth Rock') {
-                          commit('addMessageToChat', { text: `Pointed stones dug into ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7, 7) === 'ability') {
-                          if (this.dataSplitted[i + 5].substr(5, 2) === state.userNumber) {
-                            commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                            commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          } else if (this.dataSplitted[i + 5].substr(5, 2) !== state.userNumber) {
-                            if (this.dataSplitted[i + 5].substr(5, 2) === 'p1') {
-                              commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else if (this.dataSplitted[i + 5].substr(5, 2) === 'p2') {
-                              commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          }
-                        } else if (this.dataSplitted[i + 4].substr(7, 4) === 'move') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${this.dataSplitted[i + 4].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        }
-                      }
-                    }
                   } else {
-                    const damage = (100 * (state.userTeam[state.userTeam.indexOf(pokemon)].currentHP - this.dataSplitted[i + 2].split('/')[0])) / state.userTeam[state.userTeam.indexOf(pokemon)].maxHP;
+                    damage = (100 * (state.userTeam[state.userTeam.indexOf(pokemon)].currentHP - this.dataSplitted[i + 2].split('/')[0])) / state.userTeam[state.userTeam.indexOf(pokemon)].maxHP;
                     // eslint-disable-next-line
                     state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 2].split('/')[0];
-                    if (this.dataSplitted[i + 3] !== null) {
-                      if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
-                        commit('addMessageToChat', { text: `${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
-                        if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
-                          if (this.dataSplitted[i + 4].substr(0, 4) === '[of]') {
-                            if (state.rivalNumber === 'p1') {
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else {
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
+                  }
+                  if (this.dataSplitted[i + 3] !== null) {
+                    if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
+                      commit('addMessageToChat', { text: `${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
+                      if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
+                        if (this.dataSplitted[i + 4].substr(0, 4) === '[of]') {
+                          if (state.rivalNumber === 'p1') {
+                            commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                           } else {
-                            commit('addMessageToChat', { text: `${pokemon.name} was hurt by its ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                            commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                           }
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'brn') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'psn' || this.dataSplitted[i + 3].substr(7).trim() === 'tox') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'confusion') {
-                          commit('addMessageToChat', { text: `${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 3].substr(7).trim() === 'recoil') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Sandstorm') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Hail') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'highjumpkick') {
-                          commit('addMessageToChat', { text: `${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Curse') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Leech Seed') {
-                          commit('addMessageToChat', { text: `${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Spikes') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Stealth Rock') {
-                          commit('addMessageToChat', { text: `Pointed stones dug into ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7, 7) === 'ability') {
-                          if (this.dataSplitted[i + 4].substr(5, 2) === state.userNumber) {
-                            commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                            commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          } else if (this.dataSplitted[i + 4].substr(5, 2) !== state.userNumber) {
-                            if (this.dataSplitted[i + 4].substr(5, 2) === 'p1') {
-                              commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else if (this.dataSplitted[i + 4].substr(5, 2) === 'p2') {
-                              commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          }
-                        } else if (this.dataSplitted[i + 3].substr(7, 4) === 'move') {
-                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${this.dataSplitted[i + 3].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                        } else {
+                          commit('addMessageToChat', { text: `${pokemon.name} was hurt by its ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                         }
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'brn') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'psn' || this.dataSplitted[i + 3].substr(7).trim() === 'tox') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'confusion') {
+                        commit('addMessageToChat', { text: `${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 3].substr(7).trim() === 'recoil') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Sandstorm') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Hail') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'highjumpkick') {
+                        commit('addMessageToChat', { text: `${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Curse') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Leech Seed') {
+                        commit('addMessageToChat', { text: `${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Spikes') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Stealth Rock') {
+                        commit('addMessageToChat', { text: `Pointed stones dug into ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7, 7) === 'ability') {
+                        if (this.dataSplitted[i + 4].substr(5, 2) === state.userNumber) {
+                          commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                          commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                        } else if (this.dataSplitted[i + 4].substr(5, 2) !== state.userNumber) {
+                          if (this.dataSplitted[i + 4].substr(5, 2) === 'p1') {
+                            commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                            commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                          } else if (this.dataSplitted[i + 4].substr(5, 2) === 'p2') {
+                            commit('addMessageToChat', { text: `[The opposing ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                            commit('addMessageToChat', { text: `${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                          }
+                        }
+                      } else if (this.dataSplitted[i + 3].substr(7, 4) === 'move') {
+                        commit('addMessageToChat', { text: `${pokemon.name} was hurt by ${this.dataSplitted[i + 3].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                       }
                     }
                   }
@@ -1176,119 +1123,65 @@ export default {
                   // eslint-disable-next-line
                   if (this.dataSplitted[i + 2].substr(2).trim() === 'fnt'){
                     // eslint-disable-next-line
-                    const damage = state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage;
+                    damage = state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage;
                     // eslint-disable-next-line
                     state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = 0;
-                    if (this.dataSplitted[i + 4] !== null) {
-                      if (this.dataSplitted[i + 4].substr(0, 6) !== '[from]') {
-                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 4].substr(0, 6) === '[from]') {
-                        if (this.dataSplitted[i + 4].substr(7, 4) === 'item') {
-                          if (this.dataSplitted[i + 5].substr(0, 4) === '[of]') {
-                            if (state.userNumber === 'p1') {
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else {
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          } else {
-                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its ${this.dataSplitted[i + 4].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          }
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'brn') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'psn' || this.dataSplitted[i + 4].substr(7).trim() === 'tox') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'confusion') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 4].substr(7).trim() === 'recoil') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Sandstorm') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Hail') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'highjumpkick') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Curse') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Leech Seed') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Spikes') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7).trim() === 'Stealth Rock') {
-                          commit('addMessageToChat', { text: `Pointed stones dug into the opposing ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 4].substr(7, 7) === 'ability') {
-                          if (this.dataSplitted[i + 5].substr(5, 2) === state.rivalNumber) {
-                            commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          } else if (this.dataSplitted[i + 5].substr(5, 2) !== state.rivalNumber) {
-                            if (this.dataSplitted[i + 5].substr(5, 2) === 'p1') {
-                              commit('addMessageToChat', { text: `[${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else if (this.dataSplitted[i + 5].substr(5, 2) === 'p2') {
-                              commit('addMessageToChat', { text: `[${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          }
-                        } else if (this.dataSplitted[i + 4].substr(7, 4) === 'move') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${this.dataSplitted[i + 4].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        }
-                      }
-                    }
                   } else {
-                    const damage = state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage - this.dataSplitted[i + 2].split('/')[0];
+                    damage = state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage - this.dataSplitted[i + 2].split('/')[0];
                     // eslint-disable-next-line
                     state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 2].split('/')[0];
-                    if (this.dataSplitted[i + 3] !== null) {
-                      if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
-                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
-                        if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
-                          if (this.dataSplitted[i + 4].substr(0, 4) === '[of]') {
-                            if (state.userNumber === 'p1') {
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else {
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
+                  }
+                  if (this.dataSplitted[i + 3] !== null) {
+                    if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
+                      if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
+                        if (this.dataSplitted[i + 4].substr(0, 4) === '[of]') {
+                          if (state.userNumber === 'p1') {
+                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                           } else {
-                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                           }
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'brn') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'psn' || this.dataSplitted[i + 3].substr(7).trim() === 'tox') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'confusion') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 3].substr(7).trim() === 'recoil') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Sandstorm') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Hail') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'highjumpkick') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Curse') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Leech Seed') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Spikes') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Stealth Rock') {
-                          commit('addMessageToChat', { text: `Pointed stones dug into the opposing ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                        } else if (this.dataSplitted[i + 3].substr(7, 7) === 'ability') {
-                          if (this.dataSplitted[i + 4].substr(5, 2) === state.rivalNumber) {
-                            commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                          } else if (this.dataSplitted[i + 4].substr(5, 2) !== state.rivalNumber) {
-                            if (this.dataSplitted[i + 4].substr(5, 2) === 'p1') {
-                              commit('addMessageToChat', { text: `[${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            } else if (this.dataSplitted[i + 4].substr(5, 2) === 'p2') {
-                              commit('addMessageToChat', { text: `[${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                              commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
-                            }
-                          }
-                        } else if (this.dataSplitted[i + 3].substr(7, 4) === 'move') {
-                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${this.dataSplitted[i + 3].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                        } else {
+                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its ${this.dataSplitted[i + 3].substr(13).trim()} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                         }
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'brn') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by its burn and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'psn' || this.dataSplitted[i + 3].substr(7).trim() === 'tox') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by poison and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'confusion') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} hurt itself in its confusion and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Recoil' || this.dataSplitted[i + 3].substr(7).trim() === 'recoil') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was damaged by the recoil and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Sandstorm') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the sandstorm and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Hail') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was buffeted by the hail and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'highjumpkick') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} kept going, crashed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Curse') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was afflicted by the curse and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Leech Seed') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s health was sapped by Leech Seed and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Spikes') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by the spikes and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Stealth Rock') {
+                        commit('addMessageToChat', { text: `Pointed stones dug into the opposing ${pokemon.name} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 3].substr(7, 7) === 'ability') {
+                        if (this.dataSplitted[i + 4].substr(5, 2) === state.rivalNumber) {
+                          commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                          commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                        } else if (this.dataSplitted[i + 4].substr(5, 2) !== state.rivalNumber) {
+                          if (this.dataSplitted[i + 4].substr(5, 2) === 'p1') {
+                            commit('addMessageToChat', { text: `[${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                          } else if (this.dataSplitted[i + 4].substr(5, 2) === 'p2') {
+                            commit('addMessageToChat', { text: `[${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                            commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
+                          }
+                        }
+                      } else if (this.dataSplitted[i + 3].substr(7, 4) === 'move') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name} was hurt by ${this.dataSplitted[i + 3].substr(13)} and lost ${parseFloat(damage).toFixed(1)}% of its health!`, type: 'div' });
                       }
                     }
                   }
@@ -2096,6 +1989,8 @@ export default {
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Wandering Spirit') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `${pokemon.name} swapped Abilities with its target!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'ability: Ice Face') {
+                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'item: Protective Pads') {
                     commit('addMessageToChat', { text: `${pokemon.name} protected itself with its Protective Pads!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'item: Safety Goggles') {
@@ -2238,6 +2133,8 @@ export default {
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Wandering Spirit') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} swapped Abilities with its target!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'ability: Ice Face') {
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'item: Protective Pads') {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} protected itself with its Protective Pads!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'item: Safety Goggles') {
@@ -3274,7 +3171,7 @@ export default {
             } else if (this.dataSplitted[i + 1].trim() === 'move: Fairy Lock') {
               commit('addMessageToChat', { text: 'No one will be able to run away during the next turn!', type: 'div' });
             }
-          } else if (this.dataSplitted[i] === '-formechange') {
+          } else if (this.dataSplitted[i] === '-formechange' || this.dataSplitted[i] === 'detailschange') {
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
               state.userTeam.forEach((pokemon) => {
                 // eslint-disable-next-line
@@ -3286,15 +3183,17 @@ export default {
                   if (this.dataSplitted[i + 2].trim() === pokemon.name) {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       state.currentPokemonP1.formeChange.hasChange = false;
+                      state.currentPokemonP1.formeChange.form = '';
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                       state.currentPokemonP2.formeChange.hasChange = false;
+                      state.currentPokemonP2.formeChange.form = '';
                     }
                   } else if (this.dataSplitted[i + 2].trim() !== pokemon.name) {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       state.currentPokemonP1.formeChange.hasChange = true;
                       state.currentPokemonP1.formeChange.form = this.dataSplitted[i + 2].trim();
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      state.currentPokemonP2.formeChange.hasChange = false;
+                      state.currentPokemonP2.formeChange.hasChange = true;
                       state.currentPokemonP2.formeChange.form = this.dataSplitted[i + 2].trim();
                     }
                   }
@@ -3311,15 +3210,18 @@ export default {
                   if (this.dataSplitted[i + 2].trim() === pokemon.name) {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       state.currentPokemonP1.formeChange.hasChange = false;
+                      state.currentPokemonP1.formeChange.form = '';
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                       state.currentPokemonP2.formeChange.hasChange = false;
+                      state.currentPokemonP2.formeChange.form = '';
                     }
                   } else if (this.dataSplitted[i + 2].trim() !== pokemon.name) {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       state.currentPokemonP1.formeChange.hasChange = true;
                       state.currentPokemonP1.formeChange.form = this.dataSplitted[i + 2].trim();
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      state.currentPokemonP2.formeChange.hasChange = false;
+                      console.log(`what ${state.currentPokemonP2.name}`);
+                      state.currentPokemonP2.formeChange.hasChange = true;
                       state.currentPokemonP2.formeChange.form = this.dataSplitted[i + 2].trim();
                     }
                   }
