@@ -52,11 +52,8 @@ export default {
           spa: '',
           spd: '',
           spe: '',
+          accuracy: '',
         },
-      },
-      formeChange: {
-        hasChange: false,
-        form: '',
       },
     },
     currentPokemonP2: {
@@ -68,11 +65,8 @@ export default {
           spa: '',
           spd: '',
           spe: '',
+          accuracy: '',
         },
-      },
-      formeChange: {
-        hasChange: false,
-        form: '',
       },
     },
     splitted1: '',
@@ -80,6 +74,10 @@ export default {
     splitted3: '',
     currentWeather: '',
     weatherTurnsLeft: 5,
+    zoroarkIndexUserTeam: -1,
+    zoruaIndexUserTeam: -1,
+    zoroarkIndexRivalTeam: -1,
+    zoruaIndexRivalTeam: -1,
   },
   mutations: {
     onOpen() {
@@ -266,6 +264,62 @@ export default {
               state.boostText = 'speed won\'t go any lower!';
             }
           }
+        } else if (statName === 'accuracy') {
+          if (boost === '-boost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP1.boost.stats.def += 1;
+              state.boostText = 'accuracy rose!';
+            } else if (number === '2') {
+              state.currentPokemonP1.boost.stats.def += 2;
+              state.boostText = 'accuracy rose sharply!';
+            } else if (number === '6') {
+              state.currentPokemonP1.boost.stats.def = 6;
+              state.boostText = 'maximized its accuracy!';
+            } else if (number === '0') {
+              state.boostText = 'accuracy won\'t go any higher!';
+            }
+          } else if (boost === '-unboost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP1.boost.stats.def -= 1;
+              state.boostText = 'accuracy fell!';
+            } else if (number === '2') {
+              state.currentPokemonP1.boost.stats.def -= 2;
+              state.boostText = 'accuracy sharply fell!';
+            } else if (number === '6') {
+              state.currentPokemonP1.boost.stats.def = -6;
+              state.boostText = 'minimized its accuracy!';
+            } else if (number === '0') {
+              state.boostText = 'accuracy won\'t go any lower!';
+            }
+          }
+        } else if (statName === 'evasion') {
+          if (boost === '-boost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP1.boost.stats.def += 1;
+              state.boostText = 'evasiveness rose!';
+            } else if (number === '2') {
+              state.currentPokemonP1.boost.stats.def += 2;
+              state.boostText = 'evasiveness rose sharply!';
+            } else if (number === '6') {
+              state.currentPokemonP1.boost.stats.def = 6;
+              state.boostText = 'maximized its evasiveness!';
+            } else if (number === '0') {
+              state.boostText = 'evasiveness won\'t go any higher!';
+            }
+          } else if (boost === '-unboost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP1.boost.stats.def -= 1;
+              state.boostText = 'evasiveness fell!';
+            } else if (number === '2') {
+              state.currentPokemonP1.boost.stats.def -= 2;
+              state.boostText = 'evasiveness sharply fell!';
+            } else if (number === '6') {
+              state.currentPokemonP1.boost.stats.def = -6;
+              state.boostText = 'minimized its evasiveness!';
+            } else if (number === '0') {
+              state.boostText = 'evasiveness won\'t go any lower!';
+            }
+          }
         }
       } else if (player === 'p2') {
         if (statName === 'atk') {
@@ -408,6 +462,62 @@ export default {
               state.boostText = 'speed won\'t go any lower!';
             }
           }
+        } else if (statName === 'accuracy') {
+          if (boost === '-boost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP2.boost.stats.def += 1;
+              state.boostText = 'accuracy rose!';
+            } else if (number === '2') {
+              state.currentPokemonP2.boost.stats.def += 2;
+              state.boostText = 'accuracy rose sharply!';
+            } else if (number === '6') {
+              state.currentPokemonP2.boost.stats.def = 6;
+              state.boostText = 'maximized its accuracy!';
+            } else if (number === '0') {
+              state.boostText = 'accuracy won\'t go any higher!';
+            }
+          } else if (boost === '-unboost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP2.boost.stats.def -= 1;
+              state.boostText = 'accuracy fell!';
+            } else if (number === '2') {
+              state.currentPokemonP2.boost.stats.def -= 2;
+              state.boostText = 'accuracy sharply fell!';
+            } else if (number === '6') {
+              state.currentPokemonP2.boost.stats.def = -6;
+              state.boostText = 'minimized its accuracy!';
+            } else if (number === '0') {
+              state.boostText = 'accuracy won\'t go any lower!';
+            }
+          }
+        } else if (statName === 'evasion') {
+          if (boost === '-boost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP2.boost.stats.def += 1;
+              state.boostText = 'evasiveness rose!';
+            } else if (number === '2') {
+              state.currentPokemonP2.boost.stats.def += 2;
+              state.boostText = 'evasiveness rose sharply!';
+            } else if (number === '6') {
+              state.currentPokemonP2.boost.stats.def = 6;
+              state.boostText = 'maximized its evasiveness!';
+            } else if (number === '0') {
+              state.boostText = 'evasiveness won\'t go any higher!';
+            }
+          } else if (boost === '-unboost' || boost === '-setboost') {
+            if (number === '1') {
+              state.currentPokemonP2.boost.stats.def -= 1;
+              state.boostText = 'evasiveness fell!';
+            } else if (number === '2') {
+              state.currentPokemonP2.boost.stats.def -= 2;
+              state.boostText = 'evasiveness sharply fell!';
+            } else if (number === '6') {
+              state.currentPokemonP2.boost.stats.def = -6;
+              state.boostText = 'minimized its evasiveness!';
+            } else if (number === '0') {
+              state.boostText = 'evasiveness won\'t go any lower!';
+            }
+          }
         }
       }
     },
@@ -431,11 +541,11 @@ export default {
           if ((this.dataSplitted[i] === 'player') && (this.dataSplitted[i + 1] === 'p1')) {
             // eslint-disable-next-line prefer-destructuring
             this.p1 = this.dataSplitted[i + 2];
-            commit('addMessageToChat', { text: `El jugador 1 es ${this.p1}`, type: 'div' });
+            commit('addMessageToChat', { text: `Player 1 is ${this.p1}`, type: 'div' });
           } else if ((this.dataSplitted[i] === 'player') && (this.dataSplitted[i + 1] === 'p2')) {
             // eslint-disable-next-line prefer-destructuring
             this.p2 = this.dataSplitted[i + 2];
-            commit('addMessageToChat', { text: `El jugador 2 es ${this.p2}`, type: 'div' });
+            commit('addMessageToChat', { text: `Player 2 is ${this.p2}`, type: 'div' });
           } else if (this.dataSplitted[i] === 'rule') {
             commit('addMessageToChat', { text: this.dataSplitted[i + 1], type: 'div' });
           } else if (this.dataSplitted[i] === 'inactive') {
@@ -530,6 +640,11 @@ export default {
                     ability: pokemonAbility,
                     faint: false,
                     status: '',
+                    formeChange: {
+                      hasChange: false,
+                      form: '',
+                      switchChange: true,
+                    },
                   };
                   state.userTeam.push(pokemon);
                 }
@@ -591,6 +706,11 @@ export default {
               maxHPpercentage: 100,
               faint: false,
               status: '',
+              formeChange: {
+                hasChange: false,
+                form: '',
+                switchChange: true,
+              },
             };
             state.rivalTeam.push(pokemon);
           } else if (this.dataSplitted[i] === 'switch') {
@@ -604,26 +724,108 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = 0;
                 state.currentPokemonP1.boost.stats.spd = 0;
                 state.currentPokemonP1.boost.stats.spe = 0;
-                state.currentPokemonP1.formeChange.hasChange = false;
-                state.currentPokemonP1.formeChange.form = '';
+                state.currentPokemonP1.boost.stats.accuracy = 0;
                 if (state.userNumber === 'p1') {
                   state.userTeam.forEach((pokemon) => {
                     // eslint-disable-next-line
                     if (pokemon.name === state.currentPokemonP1.name){
                       // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 3].split('/')[0];
+                      // eslint-disable-next-line
                       state.userTeam[state.userTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
+                      // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.switchChange = true;
                     }
                   });
                 } else if (state.userNumber !== 'p1') {
-                  state.rivalTeam.forEach((pokemon) => {
-                    // eslint-disable-next-line
-                    if (pokemon.name === state.currentPokemonP1.name){
+                  if (state.currentPokemonP1.name.substr(0, 7).trim() === 'Urshifu') {
+                    state.rivalTeam.forEach((pokemon) => {
                       // eslint-disable-next-line
-                      state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
-                    }
-                  });
+                      if (pokemon.name === 'Urshifu-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP1.name.substr(0, 8).trim() === 'Silvally') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Silvally-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP1.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Pumpkaboo-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP1.name.substr(0, 9).trim() === 'Gourgeist') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Gourgeist-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === state.currentPokemonP1.name){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  }
                 }
-                commit('addMessageToChat', { text: `${this.p1} send ${state.currentPokemonP1.name}!`, type: 'div' });
+                commit('addMessageToChat', { text: `${this.p1} sent out ${state.currentPokemonP1.name}!`, type: 'div' });
               } else {
                 if (state.userNumber === 'p1') {
                   state.userTeam.forEach((pokemon) => {
@@ -652,9 +854,340 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = 0;
                 state.currentPokemonP1.boost.stats.spd = 0;
                 state.currentPokemonP1.boost.stats.spe = 0;
-                state.currentPokemonP1.formeChange.hasChange = false;
-                state.currentPokemonP1.formeChange.form = '';
-                commit('addMessageToChat', { text: `${this.p1} send ${state.currentPokemonP1.name}!`, type: 'div' });
+                state.currentPokemonP1.boost.stats.accuracy = 0;
+                if (state.userNumber === 'p1') {
+                  state.userTeam.forEach((pokemon) => {
+                    // eslint-disable-next-line
+                    if (pokemon.name === state.currentPokemonP1.name) {
+                      if (state.userTeam[state.userTeam.indexOf(pokemon)].faint === true) {
+                        state.userTeam[state.userTeam.indexOf(pokemon)].faint = false;
+                        state.userTeam.forEach((pokemonIllusion) => {
+                          // eslint-disable-next-line
+                          if (pokemonIllusion.name === 'Zoroark') {
+                            state.zoroarkIndexUserTeam = state.userTeam.indexOf(pokemonIllusion);
+                          } else if (pokemonIllusion.name === 'Zorua') {
+                            state.zoruaIndexUserTeam = state.userTeam.indexOf(pokemonIllusion);
+                          }
+                        });
+                        if (state.zoroarkIndexUserTeam !== -1 && state.zoruaIndexUserTeam !== -1) {
+                          if (state.userTeam[state.zoroarkIndexUserTeam].faint === true) {
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoruaIndexUserTeam].currentHP = 0;
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoruaIndexUserTeam].faint = true;
+                          } else if (state.userTeam[state.zoroarkIndexUserTeam].faint === false) {
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoroarkIndexUserTeam].currentHP = 0;
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoroarkIndexUserTeam].faint = true;
+                          }
+                          // eslint-disable-next-line
+                        } else if (state.zoroarkIndexUserTeam !== -1 && state.zoruaIndexUserTeam === -1) {
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoroarkIndexUserTeam].currentHP = 0;
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoroarkIndexUserTeam].faint = true;
+                          // eslint-disable-next-line
+                        } else if (state.zoroarkIndexUserTeam === -1 && state.zoruaIndexUserTeam !== -1) {
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoruaIndexUserTeam].currentHP = 0;
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoruaIndexUserTeam].faint = true;
+                        }
+                      }
+                      // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 3].split('/')[0];
+                      // eslint-disable-next-line
+                      if (pokemon.formeChange.switchChange === true) {
+                        // eslint-disable-next-line
+                        state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
+                      }
+                    }
+                  });
+                } else if (state.userNumber !== 'p1') {
+                  if (state.currentPokemonP1.name.substr(0, 7).trim() === 'Urshifu') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 9).trim() === 'Urshifu') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                    // eslint-disable-next-line
+                  } else if (state.currentPokemonP1.name.substr(0, 8).trim() === 'Silvally') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 8).trim() === 'Silvally') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else if (state.currentPokemonP1.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else if (state.currentPokemonP1.name.substr(0, 9).trim() === 'Gourgeist') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 9).trim() === 'Gourgeist') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === state.currentPokemonP1.name) {
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  }
+                }
+                commit('addMessageToChat', { text: `${this.p1} sent out ${state.currentPokemonP1.name}!`, type: 'div' });
               }
             } else if (this.dataSplitted[i + 1].substr(0, 3) === 'p2a') {
               if (state.currentPokemonP2.name === '') {
@@ -665,26 +1198,109 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = 0;
                 state.currentPokemonP2.boost.stats.spd = 0;
                 state.currentPokemonP2.boost.stats.spe = 0;
-                state.currentPokemonP2.formeChange.hasChange = false;
-                state.currentPokemonP2.formeChange.form = '';
+                state.currentPokemonP2.boost.stats.accuracy = 0;
                 if (state.userNumber === 'p2') {
                   state.userTeam.forEach((pokemon) => {
                     // eslint-disable-next-line
                     if (pokemon.name === state.currentPokemonP2.name){
                       // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 3].split('/')[0];
+                      // eslint-disable-next-line
                       state.userTeam[state.userTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                      // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
+                      // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.switchChange = true;
                     }
                   });
                 } else if (state.userNumber !== 'p2') {
-                  state.rivalTeam.forEach((pokemon) => {
-                    // eslint-disable-next-line
-                    if (pokemon.name === state.currentPokemonP2.name){
+                  if (state.currentPokemonP2.name.substr(0, 7).trim() === 'Urshifu') {
+                    state.rivalTeam.forEach((pokemon) => {
                       // eslint-disable-next-line
-                      state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
-                    }
-                  });
+                      if (pokemon.name === 'Urshifu-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 8).trim() === 'Silvally') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Silvally-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Pumpkaboo-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 9).trim() === 'Gourgeist') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === 'Gourgeist-*'){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  } else {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === state.currentPokemonP2.name){
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
+                      }
+                    });
+                  }
                 }
-                commit('addMessageToChat', { text: `${this.p2} send ${state.currentPokemonP2.name}!`, type: 'div' });
+                commit('addMessageToChat', { text: `${this.p2} sent out ${state.currentPokemonP2.name}!`, type: 'div' });
               } else {
                 if (state.userNumber === 'p2') {
                   state.userTeam.forEach((pokemon) => {
@@ -713,9 +1329,339 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = 0;
                 state.currentPokemonP2.boost.stats.spd = 0;
                 state.currentPokemonP2.boost.stats.spe = 0;
-                state.currentPokemonP2.formeChange.hasChange = false;
-                state.currentPokemonP2.formeChange.form = '';
-                commit('addMessageToChat', { text: `${this.p2} send ${state.currentPokemonP2.name}!`, type: 'div' });
+                state.currentPokemonP2.boost.stats.accuracy = 0;
+                if (state.userNumber === 'p2') {
+                  state.userTeam.forEach((pokemon) => {
+                    // eslint-disable-next-line
+                    if (pokemon.name === state.currentPokemonP2.name) {
+                      if (state.userTeam[state.userTeam.indexOf(pokemon)].faint === true) {
+                        state.userTeam[state.userTeam.indexOf(pokemon)].faint = false;
+                        state.userTeam.forEach((pokemonIllusion) => {
+                          // eslint-disable-next-line
+                          if (pokemonIllusion.name === 'Zoroark') {
+                            state.zoroarkIndexUserTeam = state.userTeam.indexOf(pokemonIllusion);
+                          } else if (pokemonIllusion.name === 'Zorua') {
+                            state.zoruaIndexUserTeam = state.userTeam.indexOf(pokemonIllusion);
+                          }
+                        });
+                        if (state.zoroarkIndexUserTeam !== -1 && state.zoruaIndexUserTeam !== -1) {
+                          if (state.userTeam[state.zoroarkIndexUserTeam].faint === true) {
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoruaIndexUserTeam].currentHP = 0;
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoruaIndexUserTeam].faint = true;
+                          } else if (state.userTeam[state.zoroarkIndexUserTeam].faint === false) {
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoroarkIndexUserTeam].currentHP = 0;
+                            // eslint-disable-next-line
+                            state.userTeam[state.zoroarkIndexUserTeam].faint = true;
+                          }
+                          // eslint-disable-next-line
+                        } else if (state.zoroarkIndexUserTeam !== -1 && state.zoruaIndexUserTeam === -1) {
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoroarkIndexUserTeam].currentHP = 0;
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoroarkIndexUserTeam].faint = true;
+                          // eslint-disable-next-line
+                        } else if (state.zoroarkIndexUserTeam === -1 && state.zoruaIndexUserTeam !== -1) {
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoruaIndexUserTeam].currentHP = 0;
+                          // eslint-disable-next-line
+                          state.userTeam[state.zoruaIndexUserTeam].faint = true;
+                        }
+                      }
+                      // eslint-disable-next-line
+                      state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 3].split('/')[0];
+                      // eslint-disable-next-line
+                      if (pokemon.formeChange.switchChange === true) {
+                        // eslint-disable-next-line
+                        state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                        state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
+                      }
+                    }
+                  });
+                } else if (state.userNumber !== 'p2') {
+                  if (state.currentPokemonP2.name.substr(0, 7).trim() === 'Urshifu') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 7).trim() === 'Urshifu') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 8).trim() === 'Silvally') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 8).trim() === 'Silvally') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 9).trim() === 'Pumpkaboo') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else if (state.currentPokemonP2.name.substr(0, 9).trim() === 'Gourgeist') {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name.substr(0, 9).trim() === 'Gourgeist') {
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].name = this.dataSplitted[i + 2].split(',')[0];
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  } else {
+                    state.rivalTeam.forEach((pokemon) => {
+                      // eslint-disable-next-line
+                      if (pokemon.name === state.currentPokemonP2.name) {
+                        if (state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint === true) {
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = false;
+                          state.rivalTeam.forEach((pokemonIllusion) => {
+                            // eslint-disable-next-line
+                            if (pokemonIllusion.name === 'Zoroark') {
+                              // eslint-disable-next-line
+                              state.zoroarkIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            } else if (pokemonIllusion.name === 'Zorua') {
+                              state.zoruaIndexRivalTeam = state.rivalTeam.indexOf(pokemonIllusion);
+                            }
+                          });
+                          // eslint-disable-next-line
+                          if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam !== -1) {
+                            if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === true) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                              // eslint-disable-next-line
+                            } else if (state.rivalTeam[state.zoroarkIndexRivalTeam].faint === false) {
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                              // eslint-disable-next-line
+                              state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            }
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam !== -1 && state.zoruaIndexRivalTeam === -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoroarkIndexRivalTeam].faint = true;
+                            // eslint-disable-next-line
+                          } else if (state.zoroarkIndexRivalTeam === -1 && state.zoruaIndexRivalTeam !== -1) {
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].currentHPpercentage = 0;
+                            // eslint-disable-next-line
+                            state.rivalTeam[state.zoruaIndexRivalTeam].faint = true;
+                          }
+                        }
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 3].split('/')[0];
+                        // eslint-disable-next-line
+                        state.rivalTeam[state.rivalTeam.indexOf(pokemon)].nickname = this.dataSplitted[i + 1].substr(5);
+                        if (pokemon.formeChange.switchChange === true) {
+                          // eslint-disable-next-line
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                          state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                        }
+                      }
+                    });
+                  }
+                }
+                commit('addMessageToChat', { text: `${this.p2} sent out ${state.currentPokemonP2.name}!`, type: 'div' });
               }
             }
           } else if ((this.dataSplitted[i] === '-boost') || (this.dataSplitted[i] === '-unboost')) {
@@ -829,6 +1775,8 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = -state.currentPokemonP1.boost.stats.spa;
                 state.currentPokemonP1.boost.stats.spd = -state.currentPokemonP1.boost.stats.spd;
                 state.currentPokemonP1.boost.stats.spe = -state.currentPokemonP1.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP1.boost.stats.accuracy = -state.currentPokemonP1.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `${state.currentPokemonP1.name}'s stat changes were inverted!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = -state.currentPokemonP2.boost.stats.atk;
@@ -836,6 +1784,8 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = -state.currentPokemonP2.boost.stats.spa;
                 state.currentPokemonP2.boost.stats.spd = -state.currentPokemonP2.boost.stats.spd;
                 state.currentPokemonP2.boost.stats.spe = -state.currentPokemonP2.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP2.boost.stats.accuracy = -state.currentPokemonP2.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `${state.currentPokemonP2.name}'s stat changes were inverted!`, type: 'div' });
               }
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
@@ -845,6 +1795,8 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = -state.currentPokemonP1.boost.stats.spa;
                 state.currentPokemonP1.boost.stats.spd = -state.currentPokemonP1.boost.stats.spd;
                 state.currentPokemonP1.boost.stats.spe = -state.currentPokemonP1.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP1.boost.stats.accuracy = -state.currentPokemonP1.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name}'s stat changes were inverted!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = -state.currentPokemonP2.boost.stats.atk;
@@ -852,6 +1804,8 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = -state.currentPokemonP2.boost.stats.spa;
                 state.currentPokemonP2.boost.stats.spd = -state.currentPokemonP2.boost.stats.spd;
                 state.currentPokemonP2.boost.stats.spe = -state.currentPokemonP2.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP2.boost.stats.accuracy = -state.currentPokemonP2.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name}'s stat changes were inverted!`, type: 'div' });
               }
             }
@@ -863,6 +1817,7 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = 0;
                 state.currentPokemonP1.boost.stats.spd = 0;
                 state.currentPokemonP1.boost.stats.spe = 0;
+                state.currentPokemonP1.boost.stats.accuracy = 0;
                 commit('addMessageToChat', { text: `${state.currentPokemonP1.name}'s stat changes were removed!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = 0;
@@ -870,6 +1825,7 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = 0;
                 state.currentPokemonP2.boost.stats.spd = 0;
                 state.currentPokemonP2.boost.stats.spe = 0;
+                state.currentPokemonP2.boost.stats.accuracy = 0;
                 commit('addMessageToChat', { text: `${state.currentPokemonP2.name}'s stat changes were removed!`, type: 'div' });
               }
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
@@ -879,6 +1835,7 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = 0;
                 state.currentPokemonP1.boost.stats.spd = 0;
                 state.currentPokemonP1.boost.stats.spe = 0;
+                state.currentPokemonP1.boost.stats.accuracy = 0;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name}'s stat changes were removed!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = 0;
@@ -886,6 +1843,7 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = 0;
                 state.currentPokemonP2.boost.stats.spd = 0;
                 state.currentPokemonP2.boost.stats.spe = 0;
+                state.currentPokemonP2.boost.stats.accuracy = 0;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name}'s stat changes were removed!`, type: 'div' });
               }
             }
@@ -895,11 +1853,13 @@ export default {
             state.currentPokemonP1.boost.stats.spa = 0;
             state.currentPokemonP1.boost.stats.spd = 0;
             state.currentPokemonP1.boost.stats.spe = 0;
+            state.currentPokemonP1.boost.stats.accuracy = 0;
             state.currentPokemonP2.boost.stats.atk = 0;
             state.currentPokemonP2.boost.stats.def = 0;
             state.currentPokemonP2.boost.stats.spa = 0;
             state.currentPokemonP2.boost.stats.spd = 0;
             state.currentPokemonP2.boost.stats.spe = 0;
+            state.currentPokemonP2.boost.stats.accuracy = 0;
             commit('addMessageToChat', { text: 'All stat changes were eliminated!', type: 'div' });
           } else if (this.dataSplitted[i] === '-clearnegativeboost') {
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
@@ -914,21 +1874,25 @@ export default {
                   state.currentPokemonP1.boost.stats.spd = 0;
                 } else if (state.currentPokemonP1.boost.stats.spe < 0) {
                   state.currentPokemonP1.boost.stats.spe = 0;
+                } else if (state.currentPokemonP1.boost.stats.accuracy < 0) {
+                  state.currentPokemonP1.boost.stats.accuracy = 0;
                 }
                 if (this.dataSplitted[i - 1].trim() !== 'White Herb') {
                   commit('addMessageToChat', { text: `${state.currentPokemonP1.name} returned its lowered stats to normal!`, type: 'div' });
                 }
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                if (state.currentPokemonP1.boost.stats.atk < 0) {
+                if (state.currentPokemonP2.boost.stats.atk < 0) {
                   state.currentPokemonP2.boost.stats.atk = 0;
-                } else if (state.currentPokemonP1.boost.stats.def < 0) {
+                } else if (state.currentPokemonP2.boost.stats.def < 0) {
                   state.currentPokemonP2.boost.stats.def = 0;
-                } else if (state.currentPokemonP1.boost.stats.spa < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spa < 0) {
                   state.currentPokemonP2.boost.stats.spa = 0;
-                } else if (state.currentPokemonP1.boost.stats.spd < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spd < 0) {
                   state.currentPokemonP2.boost.stats.spd = 0;
-                } else if (state.currentPokemonP1.boost.stats.spe < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spe < 0) {
                   state.currentPokemonP2.boost.stats.spe = 0;
+                } else if (state.currentPokemonP2.boost.stats.accuracy < 0) {
+                  state.currentPokemonP2.boost.stats.accuracy = 0;
                 }
                 if (this.dataSplitted[i - 1].trim() !== 'White Herb') {
                   commit('addMessageToChat', { text: `${state.currentPokemonP2.name} returned its lowered stats to normal!`, type: 'div' });
@@ -946,19 +1910,23 @@ export default {
                   state.currentPokemonP1.boost.stats.spd = 0;
                 } else if (state.currentPokemonP1.boost.stats.spe < 0) {
                   state.currentPokemonP1.boost.stats.spe = 0;
+                } else if (state.currentPokemonP1.boost.stats.accuracy < 0) {
+                  state.currentPokemonP1.boost.stats.accuracy = 0;
                 }
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} returned its lowered stats to normal!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                if (state.currentPokemonP1.boost.stats.atk < 0) {
+                if (state.currentPokemonP2.boost.stats.atk < 0) {
                   state.currentPokemonP2.boost.stats.atk = 0;
-                } else if (state.currentPokemonP1.boost.stats.def < 0) {
+                } else if (state.currentPokemonP2.boost.stats.def < 0) {
                   state.currentPokemonP2.boost.stats.def = 0;
-                } else if (state.currentPokemonP1.boost.stats.spa < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spa < 0) {
                   state.currentPokemonP2.boost.stats.spa = 0;
-                } else if (state.currentPokemonP1.boost.stats.spd < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spd < 0) {
                   state.currentPokemonP2.boost.stats.spd = 0;
-                } else if (state.currentPokemonP1.boost.stats.spe < 0) {
+                } else if (state.currentPokemonP2.boost.stats.spe < 0) {
                   state.currentPokemonP2.boost.stats.spe = 0;
+                } else if (state.currentPokemonP2.boost.stats.accuracy < 0) {
+                  state.currentPokemonP2.boost.stats.accuracy = 0;
                 }
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} returned its lowered stats to normal!`, type: 'div' });
               }
@@ -971,6 +1939,8 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = state.currentPokemonP2.boost.stats.spa;
                 state.currentPokemonP1.boost.stats.spd = state.currentPokemonP2.boost.stats.spd;
                 state.currentPokemonP1.boost.stats.spe = state.currentPokemonP2.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP1.boost.stats.accuracy = state.currentPokemonP2.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `${state.currentPokemonP1.name} copied the opposing ${state.currentPokemonP2.name}'s stat changes!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = state.currentPokemonP1.boost.stats.atk;
@@ -978,6 +1948,8 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = state.currentPokemonP1.boost.stats.spa;
                 state.currentPokemonP2.boost.stats.spd = state.currentPokemonP1.boost.stats.spd;
                 state.currentPokemonP2.boost.stats.spe = state.currentPokemonP1.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP2.boost.stats.accuracy = state.currentPokemonP1.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `${state.currentPokemonP2.name} copied the opposing ${state.currentPokemonP1.name}'s stat changes!`, type: 'div' });
               }
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
@@ -987,6 +1959,8 @@ export default {
                 state.currentPokemonP1.boost.stats.spa = state.currentPokemonP2.boost.stats.spa;
                 state.currentPokemonP1.boost.stats.spd = state.currentPokemonP2.boost.stats.spd;
                 state.currentPokemonP1.boost.stats.spe = state.currentPokemonP2.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP1.boost.stats.accuracy = state.currentPokemonP2.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} copied ${state.currentPokemonP2.name}'s stat changes!`, type: 'div' });
               } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                 state.currentPokemonP2.boost.stats.atk = state.currentPokemonP1.boost.stats.atk;
@@ -994,13 +1968,13 @@ export default {
                 state.currentPokemonP2.boost.stats.spa = state.currentPokemonP1.boost.stats.spa;
                 state.currentPokemonP2.boost.stats.spd = state.currentPokemonP1.boost.stats.spd;
                 state.currentPokemonP2.boost.stats.spe = state.currentPokemonP1.boost.stats.spe;
+                // eslint-disable-next-line
+                state.currentPokemonP2.boost.stats.accuracy = state.currentPokemonP1.boost.stats.accuracy;
                 commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} copied ${state.currentPokemonP1.name}'s stat changes!`, type: 'div' });
               }
             }
           } else if (this.dataSplitted[i] === 'turn') {
             commit('addMessageToChat', { text: `Turn ${this.dataSplitted[i + 1]}`, type: 'h2' });
-            commit('addMessageToChat', { text: `POKEMONP1:\n\t${state.currentPokemonP1.formeChange.hasChange}\n${state.currentPokemonP1.formeChange.form}`, type: 'div' });
-            commit('addMessageToChat', { text: `POKEMONP2:\n\t${state.currentPokemonP2.formeChange.hasChange}\n${state.currentPokemonP2.formeChange.form}`, type: 'div' });
           } else if (this.dataSplitted[i] === 'move') {
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
               state.userTeam.forEach((pokemon) => {
@@ -1009,7 +1983,15 @@ export default {
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
-                  commit('addMessageToChat', { text: `${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  if (this.dataSplitted[i + 4].trim() === '[from]Magic Bounce') {
+                    commit('addMessageToChat', { text: `[${pokemon.name}'s Magic Bounce]`, type: 'div' });
+                    commit('addMessageToChat', { text: `${pokemon.name} bounce the ${this.dataSplitted[i + 2].trim()} back!`, type: 'div' });
+                    commit('addMessageToChat', { text: `${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 4].trim() === '[from]Nature Power') {
+                    commit('addMessageToChat', { text: `Nature Power turned into ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  } else {
+                    commit('addMessageToChat', { text: `${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  }
                 }
               });
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
@@ -1018,8 +2000,15 @@ export default {
                 // console.log(`el pokemon.name es ${pokemon.name}, el nickname es ${pokemon.nickname} y el que te dan es ${this.dataSplitted[i + 1].substr(5).trim()}`);
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
-                  // eslint-disable-next-line
-                  commit('addMessageToChat', { text: `The opposing ${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  if (this.dataSplitted[i + 4].trim() === '[from]Magic Bounce') {
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s Magic Bounce]`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} bounce the ${this.dataSplitted[i + 2].trim()} back!`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 4].trim() === '[from]Nature Power') {
+                    commit('addMessageToChat', { text: `Nature Power turned into ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  } else {
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} used ${this.dataSplitted[i + 2]}!`, type: 'div' });
+                  }
                 }
               });
             }
@@ -1198,30 +2187,36 @@ export default {
                   // eslint-disable-next-line
                   state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 2].split('/')[0];
                   if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
-                    commit('addMessageToChat', { text: `${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                    commit('addMessageToChat', { text: `${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                   } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
                     if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
-                      commit('addMessageToChat', { text: `${pokemon.name} restored ${healing.toFixed(1)}% of its health thanks to its ${this.dataSplitted[i + 3].substr(13).trim()}!`, type: 'div' });
+                      commit('addMessageToChat', { text: `${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health thanks to its ${this.dataSplitted[i + 3].substr(13).trim()}!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7) === 'drain') {
                       if (state.rivalNumber === 'p1') {
-                        commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} had its energy drained! ${state.currentPokemonP1.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                        commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} had its energy drained! ${state.currentPokemonP1.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       } else {
-                        commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} had its energy drained! ${state.currentPokemonP2.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                        commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} had its energy drained! ${state.currentPokemonP2.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       }
-                    } else if (this.dataSplitted[i + 3].substr(7, 7).trim() === 'Grassy Terrain') {
-                      commit('addMessageToChat', { text: `${pokemon.name} restored ${healing.toFixed(1)}% of its health thanks to the terrain!`, type: 'div' });
-                    } else if (this.dataSplitted[i + 3].substr(7, 7).trim() === 'Aqua Ring') {
-                      commit('addMessageToChat', { text: `A veil of water restored ${healing.toFixed(1)}% of ${pokemon.name}'s health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Grassy Terrain') {
+                      commit('addMessageToChat', { text: `${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health thanks to the terrain!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Aqua Ring') {
+                      commit('addMessageToChat', { text: `A veil of water restored ${parseFloat(healing).toFixed(1)}% of ${pokemon.name}'s health!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Ingrain') {
-                      commit('addMessageToChat', { text: `${pokemon.name} absorbed nutrients with its roots and restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                      commit('addMessageToChat', { text: `${pokemon.name} absorbed nutrients with its roots and restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7) === 'ability') {
                       commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                      commit('addMessageToChat', { text: `${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
-                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'move') {
-                      if (this.dataSplitted[i + 3].substr(13) === 'wish') {
-                        commit('addMessageToChat', { text: `${this.dataSplitted[i + 4].substr(9)}'s wish came true and ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 3].substr(13) === 'Healing Wish') {
-                        commit('addMessageToChat', { text: `The healing wish came true and ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                      commit('addMessageToChat', { text: `${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7, 4).trim() === 'move') {
+                      if (this.dataSplitted[i + 3].substr(13).trim() === 'Wish') {
+                        state.rivalTeam.forEach((pokemonWisher) => {
+                          // eslint-disable-next-line
+                          if (pokemonWisher.name === this.dataSplitted[i + 4].substr(9).trim() || pokemonWisher.nickname === this.dataSplitted[i + 4].substr(9).trim()) {
+                            // eslint-disable-next-line
+                            commit('addMessageToChat', { text: `${pokemonWisher.name}'s wish came true and ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div'});
+                          }
+                        });
+                      } else if (this.dataSplitted[i + 3].substr(13).trim() === 'Healing Wish') {
+                        commit('addMessageToChat', { text: `The healing wish came true and ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       }
                     }
                   }
@@ -1236,30 +2231,36 @@ export default {
                   // eslint-disable-next-line
                   state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 2].split('/')[0];
                   if (this.dataSplitted[i + 3].substr(0, 6) !== '[from]') {
-                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                   } else if (this.dataSplitted[i + 3].substr(0, 6) === '[from]') {
                     if (this.dataSplitted[i + 3].substr(7, 4) === 'item') {
-                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${healing.toFixed(1)}% of its health thanks to its ${this.dataSplitted[i + 3].substr(13).trim()}!`, type: 'div' });
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health thanks to its ${this.dataSplitted[i + 3].substr(13).trim()}!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7) === 'drain') {
                       if (state.rivalNumber === 'p1') {
-                        commit('addMessageToChat', { text: `${state.currentPokemonP2.name} had its energy drained! ${state.currentPokemonP1.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                        commit('addMessageToChat', { text: `${state.currentPokemonP2.name} had its energy drained! ${state.currentPokemonP1.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       } else {
-                        commit('addMessageToChat', { text: `${state.currentPokemonP1.name} had its energy drained! ${state.currentPokemonP2.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                        commit('addMessageToChat', { text: `${state.currentPokemonP1.name} had its energy drained! ${state.currentPokemonP2.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       }
-                    } else if (this.dataSplitted[i + 3].substr(7, 7).trim() === 'Grassy Terrain') {
-                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${healing.toFixed(1)}% of its health thanks to the terrain!`, type: 'div' });
-                    } else if (this.dataSplitted[i + 3].substr(7, 7).trim() === 'Aqua Ring') {
-                      commit('addMessageToChat', { text: `A veil of water restored ${healing.toFixed(1)}% of the opposing ${pokemon.name}'s health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Grassy Terrain') {
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health thanks to the terrain!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Aqua Ring') {
+                      commit('addMessageToChat', { text: `A veil of water restored ${parseFloat(healing).toFixed(1)}% of the opposing ${pokemon.name}'s health!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7).trim() === 'Ingrain') {
-                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} absorbed nutrients with its roots and restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} absorbed nutrients with its roots and restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                     } else if (this.dataSplitted[i + 3].substr(7) === 'ability') {
                       commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
-                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
-                    } else if (this.dataSplitted[i + 3].substr(7).trim() === 'move') {
-                      if (this.dataSplitted[i + 3].substr(13) === 'wish') {
-                        commit('addMessageToChat', { text: `The opposing ${this.dataSplitted[i + 4].substr(9)}'s wish came true and ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
-                      } else if (this.dataSplitted[i + 3].substr(13) === 'Healing Wish') {
-                        commit('addMessageToChat', { text: `The healing wish came true and the opposing ${pokemon.name} restored ${healing.toFixed(1)}% of its health!`, type: 'div' });
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].substr(7, 4).trim() === 'move') {
+                      if (this.dataSplitted[i + 3].substr(13).trim() === 'Wish') {
+                        state.rivalTeam.forEach((pokemonWisher) => {
+                          // eslint-disable-next-line
+                          if (pokemonWisher.name === this.dataSplitted[i + 4].substr(9).trim() || pokemonWisher.nickname === this.dataSplitted[i + 4].substr(9).trim()) {
+                            // eslint-disable-next-line
+                            commit('addMessageToChat', { text: `The opposing ${pokemonWisher.name}'s wish came true and ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div'});
+                          }
+                        });
+                      } else if (this.dataSplitted[i + 3].substr(13).trim() === 'Healing Wish') {
+                        commit('addMessageToChat', { text: `The healing wish came true and the opposing ${pokemon.name} restored ${parseFloat(healing).toFixed(1)}% of its health!`, type: 'div' });
                       }
                     }
                   }
@@ -1276,10 +2277,12 @@ export default {
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
-                  commit('addMessageToChat', { text: `It doesn't affect ${pokemon.name}...`, type: 'div' });
                   if (this.dataSplitted[i + 2].substr(0, 14) === '[from] ability') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(16).trim()}]`, type: 'div' });
+                  } else if (this.dataSplitted[i + 3].substr(0, 14) === '[from] ability') {
+                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
                   }
+                  commit('addMessageToChat', { text: `It doesn't affect ${pokemon.name}...`, type: 'div' });
                 }
               });
             } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
@@ -1287,10 +2290,12 @@ export default {
                 // eslint-disable-next-line
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
-                  commit('addMessageToChat', { text: `It doesn't affect the opposing ${pokemon.name}...`, type: 'div' });
                   if (this.dataSplitted[i + 2].substr(0, 14) === '[from] ability') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(16).trim()}]`, type: 'div' });
+                  } else if (this.dataSplitted[i + 3].substr(0, 14) === '[from] ability') {
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
                   }
+                  commit('addMessageToChat', { text: `It doesn't affect the opposing ${pokemon.name}...`, type: 'div' });
                 }
               });
             }
@@ -1583,7 +2588,7 @@ export default {
                   if (pokemon.name === state.currentPokemonP1.name) {
                     // eslint-disable-next-line
                     state.rivalTeam[state.rivalTeam.indexOf(pokemon)].status = 'tox';
-                    commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} was badly poisoned`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} was badly poisoned!`, type: 'div' });
                   }
                 });
               } else if (this.dataSplitted[i + 2].trim() === 'tox' && this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
@@ -1592,7 +2597,7 @@ export default {
                   if (pokemon.name === state.currentPokemonP2.name) {
                     // eslint-disable-next-line
                     state.rivalTeam[state.rivalTeam.indexOf(pokemon)].status = 'tox';
-                    commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} was badly poisoned`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} was badly poisoned!`, type: 'div' });
                   }
                 });
               }
@@ -1745,7 +2750,11 @@ export default {
                     commit('addMessageToChat', { text: `${pokemon.name} is loafing around!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Damp' || this.dataSplitted[i + 2].trim() === 'ability: Queenly Majesty') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
-                    commit('addMessageToChat', { text: `${this.dataSplitted[i + 4].substr(10).trim()} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
+                      commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
+                      commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    }
                   }
                 }
               });
@@ -1787,7 +2796,11 @@ export default {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} is loafing around!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Damp' || this.dataSplitted[i + 2].trim() === 'ability: Queenly Majesty') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
-                    commit('addMessageToChat', { text: `The opposing ${this.dataSplitted[i + 4].substr(10).trim()} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
+                      commit('addMessageToChat', { text: `${state.currentPokemonP2.name} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
+                      commit('addMessageToChat', { text: `${state.currentPokemonP1.name} cannot use ${this.dataSplitted[i + 3]}!`, type: 'div' });
+                    }
                   }
                 }
               });
@@ -1848,7 +2861,7 @@ export default {
                     }
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s stats were not lowered!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Substitute') {
-                    if (pokemon.currentHP >= pokemon.maxHP / 4) {
+                    if (pokemon.currentHPpercentage >= pokemon.maxHPpercentage / 4) {
                       commit('addMessageToChat', { text: `But the opposing ${pokemon.name} already has a substitute!`, type: 'div' });
                     } else {
                       commit('addMessageToChat', { text: `But the opposing ${pokemon.name} does not have enough HP left to make a substitute!`, type: 'div' });
@@ -1905,8 +2918,6 @@ export default {
                     commit('addMessageToChat', { text: `${pokemon.name} was wrapped!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Grudge') {
                     commit('addMessageToChat', { text: `${pokemon.name}'s ${this.dataSplitted[i + 3].trim()} lost all of its PP due to the grudge!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'move: Ingrain') {
-                    commit('addMessageToChat', { text: `${pokemon.name} is anchored in place with its roots!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Sand Tomb') {
                     commit('addMessageToChat', { text: `${pokemon.name} became trapped by the quicksand!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Lock-On' || this.dataSplitted[i + 2].trim() === 'move: Mind Reader') {
@@ -1978,7 +2989,7 @@ export default {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
+                      commit('addMessageToChat', { text: `The opposing ${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
                     }
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Mimicry') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
@@ -2038,7 +3049,7 @@ export default {
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Charge') {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} began charging power!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Destiny Bond') {
-                    commit('addMessageToChat', { text: `${pokemon.name} took its attacker down with it!`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} took its attacker down with it!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Fire Spin') {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} became trapped in the fiery vortex!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Whirlpool') {
@@ -2049,10 +3060,8 @@ export default {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} was wrapped!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Grudge') {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].trim()} lost all of its PP due to the grudge!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'move: Ingrain') {
-                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} is anchored in place with its roots!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Sand Tomb') {
-                    commit('addMessageToChat', { text: `${pokemon.name} became trapped by the quicksand!`, type: 'div' });
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} became trapped by the quicksand!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'move: Lock-On' || this.dataSplitted[i + 2].trim() === 'move: Mind Reader') {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       commit('addMessageToChat', { text: `The opposing ${pokemon.name} took aim at ${state.currentPokemonP2.name}!`, type: 'div' });
@@ -2122,13 +3131,13 @@ export default {
                     if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
                       commit('addMessageToChat', { text: `${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
                     } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      commit('addMessageToChat', { text: `${state.currentPokemonP2.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
+                      commit('addMessageToChat', { text: `${state.currentPokemonP1.name}'s ${this.dataSplitted[i + 3].trim()} was revealed!`, type: 'div' });
                     }
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Mimicry') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} returned to its original type!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Quick Draw') {
-                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `Quick Draw made ${pokemon.name} move faster!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Wandering Spirit') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
@@ -2307,7 +3316,7 @@ export default {
                 if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
                   // eslint-disable-next-line
                   state.rivalTeam[state.rivalTeam.indexOf(pokemon)].faint = true;
-                  commit('addMessageToChat', { text: `${pokemon.name} fainted!`, type: 'div' });
+                  commit('addMessageToChat', { text: `The opposing ${pokemon.name} fainted!`, type: 'div' });
                 }
               });
             }
@@ -2572,9 +3581,24 @@ export default {
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Flash Fire') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `The power of ${pokemon.name}'s Fire-type moves rose!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 4].trim() === '[from] ability: Mimicry') {
-                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
-                    commit('addMessageToChat', { text: `${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'typechange') {
+                    if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                      commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                      commit('addMessageToChat', { text: `${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].trim() === '[from] move: Reflect Type') {
+                      if (this.dataSplitted[i + 1].substr(0, 2).trim() === 'p1') {
+                        commit('addMessageToChat', { text: `${pokemon.name}'s type became the same as the opposing ${state.currentPokemonP2.name}'s type!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 1].substr(0, 2).trim() === 'p2') {
+                        commit('addMessageToChat', { text: `${pokemon.name}'s type became the same as the opposing ${state.currentPokemonP1.name}'s type!`, type: 'div' });
+                      }
+                    } else {
+                      commit('addMessageToChat', { text: `${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                    }
+                  } else if (this.dataSplitted[i + 2].trim() === 'typeadd') {
+                    if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                      commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                    }
+                    commit('addMessageToChat', { text: `${this.dataSplitted[i + 3].trim()} type was added to ${pokemon.name}!`, type: 'div' });
                   }
                 }
               });
@@ -2671,9 +3695,24 @@ export default {
                   } else if (this.dataSplitted[i + 2].trim() === 'ability: Flash Fire') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 2].substr(9).trim()}]`, type: 'div' });
                     commit('addMessageToChat', { text: `The power of the opposing ${pokemon.name}'s Fire-type moves rose!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 4].trim() === '[from] ability: Mimicry') {
-                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
-                    commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'typechange') {
+                    if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                      commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                    } else if (this.dataSplitted[i + 3].trim() === '[from] move: Reflect Type') {
+                      if (this.dataSplitted[i + 1].substr(0, 2).trim() === 'p1') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s type became the same as ${state.currentPokemonP2.name}'s type!`, type: 'div' });
+                      } else if (this.dataSplitted[i + 1].substr(0, 2).trim() === 'p2') {
+                        commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s type became the same as ${state.currentPokemonP1.name}'s type!`, type: 'div' });
+                      }
+                    } else {
+                      commit('addMessageToChat', { text: `The opposing ${pokemon.name}'s type changed to ${this.dataSplitted[i + 3].trim()}!`, type: 'div' });
+                    }
+                  } else if (this.dataSplitted[i + 2].trim() === 'typeadd') {
+                    if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                      commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                    }
+                    commit('addMessageToChat', { text: `${this.dataSplitted[i + 3].trim()} type was added to the opposing ${pokemon.name}!`, type: 'div' });
                   }
                 }
               });
@@ -3042,8 +4081,7 @@ export default {
                     state.currentPokemonP1.boost.stats.spa = 0;
                     state.currentPokemonP1.boost.stats.spd = 0;
                     state.currentPokemonP1.boost.stats.spe = 0;
-                    state.currentPokemonP1.formeChange.hasChange = false;
-                    state.currentPokemonP1.formeChange.form = '';
+                    state.currentPokemonP1.boost.stats.accuracy = 0;
                   } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                     state.currentPokemonP2.name = pokemon.name;
                     state.currentPokemonP2.boost.stats.atk = 0;
@@ -3051,8 +4089,12 @@ export default {
                     state.currentPokemonP2.boost.stats.spa = 0;
                     state.currentPokemonP2.boost.stats.spd = 0;
                     state.currentPokemonP2.boost.stats.spe = 0;
-                    state.currentPokemonP2.formeChange.hasChange = false;
-                    state.currentPokemonP2.formeChange.form = '';
+                    state.currentPokemonP2.boost.stats.accuracy = 0;
+                  }
+                  if (pokemon.formeChange.switchChange === true) {
+                    // eslint-disable-next-line
+                    state.userTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.userTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
                   }
                   commit('addMessageToChat', { text: `${pokemon.name} was dragged out!`, type: 'div' });
                 }
@@ -3069,8 +4111,7 @@ export default {
                     state.currentPokemonP1.boost.stats.spa = 0;
                     state.currentPokemonP1.boost.stats.spd = 0;
                     state.currentPokemonP1.boost.stats.spe = 0;
-                    state.currentPokemonP1.formeChange.hasChange = false;
-                    state.currentPokemonP1.formeChange.form = '';
+                    state.currentPokemonP1.boost.stats.accuracy = 0;
                   } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
                     state.currentPokemonP2.name = pokemon.name;
                     state.currentPokemonP2.boost.stats.atk = 0;
@@ -3078,8 +4119,12 @@ export default {
                     state.currentPokemonP2.boost.stats.spa = 0;
                     state.currentPokemonP2.boost.stats.spd = 0;
                     state.currentPokemonP2.boost.stats.spe = 0;
-                    state.currentPokemonP2.formeChange.hasChange = false;
-                    state.currentPokemonP2.formeChange.form = '';
+                    state.currentPokemonP2.boost.stats.accuracy = 0;
+                  }
+                  if (pokemon.formeChange.switchChange === true) {
+                    // eslint-disable-next-line
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
                   }
                   commit('addMessageToChat', { text: `The opposing ${pokemon.name} was dragged out!`, type: 'div' });
                 }
@@ -3131,10 +4176,8 @@ export default {
                     commit('addMessageToChat', { text: `${pokemon.name} shrouded itself with Magic Coat!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'Mat Block') {
                     commit('addMessageToChat', { text: `${pokemon.name} intends to flip up a mat and block incoming attacks!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'Quick Guard') {
-                    commit('addMessageToChat', { text: 'Quick Guard protected your team!', type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'Wide Guard') {
-                    commit('addMessageToChat', { text: 'Wide Guard protected your team!', type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'Quick Guard' || this.dataSplitted[i + 2].trim() === 'Wide Guard' || this.dataSplitted[i + 2].trim() === 'Crafty Shield') {
+                    commit('addMessageToChat', { text: `${this.dataSplitted[i + 2].trim()} protected your team!`, type: 'div' });
                   }
                 }
               });
@@ -3157,10 +4200,8 @@ export default {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} shrouded itself with Magic Coat!`, type: 'div' });
                   } else if (this.dataSplitted[i + 2].trim() === 'Mat Block') {
                     commit('addMessageToChat', { text: `The opposing ${pokemon.name} intends to flip up a mat and block incoming attacks!`, type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'Quick Guard') {
-                    commit('addMessageToChat', { text: 'Quick Guard protected the opposing team!', type: 'div' });
-                  } else if (this.dataSplitted[i + 2].trim() === 'Wide Guard') {
-                    commit('addMessageToChat', { text: 'Wide Guard protected the opposing team!', type: 'div' });
+                  } else if (this.dataSplitted[i + 2].trim() === 'Quick Guard' || this.dataSplitted[i + 2].trim() === 'Wide Guard' || this.dataSplitted[i + 2].trim() === 'Crafty Shield') {
+                    commit('addMessageToChat', { text: `${this.dataSplitted[i + 2].trim()} protected the opposing team!`, type: 'div' });
                   }
                 }
               });
@@ -3171,7 +4212,7 @@ export default {
             } else if (this.dataSplitted[i + 1].trim() === 'move: Fairy Lock') {
               commit('addMessageToChat', { text: 'No one will be able to run away during the next turn!', type: 'div' });
             }
-          } else if (this.dataSplitted[i] === '-formechange' || this.dataSplitted[i] === 'detailschange') {
+          } else if (this.dataSplitted[i] === '-formechange') {
             if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
               state.userTeam.forEach((pokemon) => {
                 // eslint-disable-next-line
@@ -3180,22 +4221,15 @@ export default {
                   if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
                     commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
                   }
+                  state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.switchChange = true;
                   if (this.dataSplitted[i + 2].trim() === pokemon.name) {
-                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
-                      state.currentPokemonP1.formeChange.hasChange = false;
-                      state.currentPokemonP1.formeChange.form = '';
-                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      state.currentPokemonP2.formeChange.hasChange = false;
-                      state.currentPokemonP2.formeChange.form = '';
-                    }
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
                   } else if (this.dataSplitted[i + 2].trim() !== pokemon.name) {
-                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
-                      state.currentPokemonP1.formeChange.hasChange = true;
-                      state.currentPokemonP1.formeChange.form = this.dataSplitted[i + 2].trim();
-                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      state.currentPokemonP2.formeChange.hasChange = true;
-                      state.currentPokemonP2.formeChange.form = this.dataSplitted[i + 2].trim();
-                    }
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = true;
+                    // eslint-disable-next-line
+                    // eslint-disable-next-line
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = this.dataSplitted[i + 2].trim();
                   }
                 }
               });
@@ -3207,23 +4241,136 @@ export default {
                   if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
                     commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
                   }
+                  // eslint-disable-next-line
+                  state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = true;
                   if (this.dataSplitted[i + 2].trim() === pokemon.name) {
-                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
-                      state.currentPokemonP1.formeChange.hasChange = false;
-                      state.currentPokemonP1.formeChange.form = '';
-                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      state.currentPokemonP2.formeChange.hasChange = false;
-                      state.currentPokemonP2.formeChange.form = '';
-                    }
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
                   } else if (this.dataSplitted[i + 2].trim() !== pokemon.name) {
-                    if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
-                      state.currentPokemonP1.formeChange.hasChange = true;
-                      state.currentPokemonP1.formeChange.form = this.dataSplitted[i + 2].trim();
-                    } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
-                      console.log(`what ${state.currentPokemonP2.name}`);
-                      state.currentPokemonP2.formeChange.hasChange = true;
-                      state.currentPokemonP2.formeChange.form = this.dataSplitted[i + 2].trim();
-                    }
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = true;
+                    // eslint-disable-next-line
+                    // eslint-disable-next-line
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = this.dataSplitted[i + 2].trim();
+                  }
+                }
+              });
+            }
+          } else if (this.dataSplitted[i] === 'detailschange') {
+            if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
+              state.userTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                  }
+                  state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.switchChange = false;
+                  if (this.dataSplitted[i + 2].trim().split(',')[0] === pokemon.name) {
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = '';
+                  } else if (this.dataSplitted[i + 2].trim().split(',')[0] !== pokemon.name) {
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.hasChange = true;
+                    // eslint-disable-next-line
+                    state.userTeam[state.userTeam.indexOf(pokemon)].formeChange.form = this.dataSplitted[i + 2].trim().split(' ')[0];
+                  }
+                }
+              });
+            } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
+              state.rivalTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  if (this.dataSplitted[i + 4].substr(0, 14).trim() === '[from] ability') {
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 4].substr(16).trim()}]`, type: 'div' });
+                  }
+                  // eslint-disable-next-line
+                  state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.switchChange = false;
+                  if (this.dataSplitted[i + 2].trim().split(',')[0] === pokemon.name) {
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = false;
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = '';
+                  } else if (this.dataSplitted[i + 2].trim().split(',')[0] !== pokemon.name) {
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.hasChange = true;
+                    // eslint-disable-next-line
+                    state.rivalTeam[state.rivalTeam.indexOf(pokemon)].formeChange.form = this.dataSplitted[i + 2].trim().split(' ')[0];
+                  }
+                }
+              });
+            }
+          } else if (this.dataSplitted[i] === '-sethp') {
+            if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
+              state.userTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  state.userTeam[state.userTeam.indexOf(pokemon)].currentHP = this.dataSplitted[i + 2].split('/')[0];
+                }
+              });
+            } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
+              state.rivalTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  state.rivalTeam[state.rivalTeam.indexOf(pokemon)].currentHPpercentage = this.dataSplitted[i + 2].split('/')[0];
+                }
+              });
+            }
+            commit('addMessageToChat', { text: 'The battlers shared their pain!', type: 'div' });
+          } else if (this.dataSplitted[i] === '-transform') {
+            if (this.dataSplitted[i + 1].substr(0, 2) === state.userNumber) {
+              state.userTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  if (this.dataSplitted[i + 3].trim() === '[from] ability: Imposter') {
+                    commit('addMessageToChat', { text: `[${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                  }
+                  if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
+                    commit('addMessageToChat', { text: `${pokemon.name} transformed into ${state.currentPokemonP2.name}!`, type: 'div' });
+                    state.currentPokemonP1.boost.stats.atk = state.currentPokemonP2.boost.stats.atk;
+                    state.currentPokemonP1.boost.stats.def = state.currentPokemonP2.boost.stats.def;
+                    state.currentPokemonP1.boost.stats.spa = state.currentPokemonP2.boost.stats.spa;
+                    state.currentPokemonP1.boost.stats.spd = state.currentPokemonP2.boost.stats.spd;
+                    state.currentPokemonP1.boost.stats.spe = state.currentPokemonP2.boost.stats.spe;
+                    // eslint-disable-next-line
+                    state.currentPokemonP1.boost.stats.accuracy = state.currentPokemonP2.boost.stats.accuracy;
+                  } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
+                    commit('addMessageToChat', { text: `${pokemon.name} transformed into ${state.currentPokemonP1.name}!`, type: 'div' });
+                    state.currentPokemonP2.boost.stats.atk = state.currentPokemonP1.boost.stats.atk;
+                    state.currentPokemonP2.boost.stats.def = state.currentPokemonP1.boost.stats.def;
+                    state.currentPokemonP2.boost.stats.spa = state.currentPokemonP1.boost.stats.spa;
+                    state.currentPokemonP2.boost.stats.spd = state.currentPokemonP1.boost.stats.spd;
+                    state.currentPokemonP2.boost.stats.spe = state.currentPokemonP1.boost.stats.spe;
+                    // eslint-disable-next-line
+                    state.currentPokemonP2.boost.stats.accuracy = state.currentPokemonP1.boost.stats.accuracy;
+                  }
+                }
+              });
+            } else if (this.dataSplitted[i + 1].substr(0, 2) !== state.userNumber) {
+              state.rivalTeam.forEach((pokemon) => {
+                // eslint-disable-next-line
+                if (pokemon.name === this.dataSplitted[i + 1].substr(5).trim() || pokemon.nickname === this.dataSplitted[i + 1].substr(5).trim()) {
+                  // eslint-disable-next-line
+                  if (this.dataSplitted[i + 3].trim() === '[from] ability: Imposter') {
+                    commit('addMessageToChat', { text: `[The opposing ${pokemon.name}'s ${this.dataSplitted[i + 3].substr(16).trim()}]`, type: 'div' });
+                  }
+                  if (this.dataSplitted[i + 1].substr(0, 2) === 'p1') {
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} transformed into ${state.currentPokemonP2.name}!`, type: 'div' });
+                    state.currentPokemonP1.boost.stats.atk = state.currentPokemonP2.boost.stats.atk;
+                    state.currentPokemonP1.boost.stats.def = state.currentPokemonP2.boost.stats.def;
+                    state.currentPokemonP1.boost.stats.spa = state.currentPokemonP2.boost.stats.spa;
+                    state.currentPokemonP1.boost.stats.spd = state.currentPokemonP2.boost.stats.spd;
+                    state.currentPokemonP1.boost.stats.spe = state.currentPokemonP2.boost.stats.spe;
+                    // eslint-disable-next-line
+                    state.currentPokemonP1.boost.stats.accuracy = state.currentPokemonP2.boost.stats.accuracy;
+                  } else if (this.dataSplitted[i + 1].substr(0, 2) === 'p2') {
+                    commit('addMessageToChat', { text: `The opposing ${pokemon.name} transformed into ${state.currentPokemonP1.name}!`, type: 'div' });
+                    state.currentPokemonP2.boost.stats.atk = state.currentPokemonP1.boost.stats.atk;
+                    state.currentPokemonP2.boost.stats.def = state.currentPokemonP1.boost.stats.def;
+                    state.currentPokemonP2.boost.stats.spa = state.currentPokemonP1.boost.stats.spa;
+                    state.currentPokemonP2.boost.stats.spd = state.currentPokemonP1.boost.stats.spd;
+                    state.currentPokemonP2.boost.stats.spe = state.currentPokemonP1.boost.stats.spe;
+                    // eslint-disable-next-line
+                    state.currentPokemonP2.boost.stats.accuracy = state.currentPokemonP1.boost.stats.accuracy;
                   }
                 }
               });

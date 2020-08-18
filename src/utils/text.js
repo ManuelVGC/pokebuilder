@@ -118,7 +118,7 @@ const BattleText = {
 
     center: "  Automatic center!",
     noTarget: "  But there was no target...", // gen 5 and earlier
-    ohko: "  It's a one-hit KO!",
+    // ohko: "  It's a one-hit KO!",
     combine: "  The two moves have become one! It's a combined move!",
     hitCount: "  The Pok\u00E9mon was hit [NUMBER] times!",
     hitCountSingular: "  The Pok\u00E9mon was hit 1 time!",
@@ -387,9 +387,9 @@ const BattleText = {
   // beakblast: {
     // start: "  [POKEMON] started heating up its beak!",
   // },
-  beatup: {
-    activate: "  [NAME]'s attack!", // past gen only
-  },
+  // beatup: {
+    // activate: "  [NAME]'s attack!", // past gen only
+  // },
   // bestow: {
     // takeItem: "  [SOURCE] gave [POKEMON] its [ITEM]!",
   // },
@@ -402,9 +402,9 @@ const BattleText = {
     start: "  [POKEMON] was squeezed by [SOURCE]!",
     move: "#wrap", // gen 1 only
   },
-  brickbreak: {
-    activate: "  [POKEMON] shattered [TEAM]'s protections!",
-  },
+  // brickbreak: {
+    // activate: "  [POKEMON] shattered [TEAM]'s protections!",
+  // },
   bellydrum: {
     boost: "  [POKEMON] cut its own HP and maximized its Attack!"
   },
@@ -466,9 +466,9 @@ const BattleText = {
     start: "  [POKEMON] chose Doom Desire as its destiny!",
     activate: "  [TARGET] took the Doom Desire attack!",
   },
-  dragonascent: {
-    megaNoItem: "  [TRAINER]'s fervent wish has reached [POKEMON]!",
-  },
+  // dragonascent: {
+    // megaNoItem: "  [TRAINER]'s fervent wish has reached [POKEMON]!",
+  // },
   electrify: {
     start: "  [POKEMON]'s moves have been electrified!",
   },
@@ -500,9 +500,9 @@ const BattleText = {
     start: "  [POKEMON] became trapped in the fiery vortex!",
     move: "#wrap", // gen 1 only
   },
-  flameburst: {
-    damage: "  The bursting flame hit [POKEMON]!",
-  },
+  // flameburst: {
+    // damage: "  The bursting flame hit [POKEMON]!",
+  // },
   fling: {
     removeItem: "  [POKEMON] flung its [ITEM]!",
   },
@@ -652,9 +652,9 @@ const BattleText = {
     // start: "  Lucky Chant shielded [TEAM] from critical hits!",
     // end: "  [TEAM]'s Lucky Chant wore off!",
   // },
-  lunardance: {
-    heal: "  [POKEMON] became cloaked in mystical moonlight!",
-  },
+  // lunardance: {
+    // heal: "  [POKEMON] became cloaked in mystical moonlight!",
+  // },
   magiccoat: {
     start: "  [POKEMON] shrouded itself with Magic Coat!",
     move: "[POKEMON] bounced the [MOVE] back!",
@@ -833,9 +833,9 @@ const BattleText = {
   solarblade: {
     prepare: "#solarbeam",
   },
-  spectralthief: {
-    clearBoost: "  [SOURCE] stole the target's boosted stats!",
-  },
+  // spectralthief: {
+    // clearBoost: "  [SOURCE] stole the target's boosted stats!",
+  // },
   speedswap: {
     activate: "  [POKEMON] switched Speed with its target!",
   },
@@ -932,9 +932,9 @@ const BattleText = {
     start: "  A rainbow appeared in the sky on [TEAM]'s side!",
     end: "  The rainbow on [TEAM]'s side disappeared!",
   },
-  weatherball: {
-    move: "Breakneck Blitz turned into [MOVE] due to the weather!",
-  },
+  // weatherball: {
+    // move: "Breakneck Blitz turned into [MOVE] due to the weather!",
+  // },
   whirlpool: {
     start: "  [POKEMON] became trapped in the vortex!",
   },
@@ -972,9 +972,9 @@ const BattleText = {
   // aurabreak: {
     // start: "  [POKEMON] reversed all other Pok\u00E9mon's auras!",
   // },
-  baddreams: {
-    damage: "  [POKEMON] is tormented!",
-  },
+  // baddreams: {
+    // damage: "  [POKEMON] is tormented!",
+  // },
   // battlebond: {
     // activate: "  [POKEMON] became fully charged due to its bond with its Trainer!",
     // transform: "[POKEMON] became Ash-Greninja!",
@@ -1048,9 +1048,9 @@ const BattleText = {
   mimicry: {
     activate: "  [POKEMON] returned to its original type!",
   },
-  mindblown: {
-    damage: "  ([POKEMON] cut its own HP to power up its move!)",
-  },
+  // mindblown: {
+    // damage: "  ([POKEMON] cut its own HP to power up its move!)",
+  // },
   moldbreaker: {
     start: "  [POKEMON] breaks the mold!",
   },
