@@ -114,6 +114,7 @@ export default {
 
       // document.getElementById('chat').appendChild(newDiv);
       this.ref.appendChild(newMessage);
+      this.ref.scrollTop = this.ref.scrollHeight - this.ref.clientHeight;
     },
     // commit('addDiv', this.dataSplitted[1]);
     setStateRef(state, refId) {
