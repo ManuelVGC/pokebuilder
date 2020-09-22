@@ -5,38 +5,26 @@ import router from '../router';
 export default {
   namespaced: true,
   state: {
+    sala: '',
     connection: null,
     challstr: '',
     challid: '',
     chall: '',
     dataSplitted: '',
-    ref: '',
+    refs: '',
     p1: '',
     p2: '',
-    stats: {
-      atk: '',
-      def: '',
-      spa: '',
-      spd: '',
-      spe: '',
-    },
-    move: {
-      id: '',
-      pp: '',
-      maxpp: '',
-    },
-    // userPokemon: {
-    //   name: '',
-    //   currentHP: '',
-    //   maxHP: '',
-    //   stats: [],
-    //   move: [],
-    //   ability: '',
-    //   item: '',
+    // stats: {
+    // atk: '',
+    // def: '',
+    // spa: '',
+    // spd: '',
+    // spe: '',
     // },
-    // rivalPokemon: {
-    // name: '',
-    // HPpercentage: '',
+    // move: {
+    // id: '',
+    // pp: '',
+    // maxpp: '',
     // },
     userNumber: '',
     rivalNumber: '',
@@ -71,19 +59,20 @@ export default {
     },
     splitted1: '',
     splitted2: '',
-    splitted3: '',
+    // splitted3: '',
     currentWeather: '',
     weatherTurnsLeft: 5,
     zoroarkIndexUserTeam: -1,
     zoruaIndexUserTeam: -1,
     zoroarkIndexRivalTeam: -1,
     zoruaIndexRivalTeam: -1,
+    rqid: '',
   },
   mutations: {
-    onOpen() {
+    onOpen(state) {
       console.log('Conectando al server...');
-      this.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
-      this.connection.onopen = function () {
+      state.connection = new WebSocket('ws://sim.smogon.com:8000/showdown/websocket');
+      state.connection.onopen = function () {
         // console.log(event);
         // console.log('Conexión exitosa');
       };
@@ -91,21 +80,21 @@ export default {
     postRequest(state, { userName, password }) {
       const proxyurl = 'https://cors-anywhere.herokuapp.com/';
       const url = 'https://play.pokemonshowdown.com/action.php?';
-      const data = `act=login&name=${userName}&pass=${password}&challengekeyid=${this.connection.challid}&challenge=${this.connection.chall}`;
+      const data = `act=login&name=${userName}&pass=${password}&challengekeyid=${state.connection.challid}&challenge=${state.connection.chall}`;
       console.log('Haciendo el post...');
       axios.post(proxyurl + url, data).then((result) => {
         // console.log(result);
         const dataJSON = JSON.parse(result.data.substr(1));
         // console.log(`|/trn ${this.userName},0,${dataJSON.assertion}`);
-        this.connection.send(`|/trn ${userName},0,${dataJSON.assertion}`);
-        this.connection.send('|/avatar 161');
+        state.connection.send(`|/trn ${userName},0,${dataJSON.assertion}`);
+        state.connection.send('|/avatar 161');
         router.push('MainWindow');
       });
     },
     searchBattleWithTeam(state, { format, team }) {
       // console.log(`el formato es ${format} y el team es ${team}`);
-      this.connection.send(`|/utm ${team}`);
-      this.connection.send(`|/search ${format}`);
+      state.connection.send(`|/utm ${team}`);
+      state.connection.send(`|/search ${format}`);
     },
     addMessageToChat(state, { text, type }) {
       const newMessage = document.createElement(type);
@@ -113,14 +102,44 @@ export default {
       newMessage.appendChild(newContent);
 
       // document.getElementById('chat').appendChild(newDiv);
-      this.ref.appendChild(newMessage);
-      this.ref.scrollTop = this.ref.scrollHeight - this.ref.clientHeight;
+      this.refs.chat.appendChild(newMessage);
+      this.refs.chat.scrollTop = this.refs.chat.scrollHeight - this.refs.chat.clientHeight;
     },
     // commit('addDiv', this.dataSplitted[1]);
-    setStateRef(state, refId) {
-      this.ref = refId;
+    setStateRef(state, refsId) {
+      this.refs = refsId;
       // console.log(`\n\n\n\n\n el ref es ${this.ref}`);
       // console.log(`\n\n\n\n\n el state es ${state}`);
+    },
+    showTeamPreview(state) {
+      const pokemonButton = [];
+      let i = 0;
+      let j = 0;
+      if (state.userNumber === 'p1') {
+        state.userTeam.forEach((pokemon) => {
+          pokemonButton.push(document.createElement('button'));
+          pokemonButton[i].appendChild(document.createTextNode(pokemon.name));
+          pokemonButton[i].onclick = function () {
+            state.connection.send(`|/choose team 213456|${state.rqid}`);
+          };
+          console.log(i);
+          console.log(pokemonButton[i]);
+          this.refs.teamPreview.appendChild(pokemonButton[i]);
+          i += 1;
+        });
+      } else if (state.userNumber === 'p2') {
+        state.userTeam.forEach((pokemon) => {
+          pokemonButton.push(document.createElement('button'));
+          pokemonButton[j].appendChild(document.createTextNode(pokemon.name));
+          pokemonButton[j].onclick = function () {
+            state.connection.send(`|/choose team 213456|${state.rqid}`);
+          };
+          console.log(j);
+          console.log(pokemonButton[j]);
+          this.refs.teamPreview.appendChild(pokemonButton[j]);
+          j += 1;
+        });
+      }
     },
     // eslint-disable-next-line
     statBoost(state, { boost, number, player, statName }) {
@@ -525,7 +544,7 @@ export default {
   },
   actions: {
     messageListener({ state, commit }) {
-      this.connection.onmessage = function (event) {
+      state.connection.onmessage = function (event) {
         console.log('Me ha llegado un mensaje');
         this.dataSplitted = event.data.split('|');
         console.log(this.dataSplitted);
@@ -558,6 +577,7 @@ export default {
             console.log(this.splitted1);
             // SETTEAR EL EQUIPO AL PRINCIPIO ó CAMBIAR PPs ATAQUES POKEMON ACTIVO
             if (this.splitted1[0] === 'teamPreview:true') {
+              state.sala = this.dataSplitted[i - 1].trim();
               state.userNumber = this.splitted1[3].substr(3);
               if (state.userNumber === 'p1') {
                 state.rivalNumber = 'p2';
@@ -573,6 +593,10 @@ export default {
               let pokemonItem;
               let pokemonAbility;
               for (let j = 0; j < this.splitted1.length; j += 1) {
+                if (this.splitted1[j].substr(0, 4) === 'rqid') {
+                  state.rqid = this.splitted1[j].substr(5).trim();
+                  console.log(`el rqid es ${state.rqid}`);
+                }
                 if (this.splitted1[j].substr(0, 7) === 'details') {
                   pokemonName = this.splitted1[j].substr(8);
                   // eslint-disable-next-line
@@ -650,53 +674,60 @@ export default {
                   state.userTeam.push(pokemon);
                 }
               }
+              commit('showTeamPreview');
             } else if (this.splitted1[0].substr(0, 6) === 'active') {
-              if (this.splitted1[25].substr(3) === 'p1') {
-                const currentPokP1 = this.splitted1[27].substr(8);
-                state.userTeam.forEach((pokemon) => {
-                  // eslint-disable-next-line max-len
-                  if (state.userTeam[state.userTeam.indexOf(pokemon)].name === currentPokP1) {
+              for (let x = 0; x < this.splitted1.length; x += 1) {
+                if (this.splitted1[x].substr(0, 4) === 'rqid') {
+                  state.rqid = this.splitted1[x].substr(5).trim();
+                  console.log(`el rqid es ${state.rqid}`);
+                }
+                if (this.splitted1[x].trim() === 'id:p1') {
+                  const currentPokP1 = this.splitted1[x + 2].substr(8);
+                  state.userTeam.forEach((pokemon) => {
                     // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.currentPP = this.splitted1[2].substr(3);
+                    if (state.userTeam[state.userTeam.indexOf(pokemon)].name === currentPokP1) {
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.currentPP = this.splitted1[2].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.maxPP = this.splitted1[3].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.currentPP = this.splitted1[8].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.maxPP = this.splitted1[9].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.currentPP = this.splitted1[14].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.maxPP = this.splitted1[15].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.currentPP = this.splitted1[20].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.maxPP = this.splitted1[21].substr(6);
+                    }
+                  });
+                } else if (this.splitted1[x].trim() === 'id:p2') {
+                  const currentPokP2 = this.splitted1[x + 2].substr(8);
+                  state.userTeam.forEach((pokemon) => {
                     // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.maxPP = this.splitted1[3].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.currentPP = this.splitted1[8].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.maxPP = this.splitted1[9].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.currentPP = this.splitted1[14].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.maxPP = this.splitted1[15].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.currentPP = this.splitted1[20].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.maxPP = this.splitted1[21].substr(6);
-                  }
-                });
-              } else {
-                const currentPokP2 = this.splitted1[27].substr(8);
-                state.userTeam.forEach((pokemon) => {
-                  // eslint-disable-next-line max-len
-                  if (state.userTeam[state.userTeam.indexOf(pokemon)].name === currentPokP2) {
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.currentPP = this.splitted1[2].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.maxPP = this.splitted1[3].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.currentPP = this.splitted1[8].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.maxPP = this.splitted1[9].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.currentPP = this.splitted1[14].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.maxPP = this.splitted1[15].substr(6);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.currentPP = this.splitted1[20].substr(3);
-                    // eslint-disable-next-line max-len
-                    state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.maxPP = this.splitted1[21].substr(6);
-                  }
-                });
+                    if (state.userTeam[state.userTeam.indexOf(pokemon)].name === currentPokP2) {
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.currentPP = this.splitted1[2].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move1.maxPP = this.splitted1[3].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.currentPP = this.splitted1[8].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move2.maxPP = this.splitted1[9].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.currentPP = this.splitted1[14].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move3.maxPP = this.splitted1[15].substr(6);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.currentPP = this.splitted1[20].substr(3);
+                      // eslint-disable-next-line max-len
+                      state.userTeam[state.userTeam.indexOf(pokemon)].moves.move4.maxPP = this.splitted1[21].substr(6);
+                    }
+                  });
+                }
               }
             }
           } else if (this.dataSplitted[i] === 'poke' && this.dataSplitted[i + 1] !== state.userNumber) {

@@ -28,22 +28,8 @@ export default {
       + 'Salamence||choiceband|intimidate|crunch,rockslide,earthquake,fireblast|Adamant|4,252,,,,252|||||]'
       + 'Celebi||leftovers|naturalcure|calmmind,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
       formatOu3: 'gen3ou',
-      // eslint-disable-next-line
-      // ['Jose Juan|Cloyster|focussash|skilllink|shellsmash,iciclespear,spikes,explosion|Jolly|,252,,,4,252|||||]'
-      // eslint-disable-next-line
-      // team: ['Ninjask||focussash|speedboost|swordsdance,sandstorm,acrobatics,bugbuzz|Jolly|,252,,,4,252|||||]'
-      // eslint-disable-next-line
-      // + 'Magearna||choicespecs|soulheart|fleurcannon,flashcannon,voltswitch,trick|Modest|88,,,252,,168|||||]'
-      // eslint-disable-next-line
-      // + 'Amoonguss||rockyhelmet|regenerator|spore,sludgebomb,gigadrain,toxic|Calm|248,,,8,252,|||||]'
-      // eslint-disable-next-line
-      // + 'Hippowdon||rockyhelmet|sandstream|stealthrock,whirlwind,slackoff,earthquake|Impish|248,8,252,,,|||||]'
-      // eslint-disable-next-line
-      // + 'Incineroar||heavydutyboots|intimidate|knockoff,flareblitz,partingshot,willowisp|Careful|248,,,,200,60|||||]'
-      // eslint-disable-next-line
-      // + 'Alakazam||focussash|magicguard|nastyplot,dazzlinggleam,focusblast,psyshock|Timid|,,,252,4,252|||||'],
       team: ['Rillaboom||focussash|grassysurge|protect,swordsdance,uproar,woodhammer|Jolly|,252,,,4,252|female||||]'
-        + 'Ferrothorn||focussash|ironbarbs|protect,spikes,magnetrise,gyroball|Bold|,,252,,4,252|||||]'
+        + 'Ferrothorn||focussash|ironbarbs|protect,spikes,magnetrise,|Bold|,,252,,4,252|||||]'
         // eslint-disable-next-line
         + 'Amoonguss||focussash|regenerator|protect,energyball,gigadrain,toxic|Calm|248,,,8,,252|||||]'
         // eslint-disable-next-line
