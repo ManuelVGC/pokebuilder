@@ -1,34 +1,27 @@
 <template>
-  <div id="app">
-    <router-view class="application_container"/>
-  </div>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
 </template>
 
-<style lang="scss">
-  @import './styles/reset';
-  @import './styles/layout';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import HelloWorld from './components/HelloWorld.vue';
 
-  #app {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+export default defineComponent({
+  name: 'App',
+  components: {
+    HelloWorld
   }
+});
+</script>
 
-  body {
-    margin : 0;
-    padding : 0;
-    //CSS-variables
-    //Colores
-    --application-color-primary: #E23434;
-    --application-color-accent: #333745;
-    --application-color-text: #FFF;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
