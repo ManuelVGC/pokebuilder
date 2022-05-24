@@ -23,11 +23,12 @@ export default defineComponent({
   methods: {
     async logIn() {
       const assertion = await logInShowdown(this.$store.state.user);
-      console.log(assertion);
-      if (assertion == -1) {
+      if (assertion === -1) {
         console.log("Usuario o contraseña incorrectos");
       } else {
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion);
+        console.log("Logeo correcto");
+        this.$router.push({name: "home"});
       }
     },
   },

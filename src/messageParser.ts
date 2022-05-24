@@ -1,4 +1,5 @@
 import store from "@/store";
+import router from "@/router";
 
 export const messageParser = (data: string) => {
     console.log('El data es: ' + data);
@@ -11,8 +12,15 @@ export const messageParser = (data: string) => {
             break;
         case 'updateuser':
             break;
-        case 'updatesearch':
+        case 'updatesearch': {
+            const data = JSON.parse(parts[1]);
+            if (data.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
+                const gameInfo = Object.keys(data.games)[0];
+                const battleID = gameInfo.split('-')[2];
+                router.push('/battle/' + battleID);
+            }
             break;
+        }
         default:
             console.log('se ha metido por donde no debía');
     }
