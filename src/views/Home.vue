@@ -1,17 +1,18 @@
 <template>
   <SettingsBar/>
-  <h1>Página principal</h1>
-  <button @click="searchGame()">Buscar partida</button>
-  <button>Crear equipo</button>
+  <h1>Main window</h1>
+  <button @click="searchGame()">Search game</button>
+  <button v-if="searchingGame" @click="cancelSearch()">Cancel search</button>
+  <button>Create team</button>
   <div v-if="searchingGame">
-    <h1>Buscando partida...</h1>
+    <h1>Searching for a game...</h1>
     <div class="loader"></div>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar";
+import SettingsBar from "@/components/SettingsBar.vue";
 import {send} from "@/services/websocket";
 
 export default defineComponent({
@@ -36,7 +37,11 @@ export default defineComponent({
       send('|/utm ' + this.team);
       send('|/search ' + format);
       this.searchingGame = true;
-      console.log("BUSCANDO PARTIDA...");
+      console.log("Searching for a game...");
+    },
+    cancelSearch() {
+      send('|/cancelsearch');
+      this.searchingGame = false;
     }
   }
 })

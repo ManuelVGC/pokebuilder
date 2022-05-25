@@ -4,7 +4,7 @@
     <div>
       <ul>
         <li>{{this.$store.state.user.username}}</li>
-        <li>Ajustes</li>
+        <li>Settings</li>
       </ul>
     </div>
   </div>

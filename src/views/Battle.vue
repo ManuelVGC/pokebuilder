@@ -3,18 +3,26 @@
   <div class="gridContainer">
     <div class="battle">Battle</div>
     <div class="chat">Chat</div>
-    <div class="elecciones">Elecciones</div>
+    <div class="move-Pokemon">Move-pokemon</div>
   </div>
+  <button @click="manageForfeit()">Forfeit</button>
 </template>
 
 <script>
 import {defineComponent} from "vue";
 import SettingsBar from "@/components/SettingsBar";
+import {send} from "@/services/websocket";
 
 export default defineComponent({
   name: 'BattleView',
   components: {
     SettingsBar,
+  },
+  methods: {
+    manageForfeit() {
+      send('battle-gen3ou-' + this.$route.params.id + '|/forfeit');
+      //this.$router.push({name: "home"});
+    }
   }
 })
 </script>
@@ -26,7 +34,7 @@ export default defineComponent({
   grid-template-rows: 2fr 1fr;
   grid-template-areas:
     "battle chat"
-    "elecciones chat";
+    "move-Pokemon chat";
 }
 .battle {
   grid-area: battle;
@@ -34,8 +42,8 @@ export default defineComponent({
 .chat {
   grid-area: chat;
 }
-.elecciones {
-   grid-area: elecciones;
+.move-Pokemon {
+   grid-area: move-Pokemon;
 }
 
 

@@ -3,8 +3,8 @@
   <div>
     <form @submit.prevent="logIn()">
       <h1>Log in to Pokémon Showdown</h1>
-      <input type="text" placeholder="Usuario" v-model="username"> <!--aquí iria el v-model="user"-->
-      <input type="password"  placeholder="Contraseña" v-model="password"/>
+      <input type="text" placeholder="User" v-model="username"> <!--aquí iria el v-model="user"-->
+      <input type="password"  placeholder="Password" v-model="password"/>
       <button>Guardar</button>
     </form>
   </div>
@@ -24,10 +24,10 @@ export default defineComponent({
     async logIn() {
       const assertion = await logInShowdown(this.$store.state.user);
       if (assertion === -1) {
-        console.log("Usuario o contraseña incorrectos");
+        console.log('Failed to log in: invalid username or password');
       } else {
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion);
-        console.log("Logeo correcto");
+        console.log("Log in successful");
         this.$router.push({name: "home"});
       }
     },
