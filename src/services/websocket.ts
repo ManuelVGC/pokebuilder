@@ -2,6 +2,7 @@ import {messageParser} from "@/messageParser";
 
 const ws = new WebSocket('wss://sim3.psim.us/showdown/websocket');
 
+//Función que abre una conexión en el WebSocket
 export const onOpen = () => {
     ws.onopen = event => {
         console.log(event);
@@ -9,6 +10,7 @@ export const onOpen = () => {
     }
 }
 
+//Función que se queda a la escucha de mensajes del servidor de Pokémon Showdown
 export const messageListener = () => {
     ws.onmessage = event => {
         console.log(event);
@@ -16,18 +18,21 @@ export const messageListener = () => {
     }
 }
 
+//Función que cierra el WebSocket
 export const onClose = () => {
     ws.onclose = event => {
         console.log(event);
     }
 }
 
+//Función del WebSocket para manejo de errores
 export const onError = () => {
     ws.onerror = event => {
         console.log(event);
     }
 }
 
+//Función para enviar información a través del WebSocket
 export const send = (data: string) => {
     ws.send(data);
 }

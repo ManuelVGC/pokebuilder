@@ -3,7 +3,7 @@
   <h1>Main window</h1>
   <button @click="searchGame()">Search game</button>
   <button v-if="searchingGame" @click="cancelSearch()">Cancel search</button>
-  <button>Create team</button>
+  <button @click="this.$router.push('/teams')">Create team</button>
   <div v-if="searchingGame">
     <h1>Searching for a game...</h1>
     <div class="loader"></div>
@@ -32,13 +32,23 @@ export default defineComponent({
     }
   },
   methods: {
-    searchGame() {
+    //Búsqueda de partida en la ladder
+    /*searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
       send('|/search ' + format);
       this.searchingGame = true;
       console.log("Searching for a game...");
+    },*/
+    searchGame() {
+      const format = "gen3ou";
+      send('|/utm ' + this.team);
+      send('|/challenge Smile DD, ' + format);
+      this.searchingGame = true;
+      console.log("Searching for a game...");
     },
+
+    //Cancelación de búsqueda de partida
     cancelSearch() {
       send('|/cancelsearch');
       this.searchingGame = false;

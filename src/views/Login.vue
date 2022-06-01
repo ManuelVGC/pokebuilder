@@ -5,7 +5,7 @@
       <h1>Log in to Pokémon Showdown</h1>
       <input type="text" placeholder="User" v-model="username"> <!--aquí iria el v-model="user"-->
       <input type="password"  placeholder="Password" v-model="password"/>
-      <button>Guardar</button>
+      <button>Log in</button>
     </form>
   </div>
 </template>
@@ -21,11 +21,12 @@ export default defineComponent({
     }
   },
   methods: {
+    //Logeo en Pokémon Showdown
     async logIn() {
       const assertion = await logInShowdown(this.$store.state.user);
-      if (assertion === -1) {
+      if (assertion === -1) { //Fallo en el logeo
         console.log('Failed to log in: invalid username or password');
-      } else {
+      } else { //Logeo correcto
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion);
         console.log("Log in successful");
         this.$router.push({name: "home"});

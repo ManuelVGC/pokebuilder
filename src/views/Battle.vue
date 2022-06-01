@@ -2,7 +2,13 @@
   <SettingsBar/>
   <div class="gridContainer">
     <div class="battle">Battle</div>
-    <div class="chat">Chat</div>
+    <div class="chat">
+      <ul>
+        <li v-for="msg in chatMessages" :key="msg">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
     <div class="move-Pokemon">Move-pokemon</div>
   </div>
   <button @click="manageForfeit()">Forfeit</button>
@@ -12,6 +18,8 @@
 import {defineComponent} from "vue";
 import SettingsBar from "@/components/SettingsBar";
 import {send} from "@/services/websocket";
+import store from "@/store";
+import {mapState} from "vuex";
 
 export default defineComponent({
   name: 'BattleView',
@@ -19,11 +27,16 @@ export default defineComponent({
     SettingsBar,
   },
   methods: {
+    //Rendición en una batalla
     manageForfeit() {
-      send('battle-gen3ou-' + this.$route.params.id + '|/forfeit');
-      //this.$router.push({name: "home"});
+      const data = this.$store.state.battleInfo + '|/forfeit';
+      send(data);
+      this.$router.push({name: "home"});
     }
-  }
+  },
+  computed: mapState([
+      'chatMessages'
+  ])
 })
 </script>
 

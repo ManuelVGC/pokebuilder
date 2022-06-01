@@ -2,6 +2,7 @@ import axios from "./axios"
 
 import {User} from "@/interfaces/User";
 
+//Logeo en Pokémon Showdown, puede ser exitoso o no, lo indicará la assertion
 export const logInShowdown = async (user: User) => {
     const act = 'login';
     const data = 'act=' + act + '&name=' + user.username + '&pass=' + user.password + '&challstr=' + user.challstr;
@@ -10,6 +11,7 @@ export const logInShowdown = async (user: User) => {
     return checkAssertion(assertion);
 }
 
+//Funciones auxiliares para el logeo en Pokémon Showdown
 const parseAssertion = (data: string) => {
     const message = JSON.parse(data.substring(1));
     console.log(message);
