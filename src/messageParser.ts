@@ -47,6 +47,7 @@ const battleMessagesParser = (message : string[]) => {
     //recorro el mensaje y voy buscando las partes que me interesan
     for (let i = 0; i <= message.length; i++) {
         switch (message[i]) {
+            //Mensajes que llegan al inicio de la batalla
             case 'player': { //llega un mensaje del tipo |player|PLAYER|USERNAME|AVATAR|RATING, nos da la información básica de cada usuario de la batalla
                 if (message[i+1] === 'p1') {
                     battleUser1.id = message[i+1];
@@ -67,6 +68,8 @@ const battleMessagesParser = (message : string[]) => {
                 //lo construyo más adelante pero la idea sería coger el mensaje que me pasan y ponerlo en el chat
                 break;
             }
+
+            //Mensajes que tienen que ver con el progreso de la batalla
             case 'request': { //llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario
                 if (message[i+1] != '') {
                     const request = JSON.parse(message[i+1]);
@@ -80,8 +83,209 @@ const battleMessagesParser = (message : string[]) => {
                         showUserDetails();
                     }
                 }
+                break;
+            }
+            case 'inactive': {
+                //lo contruyo más adelante, mensaje relacionado con el timer de la batalla
+                break;
+            }
+            case 'turn': { //turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER
+                //lo contruyo más adelante con el chat
+                break;
+            }
+            case 'win': { //ganador de la batalla. Es un mensaje del tipo |win|USER
+                //lo contruyo más adelante con el chat
+                break;
             }
 
+
+            //Mensajes de acciones dentro de una batalla
+            //Acciones mayores
+            case  'move': { //llega un mensaje del tipo |move|POKEMON|MOVE|TARGET. El Pokémon POKEMON ataca a TARGET con MOVE.
+                break;
+            }
+            case 'switch': case 'drag': {
+                break;
+            }
+            case 'detailschange': {
+                break;
+            }
+            case 'replace': {
+                break;
+            }
+            case 'swap': {
+                break;
+            }
+            case 'cant': {
+                break;
+            }
+            case 'faint': {
+                break;
+            }
+
+            //Acciones menores
+            case '-fail': {
+                break;
+            }
+            case '-block': {
+                break;
+            }
+            case '-notarget': {
+                break;
+            }
+            case '-miss': {
+                break;
+            }
+            case '-damage': {
+                break;
+            }
+            case '-heal': {
+                break;
+            }
+            case '-sethp': {
+                break;
+            }
+            case '-status': {
+                break;
+            }
+            case '-curestatus': {
+                break;
+            }
+            case '-cureteam': {
+                break;
+            }
+            case '-boost': {
+                break;
+            }
+            case '-unboost': {
+                break;
+            }
+            case '-setboost': {
+                break;
+            }
+            case '-swapboost': {
+                break;
+            }
+            case '-invertboost': {
+                break;
+            }
+            case '-clearboost': {
+                break;
+            }
+            case '-clearallboost': {
+                break;
+            }
+            case '-clearpositiveboost': {
+                break;
+            }
+            case '-clearnegativeboost': {
+                break;
+            }
+            case '-copyboost': {
+                break;
+            }
+            case '-weather': {
+                break;
+            }
+            case '-fieldstart': {
+                break;
+            }
+            case '-fieldend': {
+                break;
+            }
+            case '-sidestart': {
+                break;
+            }
+            case '-sideend': {
+                break;
+            }
+            case '-swapsideconditions': {
+                break;
+            }
+            case '-start': {
+                break;
+            }
+            case '-end': {
+                break;
+            }
+            case '-crit': {
+                break;
+            }
+            case '-supereffective': {
+                break;
+            }
+            case '-resisted': {
+                break;
+            }
+            case '-immune': {
+                break;
+            }
+            case '-item': {
+                break;
+            }
+            case '-enditem': {
+                break;
+            }
+            case '-ability': {
+                break;
+            }
+            case '-endability': {
+                break;
+            }
+            case '-transform': {
+                break;
+            }
+            case '-mega': {
+                break;
+            }
+            case '-primal': {
+                break;
+            }
+            case '-burst': {
+                break;
+            }
+            case '-zpower': {
+                break;
+            }
+            case '-zbroken': {
+                break;
+            }
+            case '-activate': {
+                break;
+            }
+            case '-hint': {
+                break;
+            }
+            case '-center': {
+                break;
+            }
+            case '-message': {
+                break;
+            }
+            case '-combine': {
+                break;
+            }
+            case '-waiting': {
+                break;
+            }
+            case '-prepare': {
+                break;
+            }
+            case '-mustrecharge': {
+                break;
+            }
+            case '-nothing': {
+                break;
+            }
+            case '-hitcount': {
+                break;
+            }
+            case '-singlemove': {
+                break;
+            }
+            case '-singleturn': {
+                break;
+            }
         }
     }
 }
