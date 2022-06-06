@@ -11,7 +11,8 @@ export const BattleText = {
     opposingParty: "the opposing Pok\u00E9mon",
 
     turn: "== Phase [NUMBER] ==",
-    switchIn: "[TRAINER] would have us contend with [FULLNAME]!",
+    //switchIn: "[TRAINER] would have us contend with [FULLNAME]!",
+    switchIn: "[TRAINER] sent out [POKEMON]!",
     switchInOwn: "[FULLNAME]! Honor demands your presence!",
     switchOut: "[TRAINER] has other plans for [NICKNAME]!",
     switchOutOwn: "[NICKNAME], the time for retreat is upon us!",
@@ -41,7 +42,7 @@ export const BattleText = {
 
     // n.b. this is the default message for in-battle forme changes
     // for the move Transform and ability Imposter, see the entry for the move Transform
-    //transform: "[POKEMON] transformed!",
+    pokemonTransformed: "[POKEMON] transformed!",
     typeChange: "  [POKEMON] transformed into the [TYPE] type!",
     typeChangeFromEffect: "  [POKEMON]'s [EFFECT] made it the [TYPE] type!",
     typeAdd: "  [TYPE] type was added to [POKEMON]!",

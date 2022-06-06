@@ -6,8 +6,8 @@ export default createStore({
     state: {
         user: {} as User,
         battleInfo: '' as string,
-        battleUser1: {} as IBattleUser,
-        battleUser2: {} as IBattleUser,
+        battleUser: {} as IBattleUser,
+        battleRival: {} as IBattleUser,
         chatMessages: [] as string[],
     },
     getters: {},
@@ -27,11 +27,11 @@ export default createStore({
         SET_BATTLEINFO(state: any, battleInfo: string) {
             state.battleInfo = battleInfo;
         },
-        SET_BATTLEUSER1(state: any, battleUser: IBattleUser){
-            state.battleUser1 = battleUser;
+        SET_BATTLEUSER(state: any, battleUser: IBattleUser){
+            state.battleUser = battleUser;
         },
-        SET_BATTLEUSER2(state: any, battleUser: IBattleUser){
-            state.battleUser2 = battleUser;
+        SET_BATTLERIVAL(state: any, battleRival: IBattleUser){
+            state.battleRival = battleRival;
         },
         ADD_MESSAGE(state: any, message: string){
             state.chatMessages.push(message);
