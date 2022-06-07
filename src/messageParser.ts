@@ -9,13 +9,17 @@ import {BattleText} from "@/assets/battleText";
 const battleUser = new BattleUser();
 const battleRival = new BattleUser();
 
+let pokemonName: string;
+let playerID: string;
+let move: string;
 
 //Manejo de mensajes globales, en caso de no tratarse de un mensaje global, se tratará de un mensaje propio de una batalla
-export const messageParser = (data: string) => {
-    console.log('El data es: ' + data);
+export const messageParser = (messageData: string) => {
+    console.log('El data es: ' + messageData);
+    let messages: string[];
     let parts : string[];
     // eslint-disable-next-line prefer-const
-    parts = data.substring(1).split('|');
+    parts = messageData.substring(1).split('|');
     switch(parts[0]){
         //mensajes globales
         case 'challstr': { //mensaje que nos da el challstr, necesario para el logeo en Pokémon Showdown
@@ -25,9 +29,9 @@ export const messageParser = (data: string) => {
         case 'updateuser':
             break;
         case 'updatesearch': { //mensaje que indica el estado de búsqueda de una batalla
-            const data = JSON.parse(parts[1]);
-            if (data.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
-                const battleInfo = Object.keys(data.games)[0];
+            const searchData = JSON.parse(parts[1]);
+            if (searchData.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
+                const battleInfo = Object.keys(searchData.games)[0];
                 console.log('La battle info es: ');
                 console.log(battleInfo);
                 const battleID = battleInfo.split('-')[2];
@@ -37,30 +41,34 @@ export const messageParser = (data: string) => {
             break;
         }
         //mensajes de batalla
-        default:
-            battleMessagesParser(parts);
+        default: //divido el mensaje por \n para guardar todos los mensajes individuales que se mandan dentro de este
+            messages = messageData.substring(1).split('\n');
+            battleMessagesParser(messages);
     }
 }
 
 //Manejo de mensajes de batalla
-const battleMessagesParser = (message : string[]) => {
-    if (message[0].startsWith(store.state.battleInfo) && message[0].trim() != store.state.battleInfo) { //a veces showdown añade una subcadena a la info de batalla original, así que lo que hago aquí es cambiarla para que funcione correctamente la batalla
-        store.commit('SET_BATTLEINFO', message[0].trim());
+const battleMessagesParser = (messages : string[]) => {
+    let message: string[];
+
+    if (messages[0].startsWith(store.state.battleInfo) && messages[0].trim() != store.state.battleInfo) { //a veces showdown añade una subcadena a la info de batalla original, así que lo que hago aquí es cambiarla para que funcione correctamente la batalla
+        store.commit('SET_BATTLEINFO', messages[0].trim());
     }
-    //recorro el mensaje y voy buscando las partes que me interesan
-    for (let i = 0; i <= message.length; i++) {
-        switch (message[i]) {
+
+    for (let i = 0; i < messages.length; i++) {
+        message = messages[i].substring(1).split('|'); //divido cada mensaje por '|' para tener todos sus campos en el array
+        switch (message[0]){ //comprobamos el primer campo de cada mensaje para ver qué nos indica
             //Mensajes que llegan al inicio de la batalla
             case 'player': { //llega un mensaje del tipo |player|PLAYER|USERNAME|AVATAR|RATING, nos da la información básica de cada usuario de la batalla
-                if (message[i+2] === store.state.user.username) {
-                    battleUser.id = message[i+1];
-                    battleUser.username = message[i+2];
-                    battleUser.avatar = message[i+3];
+                if (message[2] === store.state.user.username) {
+                    battleUser.id = message[1];
+                    battleUser.username = message[2];
+                    battleUser.avatar = message[3];
                     store.commit('SET_BATTLEUSER', battleUser);
                 } else {
-                    battleRival.id = message[i+1];
-                    battleRival.username = message[i+2];
-                    battleRival.avatar = message[i+3];
+                    battleRival.id = message[1];
+                    battleRival.username = message[2];
+                    battleRival.avatar = message[3];
                     store.commit('SET_BATTLERIVAL', battleRival);
                 }
                 break;
@@ -72,8 +80,8 @@ const battleMessagesParser = (message : string[]) => {
 
             //Mensajes que tienen que ver con el progreso de la batalla
             case 'request': { //llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario
-                if (message[i+1] != '') {
-                    const request = JSON.parse(message[i+1]);
+                if (message[1] != '') {
+                    const request = JSON.parse(message[1]);
                     if (request.side.id === battleUser.id) {
                         battleUser.team = request.side.pokemon;
                         store.commit('SET_BATTLEUSER', battleUser);
@@ -90,7 +98,7 @@ const battleMessagesParser = (message : string[]) => {
             }
             case 'turn': { //turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER
                 //lo contruyo más adelante con el chat
-                store.commit('ADD_MESSAGE', 'Turn ' + message[i+1]);
+                store.commit('ADD_MESSAGE', 'Turn ' + message[1]);
                 showUserDetails();
                 break;
             }
@@ -107,13 +115,15 @@ const battleMessagesParser = (message : string[]) => {
             }
             case 'switch': case 'drag': { //|switch|POKEMON|DETAILS|HP STATUS y |drag|POKEMON|DETAILS|HP STATUS
                 let messageToChat = '';
-                if (message[i+1].substring(0,2) === battleUser.id) {
-                    messageToChat = BattleText.switchIn.replace('[TRAINER]', battleUser.username).replace('[POKEMON]', message[i+1].substring(4));
-                } else if (message[i+1].substring(0,2) === battleRival.id) {
+                pokemonName = message[1].split(' ')[1].trim();
+
+                if (message[1].substring(0,2) === battleUser.id) {
+                    messageToChat = BattleText.switchIn.replace('[TRAINER]', battleUser.username).replace('[POKEMON]', pokemonName);
+                } else if (message[1].substring(0,2) === battleRival.id) {
                     const pokemonSwitchedIn : BattlePokemon = {
-                        ident : message[i+1],
-                        details : message[i+2],
-                        condition : message[i+3],
+                        ident : message[1],
+                        details : message[2],
+                        condition : message[3],
                         active : true,
                         stats : {
                             atk : 0,
@@ -133,37 +143,144 @@ const battleMessagesParser = (message : string[]) => {
                         pokeball : '',
                     };
                     updateRivalTeam(pokemonSwitchedIn);
-                    messageToChat = BattleText.switchIn.replace('[TRAINER]', battleRival.username).replace('[POKEMON]', message[i+1].substring(4));
+                    messageToChat = BattleText.switchIn.replace('[TRAINER]', battleRival.username).replace('[POKEMON]', pokemonName);
                 }
                 store.commit('ADD_MESSAGE', messageToChat);
                 break;
             }
             //case 'detailschange':
             case '-formechange': { //|detailschange|POKEMON|DETAILS|HP STATUS ó |-formechange|POKEMON|SPECIES|FROM
+                pokemonName = message[1].split(' ')[1].trim();
+                playerID = message[1].substring(0,2);
+
                 //FROMABILITY
-                if (message[i+4].startsWith('[from] ability')) {
-                    const ability = message[i+4].substring(16).trim();
-                    const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', message[i+1].split(' ')[1]).replace('[ABILITY]', ability);
-                    addMessageToChat(messageToChat, message[i+1].substring(0,2));
+                if (message[4].startsWith('[from] ability')) {
+                    const ability = message[4].substring(16).trim();
+                    const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+                    addMessageToChatAbility(messageToChat, playerID);
                 }
 
                 //Pokemon transformed!
-                addMessageToChat(BattleText.pokemonTransformed.replace('[POKEMON]', message[i+1].split(' ')[1]), message[i+1].substring(0,2));
+                addMessageToChat(BattleText.pokemonTransformed.replace('[POKEMON]', pokemonName), playerID);
                 break;
             }
             //case 'replace': {break;}
-            case 'swap': {
+            //case 'swap': {break;}
+            case 'cant': { //|cant|POKEMON|REASON ó |cant|POKEMON|REASON|MOVE
+                pokemonName = message[1].split(' ')[1].trim();
+                playerID = message[1].substring(0,2);
+                if (message[3] != null) {
+                    move = message[3].trim();
+                }
+
+                switch(message[2].trim()) {
+                    case 'par': {
+                        addMessageToChat(BattleText.par.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'slp': {
+                        addMessageToChat(BattleText.slp.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'frz': {
+                        addMessageToChat(BattleText.frz.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'flinch': {
+                        addMessageToChat(BattleText.flinch.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'nopp': {
+                        addMessageToChat(BattleText.nopp.cant.replace('[POKEMON]', pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    case 'recharge': {
+                        addMessageToChat(BattleText.recharge.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    //case 'move: Gravity': {break;}
+                    case 'Attract': {
+                        addMessageToChat(BattleText.attract.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }case 'Focus Punch': {
+                        addMessageToChat(BattleText.focuspunch.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    //case 'Shell Trap': {break;}
+                    case 'move: Taunt': {
+                        addMessageToChat(BattleText.taunt.cant.replace('[POKEMON]',pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    //case 'move: Throat Chop': {break;}
+                    case 'move: Imprison': {
+                        addMessageToChat(BattleText.imprison.cant.replace('[POKEMON]', pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    case 'ability: Truant': {
+                        addMessageToChatAbility(BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', 'Truant'), message[1]);
+                        addMessageToChat(BattleText.truant.cant.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'ability: Damp': {
+                        addMessageToChatAbility(BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', 'Damp'), message[1]);
+                        addMessageToChat(BattleText.damp.block.replace('[POKEMON]', pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    default: {
+                        store.commit('ADD_MESSAGE', BattleText.fail);
+                        break;
+                    }
+                }
                 break;
             }
-            case 'cant': {
-                break;
-            }
-            case 'faint': {
+            case 'faint': { //|faint|POKEMON
+                pokemonName = message[1].split(' ')[1].trim();
+                playerID = message[1].substring(0,2);
+
+                addMessageToChat(BattleText.faint.replace('[POKEMON]', pokemonName), playerID);
                 break;
             }
 
             //Acciones menores
-            case '-fail': {
+            case '-fail': { //|-fail|POKEMON|ACTION
+                pokemonName = message[1].split(' ')[1].trim();
+                playerID = message[1].substring(0,2);
+
+                switch (message[2]) {
+                    case 'heal': { //falla si la vida está al máximo y se intenta curar
+                        addMessageToChat(BattleText.healFailed.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'unboost': { //falla al intentar hacer unboost a Pokémon con habilidades como Cuerpo puro
+                        if (message[3].startsWith('[from] ability')) {
+                            const ability = message[3].substring(16).trim();
+                            const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+                            addMessageToChatAbility(messageToChat, playerID);
+                        }
+                        addMessageToChat(BattleText.unboostFail.fail.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Substitute': { //falla o bien por no tener vida suficiente para hacerlo o bien por tener ya un sustituto activo
+                        console.log(message.length);
+                        if (message[3] != null) {
+                            if (message[3].trim() === '[weak]') {
+                                addMessageToChat(BattleText.substitute.fail.replace('[POKEMON]', pokemonName), playerID);
+                            }
+                        } else {
+                            addMessageToChat(BattleText.substitute.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                        }
+                        break;
+                    }
+                    case '[from] Uproar': {
+                        addMessageToChat(BattleText.uproar.block.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    default: {
+                        addMessageToChat(BattleText.uproar.block.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
+
                 break;
             }
             case '-block': {
@@ -345,6 +462,16 @@ const addMessageToChat = (message: string, id: string) => {
     store.commit('ADD_MESSAGE', message);
 }
 
+const addMessageToChatAbility = (message: string, id: string) => {
+    console.log(message);
+    const rivalText = '[The opposing ';
+    if (id === battleRival.id) {
+        message = message.substring(1);
+        message = rivalText.concat(message);
+    }
+    store.commit('ADD_MESSAGE', message);
+}
+
 const updateRivalTeam = (pokemonSwitchedIn: BattlePokemon) => {
     let alreadyInTeam = false;
     let index = 0;
@@ -355,7 +482,7 @@ const updateRivalTeam = (pokemonSwitchedIn: BattlePokemon) => {
         }
     }
 
-    if (alreadyInTeam === false) { //Si el Pokémon no estaba en el equipo, se añade
+    if (!alreadyInTeam) { //Si el Pokémon no estaba en el equipo, se añade
         battleRival.team.push(pokemonSwitchedIn);
     } else { //Si el Pokémon sí estaba en el equipo, se actualiza su condition, es decir, su vida
         battleRival.team[index].condition = pokemonSwitchedIn.condition;
