@@ -23,10 +23,10 @@ export default defineComponent({
   data() {
     return {
       searchingGame: false as boolean,
-      team: ['Skarmory||leftovers|keeneye|spikes,whirlwind,toxic,protect|Impish|252,,4,,252,|||||]'
+      team: ['Swampert||leftovers|torrent|earthquake,icebeam,hydropump,roar|Relaxed|252,,216,40,,|||||]'
+      + 'Skarmory||leftovers|keeneye|spikes,whirlwind,toxic,protect|Impish|252,,4,,252,|||||]'
       + 'Dugtrio||choiceband|arenatrap|earthquake,rockslide,aerialace,substitute|Jolly|4,252,,,,252|||||]'
       + 'Castform||leftovers|forecast|raindance,blizzard,bodyslam,doubleedge|Timid|4,,,252,,252|||||]'
-      + 'Swampert||leftovers|torrent|earthquake,icebeam,hydropump,roar|Relaxed|252,,216,40,,|||||]'
       + 'Salamence||choiceband|intimidate|crunch,rockslide,earthquake,fireblast|Adamant|4,252,,,,252|||||]'
       + 'Celebi||leftovers|naturalcure|calmmind,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
     }

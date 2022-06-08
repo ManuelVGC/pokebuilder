@@ -66,7 +66,7 @@ export const BattleText = {
     activateWeaken: "The [ITEM] weakened the damage to [POKEMON]!",
 
     damage: "([POKEMON] was hurt!)",
-    damagePercentage: "([POKEMON] lost [PERCENTAGE] of its health!)",
+    damagePercentage: "[POKEMON] lost [PERCENTAGE] of its health!",
     damageFromPokemon: "[POKEMON] is hurt by [SOURCE]'s [ITEM]!", // Jaboca/Rowap Berry
     damageFromItem: "[POKEMON] is hurt by its [ITEM]!", // Sticky Barb
     damageFromPartialTrapping: "[POKEMON] is hurt by [MOVE]!",
@@ -169,7 +169,7 @@ export const BattleText = {
         alreadyStarted: "[POKEMON] already has a burn.",
         end: "[POKEMON]'s burn was healed.",
         endFromItem: "[POKEMON]'s [ITEM] healed its burn!",
-        damage: "[POKEMON] was hurt by its burn!",
+        damage: "[POKEMON] was hurt by its burn and lost [PERCENTAGE] of its health!",
     },
     frz: {
         start: "[POKEMON] was frozen solid!",
@@ -191,7 +191,7 @@ export const BattleText = {
         alreadyStarted: "[POKEMON] is already poisoned.",
         end: "[POKEMON] was cured of its poisoning.",
         endFromItem: "[POKEMON]'s [ITEM] cured its poison!",
-        damage: "[POKEMON] was hurt by poison!",
+        damage: "[POKEMON] was hurt by poison and lost [PERCENTAGE] of its health!",
     },
     tox: {
         start: "[POKEMON] was badly poisoned!",
@@ -218,7 +218,7 @@ export const BattleText = {
         endFromItem: "[POKEMON]'s [ITEM] snapped it out of its confusion!",
         alreadyStarted: "[POKEMON] is already confused!",
         activate: "[POKEMON] is confused!",
-        damage: "It hurt itself in its confusion!",
+        damage: "[POKEMON] hurt itself in its confusion and lost [PERCENTAGE] of its health!",
     },
     drain: {
         heal: "[SOURCE] will find its attacker's health restored!",
@@ -236,7 +236,7 @@ export const BattleText = {
         cant: "[POKEMON] must recharge!",
     },
     recoil: {
-        damage: "[POKEMON] is damaged by the recoil!",
+        damage: "[POKEMON] is damaged by the recoil and loses [PERCENTAGE] of its health!",
     },
     unboostFail: {
         fail: "[POKEMON]'s stats were not lowered!",
@@ -262,7 +262,7 @@ export const BattleText = {
         start: "A sandstorm kicked up!",
         end: "The sandstorm subsided.",
         upkeep: "The sandstorm is raging.",
-        damage: "[POKEMON] is buffeted by the sandstorm!",
+        damage: "[POKEMON] is buffeted by the sandstorm and loses [PERCENTAGE] of its health!",
     },
     sunnyday: {
         weatherName: "Sun",
@@ -281,7 +281,7 @@ export const BattleText = {
         start: "It started to hail!",
         end: "The hail stopped.",
         upkeep: "The hail is crashing down.",
-        damage: "[POKEMON] is buffeted by the hail!",
+        damage: "[POKEMON] is buffeted by the hail and loses [PERCENTAGE] of its health!",
     },
     desolateland: {
         weatherName: "Intense Sun",
@@ -433,7 +433,7 @@ export const BattleText = {
     },
     curse: {
         start: "[SOURCE] cut its own HP and put a curse on [POKEMON]!",
-        damage: "[POKEMON] is afflicted by the curse!",
+        damage: "[POKEMON] is afflicted by the curse and loses [PERCENTAGE] of its health!",
     },
     darkvoid: {
         fail: "But [POKEMON] can't use the move!",
@@ -604,7 +604,7 @@ export const BattleText = {
     leechseed: {
         start: "[POKEMON] was seeded!",
         end: "[POKEMON] was freed from Leech Seed!",
-        damage: "[POKEMON]'s health is sapped by Leech Seed!",
+        damage: "[POKEMON]'s health is sapped by Leech Seed, losing [PERCENTAGE] of its health!",
     },
     lightscreen: {
         start: "Light Screen made [TEAM] stronger against special moves!",
@@ -798,7 +798,7 @@ export const BattleText = {
     spikes: {
         start: "Spikes were scattered on the ground all around [TEAM]!",
         end: "The spikes disappeared from the ground around [TEAM]!",
-        damage: "[POKEMON] is hurt by the spikes!",
+        damage: "[POKEMON] is hurt by the spikes and loses [PERCENTAGE] of its health!",
     },
     spikyshield: {
         damage: "#roughskin",
@@ -993,7 +993,7 @@ export const BattleText = {
         activate: "[POKEMON] took the attack!",
     },
     liquidooze: {
-        damage: "[POKEMON] sucked up the liquid ooze!",
+        damage: "[POKEMON] sucked up the liquid ooze and lost [PERCENTAGE] of its health!",
     },
     magicbounce: {
         move: '#magiccoat',
