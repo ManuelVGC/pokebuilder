@@ -242,7 +242,7 @@ const battleMessagesParser = (messages : string[]) => {
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
-                switch (message[2]) {
+                switch (message[2].trim()) {
                     case 'heal': { //falla si la vida está al máximo y se intenta curar
                         addMessageToChat(BattleText.healFailed.replace('[POKEMON]', pokemonName), playerID);
                         break;
@@ -269,6 +269,26 @@ const battleMessagesParser = (messages : string[]) => {
                     }
                     case '[from] Uproar': {
                         addMessageToChat(BattleText.uproar.block.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'brn': {
+                        addMessageToChat(BattleText.brn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'psn': case 'tox': {
+                        addMessageToChat(BattleText.psn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'par': {
+                        addMessageToChat(BattleText.par.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'slp': {
+                        addMessageToChat(BattleText.slp.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'frz': {
+                        addMessageToChat(BattleText.frz.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
                         break;
                     }
                     default: {
@@ -300,7 +320,6 @@ const battleMessagesParser = (messages : string[]) => {
 
                 if (message[3] != null) { //Si el daño no es causado por un ataque directo
                     reason = message[3].substring(7).trim(); //la reason es del tipo [from] psn
-                    console.log('la reason es: ' + reason);
                     switch (reason) {
                         case 'psn': {
                             addMessageToChat(BattleText.psn.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
@@ -330,7 +349,7 @@ const battleMessagesParser = (messages : string[]) => {
                             addMessageToChat(BattleText.curse.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
                             break;
                         }
-                        case 'Leech Seed': {
+                        case 'Leech Seed': { //este caso es la razón por la que no se hace simplemente un split(' ')[1] para sacar la reason, porque saldría Leech
                             addMessageToChat(BattleText.leechseed.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
                             break;
                         }
@@ -339,16 +358,18 @@ const battleMessagesParser = (messages : string[]) => {
                             break;
                         }
                         default: {
-                            if (reason.split(' ')[0].trim() === 'ability:') { //si la reason es por una habilidad de un pokemon se hace un caso aparte
-                                const pokemonActiveAbility = message[4].split(' ')[2].trim();
-                                const playerIDActiveAbility = message[4].split(' ')[1].substring(0,2).trim()
-                                const ability = message[3].substring(16).trim();
-                                const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonActiveAbility).replace('[ABILITY]', ability);
+                            if (reason.split(' ')[0] != null) {
+                                if (reason.split(' ')[0].trim() === 'ability:') { //si la reason es por una habilidad de un pokemon se hace un caso aparte
+                                    const pokemonActiveAbility = message[4].split(' ')[2].trim();
+                                    const playerIDActiveAbility = message[4].split(' ')[1].substring(0, 2).trim()
+                                    const ability = message[3].substring(16).trim();
+                                    const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonActiveAbility).replace('[ABILITY]', ability);
 
-                                addMessageToChatAbility(messageToChat, playerIDActiveAbility);
+                                    addMessageToChatAbility(messageToChat, playerIDActiveAbility);
 
-                                if (ability === 'Liquid Ooze') {
-                                    addMessageToChat(BattleText.liquidooze.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
+                                    if (ability === 'Liquid Ooze') {
+                                        addMessageToChat(BattleText.liquidooze.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
+                                    }
                                 }
                             }
                         }
@@ -364,19 +385,156 @@ const battleMessagesParser = (messages : string[]) => {
 
                 break;
             }
-            case '-heal': {
+            case '-heal': { //|-heal|POKEMON|HP STATUS
+                pokemonName = message[1].split(' ')[1].trim()
+                playerID = message[1].substring(0,2);
+                const pokemonIdent = message[1].trim();
+                const condition = message[2].trim();
+                let reason: string;
+                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); //actualizamos la vida del Pokémon y recuperamos su vida antes del daño
+                const HPpostDamage = parseInt(condition.split(' ')[0].split('/')[0]);
+                const heal = ((HPpostDamage-HPpreUpdate)/maxHP*100).toFixed(1);
+
+                if (message[3] != null && message[3].split(' ')[1] != null) { //Si Showdown te indica de qué fuente obtiene el Pokémon la curación
+                    reason = message[3].split(' ')[1].trim(); //la reason es del tipo [from] item: Leftovers
+
+                    switch (reason) {
+                        case 'item:': {
+                            const item = message[3].substring(13).trim()
+                            addMessageToChat(BattleText.itemHeal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%').replace('[ITEM]', item), playerID);
+                            break;
+                        }
+                        case 'Ingrain': {
+                            addMessageToChat(BattleText.ingrain.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%'), playerID);
+                            break;
+                        }
+                        case 'move:': {
+                            const move = message[3].split(' ')[2].trim();
+                            switch(move){
+                                case 'Wish': {
+                                    const wisher = message[4].split(' ')[1].trim();
+                                    addMessageToChat(BattleText.wish.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%').replace('[WISHER]', wisher), playerID);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        case 'ability:': {
+                            const ability = message[3].substring(16).trim();
+                            const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+
+                            addMessageToChatAbility(messageToChat, playerID);
+                            addMessageToChat(BattleText.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%'), playerID);
+                        }
+                    }
+
+                } else { //Si Showdown no te indica de qué fuente obtiene el Pokémon la curación
+                    addMessageToChat(BattleText.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%'), playerID);
+                }
                 break;
             }
-            case '-sethp': {
+            case '-sethp': { //|-sethp|POKEMON|HP
+                pokemonName = message[1].split(' ')[1].trim()
+                playerID = message[1].substring(0,2);
+                const pokemonIdent = message[1].trim();
+                const condition = message[2].trim();
+                let reason: string;
+                let HPdifference: string;
+
+                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); //actualizamos la vida del Pokémon y recuperamos su vida antes del daño
+                const HPpostDamage = parseInt(condition.split(' ')[0].split('/')[0]);
+
+                if (HPpostDamage > HPpreUpdate) {
+                    HPdifference = ((HPpostDamage-HPpreUpdate)/maxHP*100).toFixed(1);
+                    addMessageToChat(BattleText.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', HPdifference + '%'), playerID);
+                } else {
+                    HPdifference = ((HPpreUpdate-HPpostDamage)/maxHP*100).toFixed(1);
+                    addMessageToChat(BattleText.damagePercentage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', HPdifference + '%'), playerID);
+                }
                 break;
             }
-            case '-status': {
+            case '-status': { //|-status|POKEMON|STATUS
+                const status = message[2].trim();
+                const pokemonIdent = message[1].trim();
+                playerID = message[1].substring(0,2);
+
+                switch (status) {
+                    case 'brn': {
+                        addMessageToChat(BattleText.brn.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'psn': {
+                        addMessageToChat(BattleText.psn.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'tox': {
+                        addMessageToChat(BattleText.tox.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'par': {
+                        addMessageToChat(BattleText.par.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'slp': {
+                        addMessageToChat(BattleText.slp.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'frz': {
+                        addMessageToChat(BattleText.frz.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
+                addStatus(pokemonIdent, status, playerID);
                 break;
             }
-            case '-curestatus': {
+            case '-curestatus': { //|-curestatus|POKEMON|STATUS
+                const status = message[2].trim();
+                const pokemonIdent = message[1].trim();
+                playerID = message[1].substring(0,2);
+
+                switch (status) {
+                    case 'brn': {
+                        addMessageToChat(BattleText.brn.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'psn': {
+                        addMessageToChat(BattleText.psn.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'tox': {
+                        addMessageToChat(BattleText.tox.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'par': {
+                        addMessageToChat(BattleText.par.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'slp': {
+                        addMessageToChat(BattleText.slp.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'frz': {
+                        addMessageToChat(BattleText.frz.end.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
+                if (message[3].trim() === '[from] ability: Natural Cure') {
+                    const ability = 'Natural Cure';
+                    const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+
+                    addMessageToChatAbility(messageToChat, playerID);
+                    addMessageToChat(BattleText.naturalcure.activate.replace('[POKEMON]', pokemonName), playerID);
+                }
+                removeStatus(pokemonIdent, status, playerID);
                 break;
             }
-            case '-cureteam': {
+            case '-cureteam': { //|-cureteam|POKEMON
+                playerID = message[1].substring(0,2);
+                pokemonName = message[1].split(' ')[1];
+
+                removeAllStatus(playerID);
+                store.commit('ADD_MESSAGE', BattleText.teamcured.replace('[POKEMON]', pokemonName));
+
                 break;
             }
             case '-boost': {
@@ -581,5 +739,65 @@ const updatePokemonHP = (pokemonIdent: string, playerID: string, newCondition: s
     }
 
     return {HPpreUpdate, maxHP};
+}
+
+const addStatus = (pokemonIdent: string, pokemonStatus: string, playerID: string) => {
+    let newCondition: string;
+
+    if(playerID === battleUser.id) {
+        for (let i = 0; i < battleUser.team.length; i++) {
+            if (battleUser.team[i].ident.split(' ')[1] === pokemonIdent.split(' ')[1]) {
+                newCondition = battleUser.team[i].condition.concat(' ', pokemonStatus);
+                battleUser.team[i].condition = newCondition;
+            }
+        }
+    } else if (playerID === battleRival.id){
+        for (let i = 0; i < battleRival.team.length; i++) {
+            if (battleRival.team[i].ident === pokemonIdent) {
+                newCondition = battleRival.team[i].condition.concat(' ', pokemonStatus);
+                battleRival.team[i].condition = newCondition;
+            }
+        }
+    }
+}
+
+const removeStatus = (pokemonIdent: string, pokemonStatus: string, playerID: string) => {
+    let newCondition: string;
+
+    if(playerID === battleUser.id) {
+        for (let i = 0; i < battleUser.team.length; i++) {
+            if (battleUser.team[i].ident.split(' ')[1] === pokemonIdent.split(' ')[1]) {
+                newCondition = battleUser.team[i].condition.split(' ')[0];
+                battleUser.team[i].condition = newCondition;
+            }
+        }
+    } else if (playerID === battleRival.id){
+        for (let i = 0; i < battleRival.team.length; i++) {
+            if (battleRival.team[i].ident === pokemonIdent) {
+                newCondition = battleRival.team[i].condition.split(' ')[0];
+                battleRival.team[i].condition = newCondition;
+            }
+        }
+    }
+}
+
+const removeAllStatus = (playerID: string) => {
+    let newCondition: string;
+
+    if(playerID === battleUser.id) {
+        for (let i = 0; i < battleUser.team.length; i++) {
+            if (battleUser.team[i].condition.split(' ')[1] != null && battleUser.team[i].condition.split(' ')[1] != 'fnt') {
+                newCondition = battleUser.team[i].condition.split(' ')[0];
+                battleUser.team[i].condition = newCondition;
+            }
+        }
+    } else if (playerID === battleRival.id){
+        for (let i = 0; i < battleRival.team.length; i++) {
+            if (battleRival.team[i].condition.split(' ')[1] != null && battleRival.team[i].condition.split(' ')[1] != 'fnt') {
+                newCondition = battleRival.team[i].condition.split(' ')[0];
+                battleRival.team[i].condition = newCondition;
+            }
+        }
+    }
 }
 

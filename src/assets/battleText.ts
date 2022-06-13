@@ -70,10 +70,11 @@ export const BattleText = {
     damageFromPokemon: "[POKEMON] is hurt by [SOURCE]'s [ITEM]!", // Jaboca/Rowap Berry
     damageFromItem: "[POKEMON] is hurt by its [ITEM]!", // Sticky Barb
     damageFromPartialTrapping: "[POKEMON] is hurt by [MOVE]!",
-    heal: "[POKEMON] restored its HP.",
+    heal: "[POKEMON] restored [PERCENTAGE] of its health!",
     healFailed: "[POKEMON]'s HP is full!",
     healFromZEffect: "[POKEMON] restored its HP using its Z-Power!",
     healFromEffect: "[POKEMON] restored HP using its [EFFECT]!",
+    itemHeal: "[POKEMON] restored [PERCENTAGE] of HP using its [ITEM]!",
 
     boost: "[POKEMON]'s [STAT] increased!",
     boost2: "[POKEMON]'s [STAT] increased twice!",
@@ -209,6 +210,8 @@ export const BattleText = {
         endFromItem: "[POKEMON]'s [ITEM] woke it up!",
         cant: "[POKEMON] is fast asleep.",
     },
+
+    teamcured: "All Pokémon in [POKEMON]'s team have been cured of its condition!",
 
     // misc effects
     confusion: {
@@ -584,7 +587,7 @@ export const BattleText = {
     ingrain: {
         start: "[POKEMON] planted its roots!",
         block: "[POKEMON] anchored itself with its roots!",
-        heal: "[POKEMON] absorbed nutrients with its roots!",
+        heal: "[POKEMON] absorbed nutrients with its roots and restored [PERCENTAGE] of its health!",
     },
     instruct: {
         activate: "[TARGET] used the move instructed by [POKEMON]!",
@@ -896,7 +899,7 @@ export const BattleText = {
         block: "Wide Guard protected [POKEMON]!",
     },
     wish: {
-        heal: "[NICKNAME]'s wish came true!",
+        heal: "[POKEMON] restored [PERCENTAGE] of its health thanks to [WISHER]'s wish!",
     },
     wrap: {
         start: "[POKEMON] was wrapped by [SOURCE]!",
@@ -986,9 +989,9 @@ export const BattleText = {
     ironbarbs: {
         damage: "#roughskin",
     },
-    leftovers: {
-        heal: "[POKEMON] restored a little HP using its Leftovers!",
-    },
+    /*leftovers: {
+        heal: "[POKEMON] restored [PERCENTAGE] of HP using its Leftovers!",
+    },*/
     lightningrod: {
         activate: "[POKEMON] took the attack!",
     },
@@ -1008,7 +1011,7 @@ export const BattleText = {
         changeAbility: "[TARGET]'s Ability became Mummy!",
     },
     naturalcure: {
-        activate: "([POKEMON] is cured by its Natural Cure!)",
+        activate: "[POKEMON] is cured by its Natural Cure!",
     },
     owntempo: {
         block: "[POKEMON] doesn't become confused!",
