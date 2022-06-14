@@ -242,61 +242,65 @@ const battleMessagesParser = (messages : string[]) => {
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
-                switch (message[2].trim()) {
-                    case 'heal': { //falla si la vida está al máximo y se intenta curar
-                        addMessageToChat(BattleText.healFailed.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'unboost': { //falla al intentar hacer unboost a Pokémon con habilidades como Cuerpo puro
-                        if (message[3].startsWith('[from] ability')) {
-                            const ability = message[3].substring(16).trim();
-                            const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
-                            addMessageToChatAbility(messageToChat, playerID);
+                if (message[2] != null) {
+                    switch (message[2].trim()) {
+                        case 'heal': { //falla si la vida está al máximo y se intenta curar
+                            addMessageToChat(BattleText.healFailed.replace('[POKEMON]', pokemonName), playerID);
+                            break;
                         }
-                        addMessageToChat(BattleText.unboostFail.fail.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'move: Substitute': { //falla o bien por no tener vida suficiente para hacerlo o bien por tener ya un sustituto activo
-                        console.log(message.length);
-                        if (message[3] != null) {
-                            if (message[3].trim() === '[weak]') {
-                                addMessageToChat(BattleText.substitute.fail.replace('[POKEMON]', pokemonName), playerID);
+                        case 'unboost': { //falla al intentar hacer unboost a Pokémon con habilidades como Cuerpo puro
+                            if (message[3].startsWith('[from] ability')) {
+                                const ability = message[3].substring(16).trim();
+                                const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+                                addMessageToChatAbility(messageToChat, playerID);
                             }
-                        } else {
-                            addMessageToChat(BattleText.substitute.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            addMessageToChat(BattleText.unboostFail.fail.replace('[POKEMON]', pokemonName), playerID);
+                            break;
                         }
-                        break;
+                        case 'move: Substitute': { //falla o bien por no tener vida suficiente para hacerlo o bien por tener ya un sustituto activo
+                            console.log(message.length);
+                            if (message[3] != null) {
+                                if (message[3].trim() === '[weak]') {
+                                    addMessageToChat(BattleText.substitute.fail.replace('[POKEMON]', pokemonName), playerID);
+                                }
+                            } else {
+                                addMessageToChat(BattleText.substitute.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            }
+                            break;
+                        }
+                        case '[from] Uproar': {
+                            addMessageToChat(BattleText.uproar.block.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        case 'brn': {
+                            addMessageToChat(BattleText.brn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        case 'psn':
+                        case 'tox': {
+                            addMessageToChat(BattleText.psn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        case 'par': {
+                            addMessageToChat(BattleText.par.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        case 'slp': {
+                            addMessageToChat(BattleText.slp.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        case 'frz': {
+                            addMessageToChat(BattleText.frz.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
+                            break;
+                        }
+                        default: {
+                            store.commit('ADD_MESSAGE', BattleText.fail.replace('[POKEMON]', pokemonName));
+                            break;
+                        }
                     }
-                    case '[from] Uproar': {
-                        addMessageToChat(BattleText.uproar.block.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'brn': {
-                        addMessageToChat(BattleText.brn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'psn': case 'tox': {
-                        addMessageToChat(BattleText.psn.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'par': {
-                        addMessageToChat(BattleText.par.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'slp': {
-                        addMessageToChat(BattleText.slp.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    case 'frz': {
-                        addMessageToChat(BattleText.frz.alreadyStarted.replace('[POKEMON]', pokemonName), playerID);
-                        break;
-                    }
-                    default: {
-                        store.commit('ADD_MESSAGE', BattleText.fail.replace('[POKEMON]', pokemonName));
-                        break;
-                    }
+                } else {
+                    store.commit('ADD_MESSAGE', BattleText.fail.replace('[POKEMON]', pokemonName));
                 }
-
                 break;
             }
             //case '-block': {break;}
@@ -585,10 +589,189 @@ const battleMessagesParser = (messages : string[]) => {
             case '-swapsideconditions': {
                 break;
             }
-            case '-start': {
+            case '-start': { //|-start|POKEMON|EFFECT empieza un efecto volatil sobre un Pokémon
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const effect = message[2];
+
+                switch (effect.trim()) {
+                    case 'Attract': {
+                        addMessageToChat(BattleText.attract.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Curse': {
+                        const pokemonCauseEffect = message[3].split(' ')[2].trim();
+                        addMessageToChat(BattleText.curse.start.replace('[SOURCE]', pokemonCauseEffect).replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Disable': {
+                        const move = message[3].trim();
+                        addMessageToChat(BattleText.disable.start.replace('[POKEMON]', pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    case 'move: Imprison': {
+                        addMessageToChat(BattleText.imprison.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Doom Desire': {
+                        addMessageToChat(BattleText.doomdesire.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Encore': {
+                        addMessageToChat(BattleText.encore.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Focus Energy': {
+                        addMessageToChat(BattleText.focusenergy.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Future Sight': {
+                        addMessageToChat(BattleText.futuresight.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Ingrain': {
+                        addMessageToChat(BattleText.ingrain.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Leech Seed': {
+                        addMessageToChat(BattleText.leechseed.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Mimic': {
+                        const move = message[3].trim();
+                        addMessageToChat(BattleText.mimic.start.replace('[POKEMON]', pokemonName).replace('[MOVE]', move), playerID);
+                        break;
+                    }
+                    case 'perish3': {
+                        if (message[3] == null){
+                            addMessageToChat(BattleText.perishsong.activate.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '3'), playerID);
+                        }
+                        break;
+                    }
+                    case 'perish2': {
+                        if (message[3] == null){
+                            addMessageToChat(BattleText.perishsong.activate.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '2'), playerID);
+                        }
+                        break;
+                    }
+                    case 'perish1': {
+                        if (message[3] == null){
+                            addMessageToChat(BattleText.perishsong.activate.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '1'), playerID);
+                        }
+                        break;
+                    }
+                    case 'perish0': {
+                        if (message[3] == null){
+                            addMessageToChat(BattleText.perishsong.activate.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '0'), playerID);
+                        }
+                        break;
+                    }
+                    case 'stockpile1': {
+                        addMessageToChat(BattleText.stockpile.start.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '1'), playerID);
+                        break;
+                    }
+                    case 'stockpile2': {
+                        addMessageToChat(BattleText.stockpile.start.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '2'), playerID);
+                        break;
+                    }
+                    case 'stockpile3': {
+                        addMessageToChat(BattleText.stockpile.start.replace('[POKEMON]', pokemonName).replace('[NUMBER]', '3'), playerID);
+                        break;
+                    }
+                    case 'Substitute': {
+                        addMessageToChat(BattleText.substitute.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Taunt': {
+                        addMessageToChat(BattleText.taunt.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Torment': {
+                        addMessageToChat(BattleText.torment.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Uproar': {
+                        if (message[3] == null) {
+                            addMessageToChat(BattleText.uproar.start.replace('[POKEMON]', pokemonName), playerID);
+                        } else {
+                            addMessageToChat(BattleText.uproar.upkeep.replace('[POKEMON]', pokemonName), playerID);
+                        }
+                        break;
+                    }
+                    case 'confusion': {
+                        addMessageToChat(BattleText.confusion.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Yawn': {
+                        addMessageToChat(BattleText.yawn.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'ability: Flash Fire': {
+                        const ability = 'Flash Fire';
+                        const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+
+                        addMessageToChatAbility(messageToChat, playerID);
+                        addMessageToChat(BattleText.flashfire.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'typechange': {
+                        const newType = message[3].trim();
+
+                        if (message[4].trim() === '[from] ability: Color Change'){
+                            const ability = 'Color Change';
+                            const messageToChat = BattleText.abilityActivation.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability);
+
+                            addMessageToChatAbility(messageToChat, playerID);
+                        }
+                        addMessageToChat(BattleText.typeChange.replace('[POKEMON]', pokemonName).replace('[TYPE]', newType), playerID);
+                        break;
+                    }
+                }
                 break;
             }
-            case '-end': {
+            case '-end': { //|-end|POKEMON|EFFECT
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const effect = message[2];
+
+                switch (effect) {
+                    case 'Attract': {
+                        break;
+                    }
+                    case 'Disable': {
+                        break;
+                    }
+                    case 'move: Doom Desire': {
+                        break;
+                    }
+                    case 'Encore': {
+                        break;
+                    }
+                    case 'move: Future Sight': {
+                        break;
+                    }
+                    case 'Leech Seed': {
+                        break;
+                    }
+                    case 'Stockpile': {
+                        break;
+                    }
+                    case 'Substitute': {
+                        break;
+                    }
+                    case 'move: Taunt': {
+                        break;
+                    }
+                    case 'Torment': {
+                        break;
+                    }
+                    case 'Uproar': {
+                        break;
+                    }
+                    case 'confusion': {
+                        break;
+                    }
+                }
                 break;
             }
             case '-crit': {

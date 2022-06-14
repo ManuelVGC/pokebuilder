@@ -43,7 +43,7 @@ export const BattleText = {
     // n.b. this is the default message for in-battle forme changes
     // for the move Transform and ability Imposter, see the entry for the move Transform
     pokemonTransformed: "[POKEMON] transformed!",
-    typeChange: "[POKEMON] transformed into the [TYPE] type!",
+    typeChange: "[POKEMON]'s type changed to [TYPE]!",
     typeChangeFromEffect: "[POKEMON]'s [EFFECT] made it the [TYPE] type!",
     typeAdd: "[TYPE] type was added to [POKEMON]!",
 
