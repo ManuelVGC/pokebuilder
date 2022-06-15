@@ -22,7 +22,7 @@ export const BattleText = {
     //swapCenter: "[POKEMON] moved to the center!",
 
     zEffect: "[POKEMON] isn't holding back anymore!",
-    move: "[POKEMON]'s **[MOVE]** will be unleashed!",
+    //move: "[POKEMON]'s **[MOVE]** will be unleashed!",
     abilityActivation: "[[POKEMON]'s [ABILITY]]",
 
     mega: "[POKEMON]'s [ITEM] glows!",
@@ -36,6 +36,7 @@ export const BattleText = {
     // in case the different default messages didn't make it obvious, the difference
     // is that the `cant` message REPLACES "Pokemon used Move!", while the `fail`
     // message happens AFTER "Pokemon used Move!"
+    move: "[POKEMON] used [MOVE]!",
     cant: "[POKEMON] can't use [MOVE]!",
     cantNoMove: "[POKEMON] can't move!",
     fail: "But it failed!",
@@ -105,13 +106,13 @@ export const BattleText = {
     invertBoost: "[POKEMON]'s stat changes were inverted!",
     clearAllBoost: "All stat changes were eliminated!",
 
-    superEffective: "It hit its enemy's weakness!",
+    superEffective: "It's super effective!",
     superEffectiveSpread: "It hit [POKEMON]'s weakness!",
-    resisted: "It was resisted...",
+    resisted: "It's not very effective...",
     resistedSpread: "[POKEMON] resisted the attack.",
-    crit: "A lucky hit! Remember to buy crit insurance!",
+    crit: "A critical hit!",
     critSpread: "A lucky hit on [POKEMON]! How dare you!",
-    immune: "[POKEMON] is immune to such dastardly tricks!",
+    immune: "It doesn't affect [POKEMON]...",
     immuneNoPokemon: "The foe was immune!", // old gens
     immuneOHKO: "[POKEMON] is unaffected!",
     miss: "[POKEMON] avoided the attack!",
@@ -197,10 +198,10 @@ export const BattleText = {
     tox: {
         start: "[POKEMON] was badly poisoned!",
         startFromItem: "[POKEMON] was badly poisoned by the [ITEM]!",
-        end: "#psn",
-        endFromItem: "#psn",
-        alreadyStarted: "#psn",
-        damage: "#psn",
+        end: "[POKEMON] was cured of its poisoning.",
+        endFromItem: "[POKEMON]'s [ITEM] cured its poison!",
+        alreadyStarted: "[POKEMON] is already poisoned.",
+        damage: "[POKEMON] was hurt by poison and lost [PERCENTAGE] of its health!",
     },
     slp: {
         start: "[POKEMON] fell asleep!",
@@ -599,7 +600,7 @@ export const BattleText = {
         damage: "#crash",
     },
     knockoff: {
-        removeItem: "[SOURCE] knocked off [POKEMON]'s [ITEM]!",
+        removeItem: "[POKEMON]'s [ITEM] was knocked off!",
     },
     laserfocus: {
         start: "[POKEMON] concentrated intensely!",
@@ -739,7 +740,7 @@ export const BattleText = {
         typeChange: "[POKEMON]'s type became the same as [SOURCE]'s type!",
     },
     roleplay: {
-        changeAbility: "[POKEMON] copied [SOURCE]'s [ABILITY] Ability!",
+        changeAbility: "[POKEMON] copied [SOURCE]'s [ABILITY] ability!",
     },
     roost: {
         start: "([POKEMON] loses Flying type this turn.)",
@@ -1158,6 +1159,6 @@ export const BattleText = {
         activate: "[POKEMON] regained its true power through Ultra Burst!",
     },
     whiteherb: {
-        end: "[POKEMON] returned its status to normal using its White Herb!",
+        end: "[POKEMON] returned its stats to normal using its White Herb!",
     }
 };

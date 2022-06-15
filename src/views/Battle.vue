@@ -2,7 +2,7 @@
   <SettingsBar/>
   <div class="gridContainer">
     <div class="battle">Battle</div>
-    <div class="chat">
+    <div style= "overflow: scroll; max-height: 500px;" class="chat">
       <ul>
         <li v-for="msg in chatMessages" :key="msg">
           {{ msg }}
