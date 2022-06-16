@@ -73,33 +73,44 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case 'rules': {
-                //lo construyo más adelante pero la idea sería coger el mensaje que me pasan y ponerlo en el chat
+            case 'rule': { //|rule|RULE: DESCRIPTION
+                const rule = message[1].trim();
+                store.commit('ADD_MESSAGE', rule);
                 break;
             }
 
             //Mensajes que tienen que ver con el progreso de la batalla
             case 'request': { //llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario
-                if (message[1] != '' && store.state.battleUser.team.length === 0) {
-                    const request = JSON.parse(message[1]);
+                const request = JSON.parse(message[1]);
 
+                if (message[1] != '' && store.state.battleUser.team.length === 0) {
                     battleUser.team = request.side.pokemon;
                     store.commit('SET_BATTLEUSER', battleUser);
+                    updatePPsUserTeam(message[1]);
+                } else {
+                    updatePPsUserTeam(message[1]);
                 }
                 break;
             }
-            case 'inactive': {
-                //lo contruyo más adelante, mensaje relacionado con el timer de la batalla
+            case 'inactive': case 'inactiveoff': { //|inactive|MESSAGE e |inactiveoff|MESSAGE
+                const timerMessage = message[1].trim();
+
+                store.commit('ADD_MESSAGE', timerMessage);
                 break;
             }
             case 'turn': { //turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER
-                //lo contruyo más adelante con el chat
                 store.commit('ADD_MESSAGE', 'Turn ' + message[1]);
                 showUserDetails();
                 break;
             }
             case 'win': { //ganador de la batalla. Es un mensaje del tipo |win|USER
-                //lo contruyo más adelante con el chat
+                const trainer = message[1].trim();
+
+                store.commit('ADD_MESSAGE', BattleText.winBattle.replace('[TRAINER]', trainer));
+                break;
+            }
+            case 'tie': {
+                store.commit('ADD_MESSAGE', BattleText.tieBattle);
                 break;
             }
 
@@ -134,10 +145,38 @@ const battleMessagesParser = (messages : string[]) => {
                             spe : 0,
                         },
                         moves : {
-                            move1 : '',
-                            move2 : '',
-                            move3 : '',
-                            move4 : '',
+                            move1 : {
+                                move : '',
+                                id : '',
+                                pp : 0,
+                                maxpp : 0,
+                                target : '',
+                                disabled: false,
+                            },
+                            move2 : {
+                                move : '',
+                                id : '',
+                                pp : 0,
+                                maxpp : 0,
+                                target : '',
+                                disabled: false,
+                            },
+                            move3 : {
+                                move : '',
+                                id : '',
+                                pp : 0,
+                                maxpp : 0,
+                                target : '',
+                                disabled: false,
+                            },
+                            move4 : {
+                                move : '',
+                                id : '',
+                                pp : 0,
+                                maxpp : 0,
+                                target : '',
+                                disabled: false,
+                            },
                         },
                         baseAbility : '',
                         item : '',
@@ -918,10 +957,6 @@ const battleMessagesParser = (messages : string[]) => {
                             addMessageToChat(BattleText.mist.block.replace('[POKEMON]', pokemonName), playerID);
                             break;
                         }
-                        case 'Protect': {
-                            addMessageToChat(BattleText.protect.block.replace('[POKEMON]', pokemonName), playerID);
-                            break;
-                        }
                         case 'Safeguard': {
                             addMessageToChat(BattleText.safeguard.block.replace('[POKEMON]', pokemonName), playerID);
                             break;
@@ -1030,40 +1065,126 @@ const battleMessagesParser = (messages : string[]) => {
                     addMessageToChat(BattleText.confusion.activate.replace('[POKEMON]', pokemonName), playerID);
                 } else if (effect === 'Substitute') {
                     addMessageToChat(BattleText.substitute.activate.replace('[POKEMON]', pokemonName), playerID);
+                } else if (effect === 'Protect') {
+                    addMessageToChat(BattleText.protect.block.replace('[POKEMON]', pokemonName), playerID);
                 }
                 break;
             }
-            case '-hint': {
+            case '-hint': { //|-hint|MESSAGE
+                const hint = message[1].trim();
+                store.commit('ADD_MESSAGE', '(' + hint + ')');
                 break;
             }
-            case '-center': {
+            //case '-center': {break;}
+            case '-message': { //|-message|MESSAGE
+                const messageReceived = message[1].trim();
+
+                store.commit('ADD_MESSAGE', messageReceived);
                 break;
             }
-            case '-message': {
+            //case '-combine': {break;}
+            //case '-waiting': {break;}
+            case '-prepare': { //|-prepare|ATTACKER|MOVE
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const move = message[2].trim();
+
+                switch (move) {
+                    case 'Bounce': {
+                        addMessageToChat(BattleText.bounce.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Dig': {
+                        addMessageToChat(BattleText.dig.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Dive': {
+                        addMessageToChat(BattleText.dive.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Fly': {
+                        addMessageToChat(BattleText.fly.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Skull Bash': {
+                        addMessageToChat(BattleText.skullbash.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Sky Attack': {
+                        addMessageToChat(BattleText.skyattack.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Solar Beam': {
+                        addMessageToChat(BattleText.solarbeam.prepare.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
                 break;
             }
-            case '-combine': {
-                break;
-            }
-            case '-waiting': {
-                break;
-            }
-            case '-prepare': {
-                break;
-            }
-            case '-mustrecharge': {
+            case '-mustrecharge': { //|-mustrecharge|POKEMON
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+
+                addMessageToChat(BattleText.recharge.nextTurn.replace('[POKEMON]', pokemonName), playerID);
+
+                //==========================================================================
+                //FALTA PONER EL MUST RECHARGE ENCIMA DEL POKEMON CUANDO TIENE QUE RECARGAR
+                //==========================================================================
                 break;
             }
             case '-nothing': {
+                store.commit('ADD_MESSAGE', BattleText.splash.activate);
                 break;
             }
-            case '-hitcount': {
+            case '-hitcount': { //|-hitcount|POKEMON|NUM
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const num = parseInt(message[2].trim());
+                const numString = message[2].trim();
+
+                if (num > 1) {
+                    addMessageToChat(BattleText.hitCount.replace('[POKEMON]', pokemonName).replace('[NUMBER]', numString), playerID);
+                } else {
+                    addMessageToChat(BattleText.hitCountSingular.replace('[POKEMON]', pokemonName).replace('[NUMBER]', numString), playerID);
+                }
                 break;
             }
-            case '-singlemove': {
+            case '-singlemove': { //|-singlemove|POKEMON|MOVE
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const move = message[2].trim();
+
+                switch (move) {
+                    case 'Grudge': {
+                        addMessageToChat(BattleText.grudge.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'Destiny Bond': {
+                        addMessageToChat(BattleText.destinybond.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
                 break;
             }
             case '-singleturn': {
+                pokemonName = message[1].split(' ')[1];
+                playerID = message[1].substring(0,2);
+                const move = message[2].trim();
+
+                switch (move) {
+                    case 'Protect': {
+                        addMessageToChat(BattleText.protect.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Endure': {
+                        addMessageToChat(BattleText.endure.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                    case 'move: Focus Punch': {
+                        addMessageToChat(BattleText.focuspunch.start.replace('[POKEMON]', pokemonName), playerID);
+                        break;
+                    }
+                }
                 break;
             }
         }
@@ -1194,6 +1315,17 @@ const removeAllStatus = (playerID: string) => {
                 newCondition = battleRival.team[i].condition.split(' ')[0];
                 battleRival.team[i].condition = newCondition;
             }
+        }
+    }
+}
+
+const updatePPsUserTeam = (request: string) => {
+    const requestJSON = JSON.parse(request);
+    const activeData = requestJSON.active[0];
+
+    for (let j = 0; j < battleUser.team.length; j++) {
+        if (battleUser.team[j].active === true) {
+            battleUser.team[j].moves = activeData.moves;
         }
     }
 }

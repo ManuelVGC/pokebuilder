@@ -1,3 +1,5 @@
+import {Move} from "@/interfaces/Move";
+
 export interface BattlePokemon {
     ident: string; //pertenencia del Pokémon (si es del jugador 1 o el 2) y mote --> Ej: p2: Pyukumuku
     details: string; //nombre del Pokémon, nivel y género --> Ej: Pyukumuku, L83, F
@@ -11,10 +13,10 @@ export interface BattlePokemon {
         spe: number;
     }
     moves: {
-        move1: string;
-        move2: string;
-        move3: string;
-        move4: string;
+        move1: Move;
+        move2: Move;
+        move3: Move;
+        move4: Move;
     };
     baseAbility: string; //habilidad
     item: string;

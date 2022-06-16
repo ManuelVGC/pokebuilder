@@ -1,7 +1,7 @@
 export const BattleText = {
     startBattle: "[TRAINER], in combination with [TRAINER], shall commence battling forthwith!",
-    winBattle: "**[TRAINER]** is victorious!",
-    tieBattle: "The feud between [TRAINER] and [TRAINER] remains unresolved!",
+    winBattle: "[TRAINER] won the battle!",
+    tieBattle: "The battle end with a tie!",
 
     pokemon: "[NICKNAME]",
     opposingPokemon: "a villainous [NICKNAME]",
@@ -122,8 +122,8 @@ export const BattleText = {
     noTarget: "But there was no target...", // gen 5 and earlier
     ohko: "It's a one-hit KO!",
     combine: "The two moves have become one! It's a combined move!",
-    hitCount: "Hit [NUMBER] times!",
-    hitCountSingular: "Hit 1 time!",
+    hitCount: "[POKEMON] was hit [NUMBER] times!",
+    hitCountSingular: "[POKEMON] was hit [NUMBER] time!",
 
     // stats
     hp: {
@@ -238,6 +238,7 @@ export const BattleText = {
     },
     recharge: {
         cant: "[POKEMON] must recharge!",
+        nextTurn: "[POKEMON] must recharge the next turn!"
     },
     recoil: {
         damage: "[POKEMON] is damaged by the recoil and loses [PERCENTAGE] of its health!",
@@ -791,7 +792,7 @@ export const BattleText = {
         prepare: "[POKEMON] absorbed light!",
     },
     solarblade: {
-        prepare: "#solarbeam",
+        prepare: "[POKEMON] absorbed light!",
     },
     spectralthief: {
         clearBoost: "[SOURCE] stole the target's boosted stats!",
