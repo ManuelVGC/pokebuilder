@@ -12,12 +12,7 @@ export interface BattlePokemon {
         spd: number;
         spe: number;
     }
-    moves: {
-        move1: Move;
-        move2: Move;
-        move3: Move;
-        move4: Move;
-    };
+    moves: Move[];
     baseAbility: string; //habilidad
     item: string;
     pokeball: string;

@@ -77,21 +77,23 @@ export const BattleText = {
     healFromEffect: "[POKEMON] restored HP using its [EFFECT]!",
     itemHeal: "[POKEMON] restored [PERCENTAGE] of HP using its [ITEM]!",
 
-    boost: "[POKEMON]'s [STAT] increased!",
-    boost2: "[POKEMON]'s [STAT] increased twice!",
-    boost3: "[POKEMON]'s [STAT] increased a lot!",
+    boost: "[POKEMON]'s [STAT] rose!",
+    boost2: "[POKEMON]'s [STAT] rose sharply!",
+    //boost3: "[POKEMON]'s [STAT] increased a lot!",
     boost0: "[POKEMON]'s [STAT] won't go any higher!",
+    boost6: "[POKEMON] maximized its [STAT]!",
     boostFromItem: "The [ITEM] raised [POKEMON]'s [STAT]!",
     boost2FromItem: "The [ITEM] raised [POKEMON]'s [STAT] twice!",
     boost3FromItem: "The [ITEM] raised [POKEMON]'s [STAT] a lot!",
-    boostFromZEffect: "[POKEMON] boosted its [STAT] using its Z-Power!",
-    boost2FromZEffect: "[POKEMON] boosted its [STAT] twice using its Z-Power!",
-    boost3FromZEffect: "[POKEMON] boosted its [STAT] a lot using its Z-Power!",
-    boostMultipleFromZEffect: "[POKEMON] boosted its stats using its Z-Power!",
+    //boostFromZEffect: "[POKEMON] boosted its [STAT] using its Z-Power!",
+    //boost2FromZEffect: "[POKEMON] boosted its [STAT] twice using its Z-Power!",
+    //boost3FromZEffect: "[POKEMON] boosted its [STAT] a lot using its Z-Power!",
+    //boostMultipleFromZEffect: "[POKEMON] boosted its stats using its Z-Power!",
 
-    unboost: "[POKEMON]'s [STAT] was lowered!",
-    unboost2: "[POKEMON]'s [STAT] was lowered twice!",
-    unboost3: "[POKEMON]'s [STAT] was lowered a lot!",
+    unboost: "[POKEMON]'s [STAT] fell!",
+    unboost2: "[POKEMON]'s [STAT] sharply fell!",
+    //unboost3: "[POKEMON]'s [STAT] was lowered a lot!",
+    unboost6: "[POKEMON] minimized its [STAT]!",
     unboost0: "[POKEMON]'s [STAT] won't go any lower!",
     unboostFromItem: "The [ITEM] lowered [POKEMON]'s [STAT]!",
     unboost2FromItem: "The [ITEM] lowered [POKEMON]'s [STAT] twice!",
@@ -125,43 +127,41 @@ export const BattleText = {
     hitCount: "[POKEMON] was hit [NUMBER] times!",
     hitCountSingular: "[POKEMON] was hit [NUMBER] time!",
 
-    // stats
-    hp: {
-        statName: "Constitution",
-        statShortName: "HP",
-    },
-    atk: {
-        statName: "Strength",
-        statShortName: "Atk",
-    },
-    def: {
-        statName: "Armor",
-        statShortName: "Def",
-    },
-    spa: {
-        statName: "Intelligence",
-        statShortName: "SpA",
-    },
-    spd: {
-        statName: "Resistance",
-        statShortName: "SpD",
-    },
-    spe: {
-        statName: "Agility",
-        statShortName: "Spe",
-    },
-    accuracy: {
-        statName: "accuracy",
-    },
-    evasion: {
-        statName: "evasiveness",
-    },
-    spc: {
-        statName: "Intelligence",
-        statShortName: "Spc",
-    },
     stats: {
-        statName: "stats",
+        hp: {
+            statName: "HP",
+            //statShortName: "HP",
+        },
+        atk: {
+            statName: "attack",
+            //statShortName: "Atk",
+        },
+        def: {
+            statName: "defense",
+            //statShortName: "Def",
+        },
+        spa: {
+            statName: "special attack",
+            //statShortName: "SpA",
+        },
+        spd: {
+            statName: "special defense",
+            //statShortName: "SpD",
+        },
+        spe: {
+            statName: "speed",
+            //statShortName: "Spe",
+        },
+        acc: {
+            statName: "accuracy",
+        },
+        eva: {
+            statName: "evasiveness",
+        },
+        /*spc: {
+            statName: "Intelligence",
+            statShortName: "Spc",
+        },*/
     },
 
     // statuses
@@ -266,7 +266,7 @@ export const BattleText = {
         weatherName: "Sandstorm",
         start: "A sandstorm kicked up!",
         end: "The sandstorm subsided.",
-        upkeep: "The sandstorm is raging.",
+        upkeep: "(The sandstorm is raging.)",
         damage: "[POKEMON] is buffeted by the sandstorm and loses [PERCENTAGE] of its health!",
     },
     sunnyday: {
@@ -285,7 +285,7 @@ export const BattleText = {
         weatherName: "Hail",
         start: "It started to hail!",
         end: "The hail stopped.",
-        upkeep: "The hail is crashing down.",
+        upkeep: "(The hail is crashing down.)",
         damage: "[POKEMON] is buffeted by the hail and loses [PERCENTAGE] of its health!",
     },
     desolateland: {
@@ -665,7 +665,7 @@ export const BattleText = {
         start: "#foresight",
     },
     mist: {
-        start: "[TEAM] became shrouded in mist!",
+        start: "Mist shrouded [TEAM]!",
         end: "[TEAM] is no longer protected by mist!",
         block: "[POKEMON] is protected by the mist!",
     },
@@ -747,7 +747,7 @@ export const BattleText = {
         start: "([POKEMON] loses Flying type this turn.)",
     },
     safeguard: {
-        start: "[TEAM] cloaked itself in a mystical veil!",
+        start: "A mystical veil cloaked [TEAM]!",
         end: "[TEAM] is no longer protected by Safeguard!",
         block: "[POKEMON] is protected by Safeguard!",
     },
