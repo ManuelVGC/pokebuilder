@@ -106,6 +106,7 @@ const battleMessagesParser = (messages : string[]) => {
                             store.commit('SET_BATTLEUSER', battleUser);
                             updatePPsUserTeam(message[1]);
                         } else {
+                            setActivePokemon(message[1]);
                             updatePPsUserTeam(message[1]);
                         }
                     }
@@ -140,6 +141,14 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
 
+            //Mensajes del chat
+            case 'c': {
+                const user = message[1].trim();
+                const chatMessage = message[2].trim();
+
+                store.commit('ADD_MESSAGE', user + ': ' + chatMessage);
+                break;
+            }
 
             //Mensajes de acciones dentro de una batalla
             //Acciones mayores
@@ -1935,5 +1944,24 @@ const clearBoosts = (playerID: string) => {
         rivalSideConditions.boosts.spd = 0;
         rivalSideConditions.boosts.spe = 0;
         rivalSideConditions.boosts.acc = 0;
+    }
+}
+
+const setActivePokemon = (request: string) => {
+    const requestJSON = JSON.parse(request);
+    let pokemonIdentActive = '';
+
+    for (let i = 0; i < requestJSON.side.pokemon.length; i++) {
+        if (requestJSON.side.pokemon[i].active === true) {
+            pokemonIdentActive = requestJSON.side.pokemon[i].ident;
+        }
+    }
+
+    for (let i = 0; i < battleUser.team.length; i++) {
+        if (battleUser.team[i].ident === pokemonIdentActive) {
+            battleUser.team[i].active = true;
+        } else {
+            battleUser.team[i].active = false;
+        }
     }
 }

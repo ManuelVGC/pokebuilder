@@ -1,7 +1,80 @@
 <template>
   <SettingsBar/>
   <div class="gridContainer">
-    <div class="battle">Battle</div>
+    <div class="battle">
+      <table class="table table-hover">
+        <tr>
+          <th scope="col">User team</th>
+          <th scope="col">Rival team</th>
+          <th scope="col">User side conditions</th>
+          <th scope="col">Rival side conditions</th>
+          <th scope="col">Field conditions</th>
+        </tr>
+        <tr>
+          <td>
+            <ul class="accordion list-group">
+              <li class="accordion-item list-group-item d-flex justify-content-between align-items-center" v-for="pokemon in battleUser.team" :key="pokemon">
+                <h6 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">{{pokemon.ident}}</button>
+                </h6>
+                <div class="accordion-collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                  <div class="accordion-body">
+                    <h6>Details: {{pokemon.details}}</h6>
+                    <h6>Condition: {{pokemon.condition}}</h6>
+                    <h6>Active: {{pokemon.active}} </h6>
+                    <h6>Stats: {{pokemon.stats}}</h6>
+                    <h6>Moves: {{pokemon.moves}}</h6>
+                    <h6>Base ability: {{pokemon.baseAbility}}</h6>
+                    <h6>Item: {{pokemon.item}}</h6>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </td>
+          <td>
+            <ul class="accordion list-group">
+              <li class="accordion-item list-group-item d-flex justify-content-between align-items-center" v-for="pokemon in battleRival.team" :key="pokemon">
+                <h6 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">{{pokemon.ident}}</button>
+                </h6>
+                <div class="accordion-collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                  <div class="accordion-body">
+                    <h6>Details: {{pokemon.details}}</h6>
+                    <h6>Condition: {{pokemon.condition}}</h6>
+                    <h6>Active: {{pokemon.active}} </h6>
+                    <h6>Stats: {{pokemon.stats}}</h6>
+                    <h6>Moves: {{pokemon.moves}}</h6>
+                    <h6>Base ability: {{pokemon.baseAbility}}</h6>
+                    <h6>Item: {{pokemon.item}}</h6>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </td>
+          <td>
+            <h6>Boosts: {{userSideConditions.boosts}}</h6>
+            <h6>Lightscreen: {{userSideConditions.lightscreen}}</h6>
+            <h6>Reflect: {{userSideConditions.reflect}} </h6>
+            <h6>Mist: {{userSideConditions.mist}}</h6>
+            <h6>Safeguard: {{userSideConditions.safeguard}}</h6>
+            <h6>Spikes: {{userSideConditions.spikes}}</h6>
+            <h6>Leech seed: {{userSideConditions.leechseed}}</h6>
+          </td>
+          <td>
+            <h6>Boosts: {{rivalSideConditions.boosts}}</h6>
+            <h6>Lightscreen: {{rivalSideConditions.lightscreen}}</h6>
+            <h6>Reflect: {{rivalSideConditions.reflect}} </h6>
+            <h6>Mist: {{rivalSideConditions.mist}}</h6>
+            <h6>Safeguard: {{rivalSideConditions.safeguard}}</h6>
+            <h6>Spikes: {{rivalSideConditions.spikes}}</h6>
+            <h6>Leech seed: {{rivalSideConditions.leechseed}}</h6>
+          </td>
+          <td>
+            <h6>Weather: {{fieldConditions.weather.type}}</h6>
+          </td>
+        </tr>
+      </table>
+    </div>
     <div style= "overflow: scroll; max-height: 500px;" class="chat">
       <ul>
         <li v-for="msg in chatMessages" :key="msg">
@@ -35,7 +108,12 @@ export default defineComponent({
     }
   },
   computed: mapState([
-      'chatMessages'
+      'chatMessages',
+      'battleUser',
+      'battleRival',
+      'userSideConditions',
+      'rivalSideConditions',
+      'fieldConditions'
   ])
 })
 </script>
@@ -59,5 +137,13 @@ export default defineComponent({
    grid-area: move-Pokemon;
 }
 
+.card-tooltip .card-tooltip.text{
+  visibility: hidden;
+}
+
+.card-tooltip:hover .card-tooltip.text{
+  visibility: visible;
+  opacity: 1;
+}
 
 </style>
