@@ -9,7 +9,7 @@ export interface IFieldConditions {
 export class FieldConditions {
     weather = {
         activate: false,
-        type: '',
+        type: 'none',
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function

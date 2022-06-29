@@ -4,7 +4,7 @@
     <form @submit.prevent="logIn()">
       <h1>Log in to Pokémon Showdown</h1>
       <input type="text" placeholder="User" v-model="username"> <!--aquí iria el v-model="user"-->
-      <input type="password"  placeholder="Password" v-model="password"/>
+      <input type="password" placeholder="Password" v-model="password"/>
       <button>Log in</button>
     </form>
   </div>
@@ -16,10 +16,6 @@ import {logInShowdown} from "@/services/pokemonShowdownService";
 import {send} from "@/services/websocket";
 
 export default defineComponent({
-  data(){
-    return{
-    }
-  },
   methods: {
     //Logeo en Pokémon Showdown
     async logIn() {

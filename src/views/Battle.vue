@@ -75,23 +75,60 @@
         </tr>
       </table>
     </div>
-    <div style= "overflow: scroll; max-height: 500px;" class="chat">
-      <ul>
-        <li v-for="msg in chatMessages" :key="msg">
-          {{ msg }}
-        </li>
-      </ul>
+    <div class="chat">
+      <div style= "overflow: auto; max-height: 500px;" >
+        <h1>GAME CHAT</h1>
+        <ul>
+          <li v-for="msg in chatMessages" :key="msg">
+            {{ msg }}
+          </li>
+        </ul>
+      </div>
+      <form @submit.prevent="sendMessageToChat()">
+        <input type="text" placeHolder="Write your message here" v-model="chatMessage" class="form-control">
+        <input type="submit" value="Send" class="btn btn-success">
+      </form>
     </div>
-    <div class="move-Pokemon">Move-pokemon</div>
+    <div v-if="!battleFinished" class="move-Pokemon">
+      <button v-if="!fightFlag && !pokemonFlag && !choiseSent" type="button" class="btn btn-danger" @click="changeFightFlag(true)">Fight</button>
+      <button v-if="!fightFlag && !pokemonFlag && !choiseSent" type="button" class="btn btn-info" @click="changePokemonFlag(true)">Pokémon</button>
+      <div v-if="fightFlag && !choiseSent">
+        <ul>
+          <li v-for="move in activeMoves" :key="move">
+            <button type="button" :disabled="move.disabled" class="btn btn-outline-primary" @click="sendChosenMove(move.move)">{{move.move}}</button>
+          </li>
+        </ul>
+        <button @click="changeFightFlag(false)">Cancel</button>
+      </div>
+      <div v-if="pokemonFlag && !choiseSent">
+        <ul>
+          <li v-for="pokemon in pokemonToSwitchIn" :key="pokemon">
+            <button type="button" :disabled="pokemonTrapped" class="btn btn-outline-primary" @click="sendChosenPokemon(pokemon)">{{pokemon}}</button>
+          </li>
+        </ul>
+        <button v-if="!forceSwitch" @click="changePokemonFlag(false)">Cancel</button>
+      </div>
+      <div v-if="choiseSent">
+        <h1>Waiting for opponent...</h1>
+        <div class="loader"></div>
+        <button @click="cancelChoice()">Cancel</button>
+      </div>
+      <div>
+        <button v-if="timer < 0" @click="setTimer('on')">Timer</button>
+        <button v-if="timer >= 0" @click="setTimer('off')">{{timerInMinutes}}</button>
+      </div>
+    </div>
   </div>
-  <button @click="manageForfeit()">Forfeit</button>
+  <div class="manageEndOfBattle" style="padding: 100px">
+    <button v-if="!battleFinished" @click="manageForfeit()">Forfeit</button>
+    <button type="button" class="btn btn-outline-primary" v-if="battleFinished" @click="returnToMenu()">Main menu</button>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar";
+import SettingsBar from "@/components/SettingsBar.vue";
 import {send} from "@/services/websocket";
-import store from "@/store";
 import {mapState} from "vuex";
 
 export default defineComponent({
@@ -99,33 +136,115 @@ export default defineComponent({
   components: {
     SettingsBar,
   },
+  data() {
+    return {
+      chatMessage: '' as string,
+    }
+  },
   methods: {
     //Rendición en una batalla
     manageForfeit() {
       const data = this.$store.state.battleInfo + '|/forfeit';
       send(data);
+      this.$store.commit('SET_BATTLEFINISHED', true);
+    },
+    changeFightFlag(flag: boolean) {
+      this.$store.commit('SET_FIGHTFLAG', flag);
+    },
+    changePokemonFlag(flag: boolean) {
+      this.$store.commit('SET_POKEMONFLAG', flag);
+    },
+    cancelChoice() {
+      const data = this.$store.state.battleInfo + '|/undo';
+      send(data);
+      this.$store.commit('SET_CHOISESENT', false);
+    },
+    sendChosenMove(chosenMove: string) {
+      const data = this.$store.state.battleInfo + '|/choose move ' + chosenMove;
+      send(data);
+      this.$store.commit('SET_CHOISESENT', true);
+    },
+    sendChosenPokemon(chosenPokemon: string) {
+      const data = this.$store.state.battleInfo + '|/choose switch ' + chosenPokemon;
+      send(data);
+      this.$store.commit('SET_CHOISESENT', true);
+    },
+    returnToMenu() {
       this.$router.push({name: "home"});
+    },
+    sendMessageToChat() {
+      const data = this.$store.state.battleInfo + '|' + this.chatMessage;
+      send(data);
+      this.chatMessage = '';
+    },
+    setTimer(status: string) {
+      const data = this.$store.state.battleInfo + '|/timer ' + status;
+      send(data);
+    },
+  },
+  computed: {
+    ...mapState([
+        'activeMoves',
+        'pokemonToSwitchIn',
+        'choiseSent',
+               'timer',
+               'battleFinished',
+               'pokemonTrapped',
+               'forceSwitch',
+               'fightFlag',
+               'pokemonFlag',
+               'chatMessages',
+               'battleUser',
+               'battleRival',
+               'userSideConditions',
+               'rivalSideConditions',
+               'fieldConditions',
+    ]),
+    timerInMinutes() {
+      let minutes = Math.floor(this.timer / 60);
+      let seconds = Math.floor(this.timer % 60);
+
+      if (seconds.toString().length === 1) {
+        return (minutes + ':0' + seconds);
+      } else {
+        return (minutes + ':' + seconds);
+      }
     }
   },
-  computed: mapState([
-      'chatMessages',
-      'battleUser',
-      'battleRival',
-      'userSideConditions',
-      'rivalSideConditions',
-      'fieldConditions'
-  ])
+  watch: {
+    /*timerEnabled(value: boolean) { //con este watcher triggereamos el primer cambio del timer, de forma que se activa el watcher timer
+      if (value) {
+        setTimeout(() => {
+          this.$store.commit('SET_TIMERRESET', this.timer - 1);
+        }, 1000);
+      }
+    },*/
+    timer: {
+      handler(value) {
+
+        if (value > 0) {
+          setTimeout(() => {
+            this.$store.commit('SET_TIMERRESET', this.timer - 1);
+            console.log(this.timer);
+          }, 1000);
+        }
+      },
+      immediate: true
+    }
+  }
 })
 </script>
 
 <style scoped>
 .gridContainer {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 2fr 1fr;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto;
   grid-template-areas:
     "battle chat"
-    "move-Pokemon chat";
+    "move-Pokemon chat"
+    "endBattle chat";
+  gap: 50px;
 }
 .battle {
   grid-area: battle;
@@ -137,6 +256,10 @@ export default defineComponent({
    grid-area: move-Pokemon;
 }
 
+.manageEndOfBattle {
+  grid-area: endBattle;
+}
+
 .card-tooltip .card-tooltip.text{
   visibility: hidden;
 }
@@ -144,6 +267,24 @@ export default defineComponent({
 .card-tooltip:hover .card-tooltip.text{
   visibility: visible;
   opacity: 1;
+}
+
+.move-Pokemon {
+  padding: 100px;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 </style>

@@ -28,7 +28,7 @@ export default defineComponent({
       + 'Dugtrio||choiceband|arenatrap|earthquake,rockslide,aerialace,substitute|Jolly|4,252,,,,252|||||]'
       + 'Castform||leftovers|forecast|raindance,blizzard,bodyslam,doubleedge|Timid|4,,,252,,252|||||]'
       + 'Salamence||choiceband|intimidate|crunch,rockslide,earthquake,fireblast|Adamant|4,252,,,,252|||||]'
-      + 'Celebi||leftovers|naturalcure|calmmind,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
+      + 'Celebi||leftovers|naturalcure|batonpass,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
     }
   },
   methods: {
