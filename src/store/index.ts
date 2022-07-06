@@ -1,12 +1,12 @@
 import { createStore } from 'vuex'
-import {User} from "@/interfaces/User";
+import {IUser} from "@/interfaces/User";
 import {IBattleUser} from "@/interfaces/BattleUser";
 import {IFieldConditions} from "@/interfaces/FieldConditions";
 import {ISideConditions} from "@/interfaces/SideConditions";
 
 export default createStore({
     state: {
-        user: {} as User,
+        user: {} as IUser,
 
         battleInfo: '' as string,
         battleUser: {} as IBattleUser,
@@ -93,8 +93,6 @@ export default createStore({
         SET_BATTLEFINISHED(state: any, flag: boolean) {
             state.battleFinished = flag;
         },
-
-
         SET_TIMERRESET(state: any, number: number) {
             state.timer = number;
         },

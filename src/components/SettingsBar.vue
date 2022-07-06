@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <h1>Pokémon Showdown</h1>
-    <div>
-      <ul>
-        <li>{{this.$store.state.user.username}}</li>
-        <li>Settings</li>
-      </ul>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <router-link to="/home" class="navbar-brand">Pokémon Showdown</router-link>
+      <div>
+        <ul class="navbar-nav">
+          <li class="nav-item">{{this.$store.state.user.username}}</li>
+          <li class="nav-item">Settings</li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script>

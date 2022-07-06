@@ -1,12 +1,12 @@
-import axios from "./axios"
+import {axiosInstanceShowdown} from "@/services/axios";
 
-import {User} from "@/interfaces/User";
+import {IUser} from "@/interfaces/User";
 
 //Logeo en Pokémon Showdown, puede ser exitoso o no, lo indicará la assertion
-export const logInShowdown = async (user: User) => {
+export const logInShowdown = async (user: IUser) => {
     const act = 'login';
     const data = 'act=' + act + '&name=' + user.username + '&pass=' + user.password + '&challstr=' + user.challstr;
-    const response = await axios.post('', data);
+    const response = await axiosInstanceShowdown.post('', data);
     const assertion = parseAssertion(response.data);
     return checkAssertion(assertion);
 }

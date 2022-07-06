@@ -3,10 +3,9 @@ import router from "@/router";
 import {BattleUser} from "@/interfaces/BattleUser";
 import {IBattlePokemon, BattlePokemon} from "@/interfaces/BattlePokemon";
 import {BattleText} from "@/assets/battleText";
-import {Move} from "@/interfaces/Move";
-import {IFieldConditions, FieldConditions} from "@/interfaces/FieldConditions";
-import {ISideConditions, SideConditions} from "@/interfaces/SideConditions";
-import {onActivated} from "vue";
+import {IMove} from "@/interfaces/Move";
+import {FieldConditions} from "@/interfaces/FieldConditions";
+import {SideConditions} from "@/interfaces/SideConditions";
 
 //Este .ts es el que se encarga de realizar la labor de traducir los mensajes que llegan desde Showdown e interpretar dicha información
 
@@ -1947,7 +1946,7 @@ const updateRivalMoves = (pokemonIdent: string, move: string) => {
     }
 
     if (moveAlreadyAdded === false) {
-        const newMove: Move = {
+        const newMove: IMove = {
             move: move,
             id: '',
             pp: 0,

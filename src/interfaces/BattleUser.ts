@@ -1,4 +1,3 @@
-import {Team} from "@/interfaces/Team";
 import {IBattlePokemon} from "@/interfaces/BattlePokemon";
 
 export interface IBattleUser {

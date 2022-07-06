@@ -1,4 +1,4 @@
-export interface Move {
+export interface IMove {
     move: string;
     id: string;
     pp: number;

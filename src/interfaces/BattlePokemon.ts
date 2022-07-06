@@ -1,4 +1,4 @@
-import {Move} from "@/interfaces/Move";
+import {IMove} from "@/interfaces/Move";
 
 export interface IBattlePokemon {
     ident: string; //pertenencia del Pokémon (si es del jugador 1 o el 2) y mote --> Ej: p2: Pyukumuku
@@ -12,7 +12,7 @@ export interface IBattlePokemon {
         spd: number;
         spe: number;
     }
-    moves: Move[];
+    moves: IMove[];
     baseAbility: string; //habilidad
     item: string;
     pokeball: string;

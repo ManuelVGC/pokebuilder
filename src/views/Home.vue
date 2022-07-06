@@ -3,7 +3,7 @@
   <h1>Main window</h1>
   <button @click="searchGame()">Search game</button>
   <button v-if="searchingGame" @click="cancelSearch()">Cancel search</button>
-  <button @click="this.$router.push('/teams')">Create team</button>
+  <button @click="this.$router.push('/teams')">Teambuilder</button>
   <div v-if="searchingGame">
     <h1>Searching for a game...</h1>
     <div class="loader"></div>
@@ -52,7 +52,7 @@ export default defineComponent({
     cancelSearch() {
       send('|/cancelsearch');
       this.searchingGame = false;
-    }
+    },
   }
 })
 </script>
