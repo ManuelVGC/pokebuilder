@@ -1,3 +1,7 @@
+/**
+ * Schema de un equipo para guardar en MongoDB. La estructura es la misma que la de la interface Team del frontend.
+ */
+
 import {Schema, model} from 'mongoose';
 
 const teamSchema = new Schema({

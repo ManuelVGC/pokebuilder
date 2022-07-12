@@ -1,23 +1,30 @@
+/**
+ * Interface IBattlePokemon.
+ *
+ * Esta interface define el tipo IBattlePokemon, el cual es utilizado para los Pokémon en las batallas.
+ */
+
 import {IMove} from "@/interfaces/Move";
 
 export interface IBattlePokemon {
-    ident: string; //pertenencia del Pokémon (si es del jugador 1 o el 2) y mote --> Ej: p2: Pyukumuku
-    details: string; //nombre del Pokémon, nivel y género --> Ej: Pyukumuku, L83, F
-    condition: string; //vida del Pokémon y status --> Ej: 227/227 tox
-    active: boolean; //si el Pokémon está actualmente en campo o no
-    stats: {
+    ident: string; /** Pertenencia del Pokémon (si es del jugador 1 o el 2) y mote. --> Ej: p2: Charizard */
+    details: string; /** Nombre del Pokémon, nivel y género (si lo tiene). --> Ej: Charizard, L83, F */
+    condition: string; /** Vida del Pokémon y status. --> Ej: 227/227 tox */
+    active: boolean; /** Si el Pokémon está actualmente en campo o no. */
+    stats: { /** Estadísticas del Pokémon. */
         atk: number;
         def: number;
         spa: number;
         spd: number;
         spe: number;
     }
-    moves: IMove[];
-    baseAbility: string; //habilidad
-    item: string;
-    pokeball: string;
+    moves: IMove[]; /** Pool de movimientos del Pokémon, con un máximo de 4 movimientos. */
+    baseAbility: string; /** Habilidad del Pokémon. */
+    item: string; /** Item que porta el Pokémon. */
+    pokeball: string; /** Pokeball en la que se guarda el Pokémon. */
 }
 
+/*
 export class BattlePokemon {
     ident = '';
     details = '';
@@ -39,4 +46,4 @@ export class BattlePokemon {
     constructor() {
 
     }
-}
+}*/

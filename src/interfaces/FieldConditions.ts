@@ -1,9 +1,17 @@
+/**
+ * Interface IFieldConditions y clase FieldConditions.
+ *
+ * Esta interface define el tipo IFieldConditions, el cual es utilizado para los efectos que afectan al campo de batalla entero.
+ * En generaciones posteriores hay varios tipos pero con la que trabajo solo está el weather.
+ *
+ * La clase correspondiente es utilizada para crear un objeto para guardar la información del weather durante una batalla.
+ */
+
 export interface IFieldConditions {
     weather: {
-        activate: boolean,
-        type: string,
+        activate: boolean, /** Weather activo o no. */
+        type: string, /** Tipo de weather, podrá ser Rain, Sunnyday, Sandstorm, Hail o none. */
     },
-    //En la 3gen solo hay un tipo de condición de campo, que es el weather, pero en posteriores generaciones se añaden más
 }
 
 export class FieldConditions {
@@ -16,5 +24,4 @@ export class FieldConditions {
     constructor() {
 
     }
-    //En la 3gen solo hay un tipo de condición de campo, que es el weather, pero en posteriores generaciones se añaden más
 }

@@ -1,11 +1,11 @@
 <template>
   <SettingsBar/>
-  <div>
-    <h1>My created teams</h1>
-    <button @click="this.$router.push('/teambuilder')">Create team</button>
-    <button @click="this.$router.push('/home')">Go back to home</button>
+  <div style="margin: 1em">
+    <h3>My created teams</h3>
+    <button style="margin: 1em" type="button" class="btn btn-warning" @click="this.$router.push('/teambuilder')">Create team</button>
+    <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="this.$router.push('/home')">Go back to home</button>
   </div>
-  <table v-if="userTeams.length > 0" class="table table-hover">
+  <table style="margin: 1em" v-if="userTeams.length > 0" class="table table-hover">
     <thead>
     <tr>
       <th scope="col"></th>
@@ -26,14 +26,16 @@
       </tr>
     </tbody>
   </table>
-  <b v-if="userTeams.length <= 0">
+  <b style="margin: 1em" v-if="userTeams.length <= 0">
     You have no teams yet!
   </b>
 </template>
 
 <script lang="ts">
+/** View donde se muestran los equipos creados por el usuario. */
+
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar";
+import SettingsBar from "@/components/SettingsBar.vue";
 import {ITeam} from "@/interfaces/Team";
 import {deleteTeam, getUserTeams} from "@/services/teambuilderService";
 
@@ -44,23 +46,28 @@ export default defineComponent({
   },
   data() {
     return {
-      userTeams: [] as ITeam[],
+      userTeams: [] as ITeam[], /** Equipos creados por el usuario. */
     }
   },
   methods: {
+    /** Cargar desde el backend los equipos creados por el usuario. */
     async loadUserTeams() {
       const res = await getUserTeams(this.$store.state.user.username);
 
       this.userTeams = res.data;
     },
+
+    /** Borrar un equipo de entre la lista de los equipos creados. */
     async deleteTeam(teamID: string) {
       if(confirm("Do you really want to delete this team?")) {
         await deleteTeam(this.$store.state.user.username, teamID);
         this.loadUserTeams();
       }
     },
+
+    /** Editar un equipo de la lista de equipos creados. */
     async editTeam(teamID: string) {
-      //aquí irá el push a la página de teambuilder con el parámetro teamID para que se me muestre ese equipo para editarlo
+      //aquí irá el push a la página de Teambuilder con el parámetro teamID para que se me muestre ese equipo para editarlo
     }
   },
   mounted() {

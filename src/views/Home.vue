@@ -1,16 +1,21 @@
 <template>
   <SettingsBar/>
-  <h1>Main window</h1>
-  <button @click="searchGame()">Search game</button>
-  <button v-if="searchingGame" @click="cancelSearch()">Cancel search</button>
-  <button @click="this.$router.push('/teams')">Teambuilder</button>
-  <div v-if="searchingGame">
-    <h1>Searching for a game...</h1>
-    <div class="loader"></div>
+  <div style="margin: 1em">
+    <div>
+      <button style="margin: 1em" type="button" class="btn btn-danger" @click="searchGame()">Search game</button>
+      <button style="margin: 1em" type="button" class="btn btn-info" @click="this.$router.push('/teams')">Teambuilder</button>
+    </div>
+    <div style="margin: 1em" v-if="searchingGame">
+      <b style="margin: 1em">Searching for a game...</b>
+      <div class="loader" style="margin: 1em"></div>
+      <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="cancelSearch()">Cancel search</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+/** View para el menú principal de la página web. */
+
 import {defineComponent} from "vue";
 import SettingsBar from "@/components/SettingsBar.vue";
 import {send} from "@/services/websocket";
@@ -22,7 +27,9 @@ export default defineComponent({
   },
   data() {
     return {
-      searchingGame: false as boolean,
+      searchingGame: false as boolean, /** Flag que indica si se está buscando batalla. */
+
+      /** Equipo Pokémon que se enviará a Showdown para jugarlo en una batalla. De momento está puesto a mano pero la idea final es poder escoger uno de los equipos creados en el Teambuilder. */
       team: ['Swampert||leftovers|torrent|earthquake,icebeam,hydropump,roar|Relaxed|252,,216,40,,|||||]'
       + 'Skarmory||leftovers|keeneye|spikes,whirlwind,toxic,protect|Impish|252,,4,,252,|||||]'
       + 'Dugtrio||choiceband|arenatrap|earthquake,rockslide,aerialace,substitute|Jolly|4,252,,,,252|||||]'
@@ -32,7 +39,7 @@ export default defineComponent({
     }
   },
   methods: {
-    //Búsqueda de partida en la ladder
+    /** Búsqueda de partida en la ladder. */
     /*searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
@@ -40,6 +47,8 @@ export default defineComponent({
       this.searchingGame = true;
       console.log("Searching for a game...");
     },*/
+
+    /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
     searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
@@ -48,7 +57,7 @@ export default defineComponent({
       console.log("Searching for a game...");
     },
 
-    //Cancelación de búsqueda de partida
+    /** Cancelación de búsqueda de partida. */
     cancelSearch() {
       send('|/cancelsearch');
       this.searchingGame = false;

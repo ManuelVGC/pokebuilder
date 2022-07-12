@@ -1,21 +1,27 @@
+/**
+ * Archivo que indica las rutas del backend y qué hará cada una cuando sea accedida de una determinada forma.
+ */
+
 import {Router} from "express";
 import Team from "../models/Team";
 
 const router = Router();
 
-//esta función la uso para depuración ,para saber todos los equipos que tengo guardados en la base datos
+/** Esta función la uso para depuración ,para saber todos los equipos que tengo guardados en la base datos. */
 router.get('/teams/', async (req, res) => {
     const teams = await Team.find();
 
     res.send(teams);
 });
 
+/** Recuperar los equipos creados por un determinado usuario. */
 router.get('/teams/:user', async (req, res) => {
     const teams = await Team.find({user: req.params.user});
 
     res.send(teams);
 });
 
+/** Añadir un equipo. */
 router.post('/teams', async (req, res) => {
     const teamReceived = req.body;
     const team = new Team(teamReceived);
@@ -24,6 +30,7 @@ router.post('/teams', async (req, res) => {
     res.json(team);
 });
 
+/** Recuperar un equipo de entre los equipos creados por un determinado usuario. */
 router.get('/teams/:user/:id', async(req, res) => {
    try {
        const team = await Team.findById(req.params.id);
@@ -36,6 +43,7 @@ router.get('/teams/:user/:id', async(req, res) => {
    }
 });
 
+/** Borrar un equipo creado por un determinado usuario. */
 router.delete('/teams/:user/:id', async (req, res) => {
     console.log("hola");
     try {
@@ -49,6 +57,7 @@ router.delete('/teams/:user/:id', async (req, res) => {
     }
 });
 
+/** Actualizar un equipo creado por un determinado usuario. */
 router.put('/teams/:user/:id', async(req, res) => {
     try {
         const updatedTeam = await Team.findByIdAndUpdate(req.params.id, req.body, {
@@ -62,7 +71,5 @@ router.put('/teams/:user/:id', async(req, res) => {
         return res.status(500).send(error); //el id no es un objectId
     }
 });
-
-
 
 export default router;

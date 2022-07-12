@@ -1,13 +1,18 @@
+/**
+ * Archivo que se encarga de parsear e interpretar todos los mensajes que llegan desde Pokémon Showdown, tanto fuera de las batallas como dentro de ellas.
+ *
+ * Los tipos de mensajes que me llegan de Showdown son los siguientes:
+ * https://github.com/smogon/pokemon-showdown/blob/master/sim/SIM-PROTOCOL.md
+ */
+
 import store from "@/store";
 import router from "@/router";
 import {BattleUser} from "@/interfaces/BattleUser";
-import {IBattlePokemon, BattlePokemon} from "@/interfaces/BattlePokemon";
+import {IBattlePokemon} from "@/interfaces/BattlePokemon";
 import {BattleText} from "@/assets/battleText";
 import {IMove} from "@/interfaces/Move";
 import {FieldConditions} from "@/interfaces/FieldConditions";
 import {SideConditions} from "@/interfaces/SideConditions";
-
-//Este .ts es el que se encarga de realizar la labor de traducir los mensajes que llegan desde Showdown e interpretar dicha información
 
 const battleUser = new BattleUser();
 const battleRival = new BattleUser();
@@ -16,6 +21,7 @@ const fieldConditions = new FieldConditions();
 const userSideConditions = new SideConditions();
 const rivalSideConditions = new SideConditions();
 
+/** Variables auxiliares que voy utilizando a lo largo del código. */
 let pokemonName: string;
 let playerID: string;
 let move: string;
@@ -24,28 +30,22 @@ let lastMove = '';
 let userLastPokemonActive = '';
 let rivalLastPokemonActive = '';
 
-
-//===========================
-//Los tipos de mensajes que me llegan de Showdown son los siguientes:
-//https://github.com/smogon/pokemon-showdown/blob/master/sim/SIM-PROTOCOL.md
-//========================
-
-//Manejo de mensajes globales, en caso de no tratarse de un mensaje global, se tratará de un mensaje propio de una batalla
 export const messageParser = (messageData: string) => {
     console.log('El data es: ' + messageData);
     let messages: string[];
     let parts : string[];
     // eslint-disable-next-line prefer-const
     parts = messageData.substring(1).split('|');
+
+    /** Manejo de mensajes globales, en caso de no tratarse de un mensaje global, se tratará de un mensaje propio de una batalla. */
     switch(parts[0]){
-        //mensajes globales
-        case 'challstr': { //mensaje que nos da el challstr, necesario para el logeo en Pokémon Showdown
+        case 'challstr': { /** Mensaje que nos da el challstr, necesario para el logeo en Pokémon Showdown. */
             store.commit('SET_CHALLSTR', parts[1] + '|' + (parts[2]));
             break;
         }
         case 'updateuser':
             break;
-        case 'updatesearch': { //mensaje que indica el estado de búsqueda de una batalla
+        case 'updatesearch': { /** Mensaje que indica el estado de búsqueda de una batalla. */
             const searchData = JSON.parse(parts[1]);
             if (searchData.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
                 const battleInfo = Object.keys(searchData.games)[0];
@@ -68,26 +68,27 @@ export const messageParser = (messageData: string) => {
             }
             break;
         }
-        //mensajes de batalla
+        /** Mensajes de batalla. */
         default: //divido el mensaje por \n para guardar todos los mensajes individuales que se mandan dentro de este
             messages = messageData.substring(1).split('\n');
             battleMessagesParser(messages);
     }
 }
 
-//Manejo de mensajes de batalla
+/** Manejo de mensajes de batalla. */
 const battleMessagesParser = (messages : string[]) => {
     let message: string[];
 
-    if (messages[0].startsWith(store.state.battleInfo) && messages[0].trim() != store.state.battleInfo) { //a veces showdown añade una subcadena a la info de batalla original, así que lo que hago aquí es cambiarla para que funcione correctamente la batalla
+    if (messages[0].startsWith(store.state.battleInfo) && messages[0].trim() != store.state.battleInfo) { /** A veces showdown añade una subcadena a la info de batalla original, así que lo que hago aquí es cambiarla para que funcione correctamente la batalla. */
         store.commit('SET_BATTLEINFO', messages[0].trim());
     }
 
     for (let i = 0; i < messages.length; i++) {
         message = messages[i].substring(1).split('|'); //divido cada mensaje por '|' para tener todos sus campos en el array
         switch (message[0]){ //comprobamos el primer campo de cada mensaje para ver qué nos indica
-            //Mensajes que llegan al inicio de la batalla
-            case 'player': { //llega un mensaje del tipo |player|PLAYER|USERNAME|AVATAR|RATING, nos da la información básica de cada usuario de la batalla
+            /** Mensajes que llegan al inicio de la batalla. */
+
+            case 'player': { /** Llega un mensaje del tipo |player|PLAYER|USERNAME|AVATAR|RATING, nos da la información básica de cada usuario de la batalla. */
                 if (message[2] === store.state.user.username) {
                     battleUser.id = message[1];
                     battleUser.username = message[2];
@@ -101,14 +102,15 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case 'rule': { //|rule|RULE: DESCRIPTION
+            case 'rule': { /** Llega un mensaje del tipo |rule|RULE: DESCRIPTION. */
                 const rule = message[1].trim();
                 store.commit('ADD_MESSAGE', rule);
                 break;
             }
 
-            //Mensajes que tienen que ver con el progreso de la batalla
-            case 'request': { //llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario
+            /** Mensajes que tienen que ver con el progreso de la batalla. */
+
+            case 'request': { /** Llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario. */
                 if (message[1] != '') {
                     const request = JSON.parse(message[1]);
 
@@ -141,7 +143,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case 'inactive': case 'inactiveoff': { //|inactive|MESSAGE e |inactiveoff|MESSAGE
+            case 'inactive': case 'inactiveoff': { /** Llega un mensaje del tipo |inactive|MESSAGE e |inactiveoff|MESSAGE. */
                 const timerMessage = message[1].trim();
 
                 store.commit('ADD_MESSAGE', timerMessage);
@@ -156,31 +158,30 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case 'turn': { //turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER
+            case 'turn': { /** Turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER. */
                 store.commit('ADD_MESSAGE', 'Turn ' + message[1]);
                 showUserDetails();
-                showFieldContionsDetails();
-                showSideContionsDetails();
+                showFieldConditionsDetails();
+                showSideConditionsDetails();
                 break;
             }
-            case 'win': { //ganador de la batalla. Es un mensaje del tipo |win|USER
+            case 'win': { /** Ganador de la batalla. Es un mensaje del tipo |win|USER. */
                 const trainer = message[1].trim();
 
                 store.commit('ADD_MESSAGE', BattleText.winBattle.replace('[TRAINER]', trainer));
                 store.commit('SET_BATTLEFINISHED', true);
                 break;
             }
-            case 'tie': {
+            case 'tie': { /** La batalla termina en empate. */
                 store.commit('ADD_MESSAGE', BattleText.tieBattle);
                 break;
             }
-            case 'start': {
+            case 'start': { /** Comienzo de la batalla. */
                 store.commit('ADD_MESSAGE', BattleText.startBattle.replace('[TRAINER1]', battleUser.username).replace('[TRAINER2]', battleRival.username));
                 break;
             }
 
-            //Mensajes del chat
-            case 'c': {
+            case 'c': { /** Mensajes del chat */
                 const user = message[1].trim();
                 const chatMessage = message[2].trim();
 
@@ -188,8 +189,7 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
 
-            //Error
-            case 'error': {
+            case 'error': { /** Errores */
                 const errorMessage = message[1].trim();
 
                 store.commit('ADD_MESSAGE', errorMessage);
@@ -200,15 +200,16 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
 
-            //Mensajes de acciones dentro de una batalla
-            //Acciones mayores
-            case  'move': { //llega un mensaje del tipo |move|POKEMON|MOVE|TARGET. El Pokémon POKEMON ataca a TARGET con MOVE.
+            /** Mensajes de acciones dentro de una batalla */
+            /** Acciones mayores */
+
+            case  'move': { /** Llega un mensaje del tipo |move|POKEMON|MOVE|TARGET. El Pokémon POKEMON ataca a TARGET con MOVE. */
                 const pokemonIdent = message[1].trim();
                 pokemonName = pokemonIdent.split(' ')[1].trim();
                 playerID = pokemonIdent.substring(0,2);
                 const move = message[2].trim();
 
-                if (move === 'Struggle') {//el Pokémon usa este movimiento cuando no le quedan más PP en el resto de movimientos, así que no se añade al pool de movimientos del Pokémon
+                if (move === 'Struggle') { /** El Pokémon usa este movimiento cuando no le quedan más PP en el resto de movimientos, así que no se añade al pool de movimientos del Pokémon. */
                     addMessageToChat(BattleText.struggle.activate.replace('[POKEMON]', pokemonName), playerID);
                 } else {
                     if (playerID === battleRival.id) {
@@ -255,7 +256,7 @@ const battleMessagesParser = (messages : string[]) => {
 
                 break;
             }
-            case 'switch': case 'drag': { //|switch|POKEMON|DETAILS|HP STATUS y |drag|POKEMON|DETAILS|HP STATUS
+            case 'switch': case 'drag': { /** Llega un mensaje del tipo |switch|POKEMON|DETAILS|HP STATUS y |drag|POKEMON|DETAILS|HP STATUS. */
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
@@ -311,7 +312,7 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
             //case 'detailschange':
-            case '-formechange': { //|detailschange|POKEMON|DETAILS|HP STATUS ó |-formechange|POKEMON|SPECIES|FROM
+            case '-formechange': { /** Llega un mensaje del tipo |detailschange|POKEMON|DETAILS|HP STATUS ó |-formechange|POKEMON|SPECIES|FROM. */
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
@@ -328,7 +329,7 @@ const battleMessagesParser = (messages : string[]) => {
             }
             //case 'replace': {break;}
             //case 'swap': {break;}
-            case 'cant': { //|cant|POKEMON|REASON ó |cant|POKEMON|REASON|MOVE
+            case 'cant': { /** Llega un mensaje del tipo |cant|POKEMON|REASON ó |cant|POKEMON|REASON|MOVE. */
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
                 if (message[3] != null) {
@@ -399,7 +400,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case 'faint': { //|faint|POKEMON
+            case 'faint': { /** Llega un mensaje del tipo |faint|POKEMON. */
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
@@ -407,8 +408,9 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
 
-            //Acciones menores
-            case '-fail': { //|-fail|POKEMON|ACTION
+            /** Acciones menores. */
+
+            case '-fail': { /** Llega un mensaje del tipo |-fail|POKEMON|ACTION. */
                 pokemonName = message[1].split(' ')[1].trim();
                 playerID = message[1].substring(0,2);
 
@@ -473,29 +475,29 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
             //case '-block': {break;}
-            case '-notarget': {
+            case '-notarget': { /** Llega un mensaje del tipo |-notarget|POKEMON. */
                 store.commit('ADD_MESSAGE', BattleText.noTarget);
                 break;
             }
-            case '-miss': { //|-miss|SOURCE|TARGET
+            case '-miss': { /** Llega un mensaje del tipo |-miss|SOURCE|TARGET. */
                 pokemonName = message[2].split(' ')[1].trim();
                 playerID = message[2].substring(0,2);
 
                 addMessageToChat(BattleText.miss.replace('[POKEMON]', pokemonName), playerID);
                 break;
             }
-            case '-damage': { //|-damage|POKEMON|HP STATUS|REASON
+            case '-damage': { /** Llega un mensaje del tipo |-damage|POKEMON|HP STATUS|REASON. */
                 pokemonName = message[1].split(' ')[1].trim()
                 playerID = message[1].substring(0,2);
                 const pokemonIdent = message[1].trim();
                 const condition = message[2].trim();
                 let reason: string;
-                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); //actualizamos la vida del Pokémon y recuperamos su vida antes del daño
+                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); /** Actualizamos la vida del Pokémon y recuperamos su vida antes del daño. */
                 const HPpostDamage = parseInt(condition.split(' ')[0].split('/')[0]);
                 const damage = ((HPpreUpdate-HPpostDamage)/maxHP*100).toFixed(1);
 
-                if (message[3] != null) { //Si el daño no es causado por un ataque directo
-                    reason = message[3].substring(7).trim(); //la reason es del tipo [from] psn
+                if (message[3] != null) { /** Si el daño no es causado por un ataque directo. */
+                    reason = message[3].substring(7).trim(); /** La reason es del tipo [from] psn. */
                     switch (reason) {
                         case 'psn': case 'tox': {
                             addMessageToChat(BattleText.psn.damage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
@@ -562,7 +564,7 @@ const battleMessagesParser = (messages : string[]) => {
                         }
                     }
 
-                } else { //Si el daño es causado por un ataque directo
+                } else { /** Si el daño es causado por un ataque directo. */
                     addMessageToChat(BattleText.damagePercentage.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', damage + '%'), playerID);
                 }
 
@@ -572,18 +574,18 @@ const battleMessagesParser = (messages : string[]) => {
 
                 break;
             }
-            case '-heal': { //|-heal|POKEMON|HP STATUS
+            case '-heal': { /** Llega un mensaje del tipo |-heal|POKEMON|HP STATUS. */
                 pokemonName = message[1].split(' ')[1].trim()
                 playerID = message[1].substring(0,2);
                 const pokemonIdent = message[1].trim();
                 const condition = message[2].trim();
                 let reason: string;
-                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); //actualizamos la vida del Pokémon y recuperamos su vida antes del daño
+                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); /** Actualizamos la vida del Pokémon y recuperamos su vida antes del daño. */
                 const HPpostDamage = parseInt(condition.split(' ')[0].split('/')[0]);
                 const heal = ((HPpostDamage-HPpreUpdate)/maxHP*100).toFixed(1);
 
-                if (message[3] != null && message[3].split(' ')[1] != null) { //Si Showdown te indica de qué fuente obtiene el Pokémon la curación
-                    reason = message[3].split(' ')[1].trim(); //la reason es del tipo [from] item: Leftovers
+                if (message[3] != null && message[3].split(' ')[1] != null) { /** Si Showdown te indica de qué fuente obtiene el Pokémon la curación. */
+                    reason = message[3].split(' ')[1].trim(); /** La reason es del tipo [from] item: Leftovers. */
 
                     switch (reason) {
                         case 'item:': {
@@ -615,20 +617,19 @@ const battleMessagesParser = (messages : string[]) => {
                         }
                     }
 
-                } else { //Si Showdown no te indica de qué fuente obtiene el Pokémon la curación
+                } else { /** Si Showdown no te indica de qué fuente obtiene el Pokémon la curación. */
                     addMessageToChat(BattleText.heal.replace('[POKEMON]', pokemonName).replace('[PERCENTAGE]', heal + '%'), playerID);
                 }
                 break;
             }
-            case '-sethp': { //|-sethp|POKEMON|HP
+            case '-sethp': { /** Llega un mensaje del tipo |-sethp|POKEMON|HP. */
                 pokemonName = message[1].split(' ')[1].trim()
                 playerID = message[1].substring(0,2);
                 const pokemonIdent = message[1].trim();
                 const condition = message[2].trim();
-                let reason: string;
                 let HPdifference: string;
 
-                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); //actualizamos la vida del Pokémon y recuperamos su vida antes del daño
+                const {HPpreUpdate, maxHP} = updatePokemonHP(pokemonIdent, playerID, condition); /** Actualizamos la vida del Pokémon y recuperamos su vida antes del daño. */
                 const HPpostDamage = parseInt(condition.split(' ')[0].split('/')[0]);
 
                 if (HPpostDamage > HPpreUpdate) {
@@ -640,7 +641,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-status': { //|-status|POKEMON|STATUS
+            case '-status': { /** Llega un mensaje del tipo |-status|POKEMON|STATUS. */
                 const status = message[2].trim();
                 const pokemonIdent = message[1].trim();
                 playerID = message[1].substring(0,2);
@@ -684,7 +685,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-curestatus': { //|-curestatus|POKEMON|STATUS
+            case '-curestatus': { /** Llega un mensaje del tipo |-curestatus|POKEMON|STATUS. */
                 const status = message[2].trim();
                 const pokemonIdent = message[1].trim();
                 playerID = message[1].substring(0,2);
@@ -725,7 +726,7 @@ const battleMessagesParser = (messages : string[]) => {
                 removeStatus(pokemonIdent, status, playerID);
                 break;
             }
-            case '-cureteam': { //|-cureteam|POKEMON
+            case '-cureteam': { /** Llega un mensaje del tipo |-cureteam|POKEMON. */
                 playerID = message[1].substring(0,2);
                 pokemonName = message[1].split(' ')[1];
 
@@ -734,7 +735,7 @@ const battleMessagesParser = (messages : string[]) => {
 
                 break;
             }
-            case '-boost': case '-unboost': case '-setboost': { //|-boost|POKEMON|STAT|AMOUNT y |-unboost|POKEMON|STAT|AMOUNT
+            case '-boost': case '-unboost': case '-setboost': { /** Llega un mensaje del tipo |-boost|POKEMON|STAT|AMOUNT ó |-unboost|POKEMON|STAT|AMOUNT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const statSimplified = message[2].trim();
@@ -902,7 +903,7 @@ const battleMessagesParser = (messages : string[]) => {
             //case '-swapboost': {break;}
             //case '-invertboost': {break;}
             // case '-clearboost': {break;}
-            case '-clearallboost': {
+            case '-clearallboost': { /** Llega un mensaje del tipo |-clearallboost|POKEMON. */
                 clearBoosts('p1');
                 clearBoosts('p2');
                 store.commit('ADD_MESSAGE', BattleText.clearAllBoost);
@@ -910,7 +911,7 @@ const battleMessagesParser = (messages : string[]) => {
             }
             //case '-clearpositiveboost': {break;}
             //case '-clearnegativeboost': {break;}
-            case '-copyboost': {
+            case '-copyboost': { /** Llega un mensaje del tipo |-copyboost|SOURCE|TARGET. */
                 playerID = message[1].substring(0,2);
                 pokemonName = message[1].split(' ')[1];
                 const targetName = message[2].split(' ')[1];
@@ -924,7 +925,7 @@ const battleMessagesParser = (messages : string[]) => {
                 store.commit('ADD_MESSAGE', BattleText.copyBoost.replace('[POKEMON]', pokemonName).replace('[TARGET]', targetName));
                 break;
             }
-            case '-weather': { //|-weather|WEATHER
+            case '-weather': { /** Llega un mensaje del tipo |-weather|WEATHER. */
                 const weather = message[1].trim();
 
                 if (message[2] != null) {
@@ -1020,7 +1021,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-sidestart': { //|-sidestart|SIDE|CONDITION
+            case '-sidestart': { /** Llega un mensaje del tipo |-sidestart|SIDE|CONDITION. */
                 playerID = message[1].substring(0,2);
                 const condition = message[2].trim();
                 let team = '';
@@ -1085,7 +1086,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }*/
                 break;
             }
-            case '-sideend': { //|-sideend|SIDE|CONDITION
+            case '-sideend': { /** Llega un mensaje del tipo |-sideend|SIDE|CONDITION. */
                 playerID = message[1].substring(0,2);
                 const condition = message[2].trim();
                 let team = '';
@@ -1146,7 +1147,7 @@ const battleMessagesParser = (messages : string[]) => {
                 break;
             }
             //case '-swapsideconditions': {break;}
-            case '-start': { //|-start|POKEMON|EFFECT empieza un efecto volatil sobre un Pokémon
+            case '-start': { /** Llega un mensaje del tipo |-start|POKEMON|EFFECT. Empieza un efecto volatil sobre un Pokémon. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const effect = message[2];
@@ -1319,7 +1320,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-end': { //|-end|POKEMON|EFFECT
+            case '-end': { /** Llega un mensaje del tipo |-end|POKEMON|EFFECT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const effect = message[2];
@@ -1388,19 +1389,19 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-crit': { //|-crit|POKEMON
+            case '-crit': { /** Llega un mensaje del tipo |-crit|POKEMON. */
                 store.commit('ADD_MESSAGE', BattleText.crit);
                 break;
             }
-            case '-supereffective': { //|-supereffective|POKEMON
+            case '-supereffective': { /** Llega un mensaje del tipo |-supereffective|POKEMON. */
                 store.commit('ADD_MESSAGE', BattleText.superEffective);
                 break;
             }
-            case '-resisted': { //|-resisted|POKEMON
+            case '-resisted': { /** Llega un mensaje del tipo |-resisted|POKEMON. */
                 store.commit('ADD_MESSAGE', BattleText.resisted);
                 break;
             }
-            case '-immune': { //|-immune|POKEMON
+            case '-immune': { /** Llega un mensaje del tipo |-immune|POKEMON. */
                 pokemonName = message[1].split(' ')[1];
 
                 if (message[3] != null) {
@@ -1416,7 +1417,7 @@ const battleMessagesParser = (messages : string[]) => {
                 store.commit('ADD_MESSAGE', BattleText.immune.replace('[POKEMON]', pokemonName));
                 break;
             }
-            case '-item': { //|-item|POKEMON|ITEM|[from]EFFECT
+            case '-item': { /** Llega un mensaje del tipo |-item|POKEMON|ITEM|[from]EFFECT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const item = message[2].trim();
@@ -1439,7 +1440,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-enditem': { //|-enditem|POKEMON|ITEM|[from]EFFECT
+            case '-enditem': { /** Llega un mensaje del tipo |-enditem|POKEMON|ITEM|[from]EFFECT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const item = message[2].trim();
@@ -1453,7 +1454,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-ability': { //|-ability|POKEMON|ABILITY|[from]EFFECT
+            case '-ability': { /** Llega un mensaje del tipo |-ability|POKEMON|ABILITY|[from]EFFECT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const ability = message[2].trim();
@@ -1490,7 +1491,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-endability': {
+            case '-endability': { /** Llega un mensaje del tipo |-endability|POKEMON. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const ability = message[2].trim();
@@ -1498,7 +1499,7 @@ const battleMessagesParser = (messages : string[]) => {
                 addMessageToChat(BattleText.changeAbility.replace('[POKEMON]', pokemonName).replace('[ABILITY]', ability), playerID);
                 break;
             }
-            case '-transform': { //|-transform|POKEMON|SPECIES
+            case '-transform': { /** Llega un mensaje del tipo |-transform|POKEMON|SPECIES. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const newPokemonName = message[2].split(' ')[1];
@@ -1511,7 +1512,7 @@ const battleMessagesParser = (messages : string[]) => {
             //case '-burst': {break;}
             //case '-zpower': {break;}
             //case '-zbroken': {break;}
-            case '-activate': { //|-activate|POKEMON|EFFECT
+            case '-activate': { /** Llega un mensaje del tipo |-activate|POKEMON|EFFECT. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const effect = message[2].trim();
@@ -1667,13 +1668,13 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-hint': { //|-hint|MESSAGE
+            case '-hint': { /** Llega un mensaje del tipo |-hint|MESSAGE. */
                 const hint = message[1].trim();
                 store.commit('ADD_MESSAGE', '(' + hint + ')');
                 break;
             }
             //case '-center': {break;}
-            case '-message': { //|-message|MESSAGE
+            case '-message': { /** Llega un mensaje del tipo |-message|MESSAGE. */
                 const messageReceived = message[1].trim();
 
                 store.commit('ADD_MESSAGE', messageReceived);
@@ -1681,7 +1682,7 @@ const battleMessagesParser = (messages : string[]) => {
             }
             //case '-combine': {break;}
             //case '-waiting': {break;}
-            case '-prepare': { //|-prepare|ATTACKER|MOVE
+            case '-prepare': { /** Llega un mensaje del tipo |-prepare|ATTACKER|MOVE. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const move = message[2].trim();
@@ -1722,7 +1723,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-mustrecharge': { //|-mustrecharge|POKEMON
+            case '-mustrecharge': { /** Llega un mensaje del tipo |-mustrecharge|POKEMON. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
 
@@ -1733,7 +1734,7 @@ const battleMessagesParser = (messages : string[]) => {
                 store.commit('ADD_MESSAGE', BattleText.splash.activate);
                 break;
             }
-            case '-hitcount': { //|-hitcount|POKEMON|NUM
+            case '-hitcount': { /** Llega un mensaje del tipo |-hitcount|POKEMON|NUM. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const num = parseInt(message[2].trim());
@@ -1746,7 +1747,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-singlemove': { //|-singlemove|POKEMON|MOVE
+            case '-singlemove': { /** Llega un mensaje del tipo |-singlemove|POKEMON|MOVE. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const move = message[2].trim();
@@ -1763,7 +1764,7 @@ const battleMessagesParser = (messages : string[]) => {
                 }
                 break;
             }
-            case '-singleturn': {
+            case '-singleturn': { /** Llega un mensaje del tipo |-singleturn|POKEMON|MOVE. */
                 pokemonName = message[1].split(' ')[1];
                 playerID = message[1].substring(0,2);
                 const move = message[2].trim();
@@ -1792,7 +1793,7 @@ const battleMessagesParser = (messages : string[]) => {
     }
 }
 
-//Función que utilizo para trackear los cambios en los usuarios
+/** Función auxiliar que utilizo para trackear los cambios en los usuarios. */
 const showUserDetails = () => {
     console.log('BATTLE USER: ');
     console.log(store.state.battleUser);
@@ -1800,6 +1801,22 @@ const showUserDetails = () => {
     console.log(store.state.battleRival);
 }
 
+/** Función auxiliar que utilizo para trackear las fieldConditions. */
+const showFieldConditionsDetails = () => {
+    console.log('FIELD CONDITIONS: ');
+    console.log(store.state.fieldConditions);
+}
+
+/** Función auxiliar que utilizo para trackear las sideConditions. */
+const showSideConditionsDetails = () => {
+    console.log('USER SIDE CONDITIONS: ');
+    console.log(store.state.userSideConditions);
+    console.log('RIVAL SIDE CONDITIONS: ');
+    console.log(store.state.rivalSideConditions);
+}
+
+
+/** Añadir mensaje al chat. */
 const addMessageToChat = (message: string, id: string) => {
     const rivalText = 'The opposing ';
     if (id === battleRival.id) {
@@ -1808,6 +1825,7 @@ const addMessageToChat = (message: string, id: string) => {
     store.commit('ADD_MESSAGE', message);
 }
 
+/** Añadir mensaje al chat indicando que la habilidad de un Pokémon se ha activado. */
 const addMessageToChatAbility = (message: string, id: string) => {
     const rivalText = '[The opposing ';
     if (id === battleRival.id) {
@@ -1817,6 +1835,7 @@ const addMessageToChatAbility = (message: string, id: string) => {
     store.commit('ADD_MESSAGE', message);
 }
 
+/** Llenar el equipo rival con los Pokémon del equipo rival que van saliendo al campo de batalla; ó actualizar la condition de los Pokémon que ya están metidos en el equipo rival. */
 const updateRivalTeam = (pokemonSwitchedIn: IBattlePokemon) => {
     let alreadyInTeam = false;
     let index = 0;
@@ -1827,13 +1846,14 @@ const updateRivalTeam = (pokemonSwitchedIn: IBattlePokemon) => {
         }
     }
 
-    if (!alreadyInTeam) { //Si el Pokémon no estaba en el equipo, se añade
+    if (!alreadyInTeam) { /** Si el Pokémon no estaba en el equipo, se añade. */
         battleRival.team.push(pokemonSwitchedIn);
-    } else { //Si el Pokémon sí estaba en el equipo, se actualiza su condition, es decir, su vida
+    } else { /** Si el Pokémon sí estaba en el equipo, se actualiza su condition. */
         battleRival.team[index].condition = pokemonSwitchedIn.condition;
     }
 }
 
+/** Actualizar la vida de los Pokémon, tanto del usuario como del rival. */
 const updatePokemonHP = (pokemonIdent: string, playerID: string, newCondition: string) => {
     let HPpreUpdate = 0;
     let maxHP = 0;
@@ -1859,6 +1879,7 @@ const updatePokemonHP = (pokemonIdent: string, playerID: string, newCondition: s
     return {HPpreUpdate, maxHP};
 }
 
+/** Añadir status a la condition de un Pokémon. */
 const addStatus = (pokemonIdent: string, pokemonStatus: string, playerID: string) => {
     let newCondition: string;
 
@@ -1879,6 +1900,7 @@ const addStatus = (pokemonIdent: string, pokemonStatus: string, playerID: string
     }
 }
 
+/** Eliminar status de la condition de un Pokémon. */
 const removeStatus = (pokemonIdent: string, pokemonStatus: string, playerID: string) => {
     let newCondition: string;
 
@@ -1899,6 +1921,7 @@ const removeStatus = (pokemonIdent: string, pokemonStatus: string, playerID: str
     }
 }
 
+/** Quitar todos los status de un equipo entero, ya sea el del usuario o el del rival. */
 const removeAllStatus = (playerID: string) => {
     let newCondition: string;
 
@@ -1919,6 +1942,7 @@ const removeAllStatus = (playerID: string) => {
     }
 }
 
+/** Actualizar PPs de los Pokémon del equipo del usuario. */
 const updatePPsUserTeam = (request: string) => {
     const requestJSON = JSON.parse(request);
     const activeData = requestJSON.active[0];
@@ -1930,6 +1954,7 @@ const updatePPsUserTeam = (request: string) => {
     }
 }
 
+/** Añadir los movimientos de los Pokémon del equipo rival. */
 const updateRivalMoves = (pokemonIdent: string, move: string) => {
     let moveAlreadyAdded = false;
     let pokemonIndex = 0;
@@ -1959,24 +1984,14 @@ const updateRivalMoves = (pokemonIdent: string, move: string) => {
 
 }
 
+/** Establecer las fieldConditions. */
 const setFieldConditions = (activate: boolean, type: string) => {
     fieldConditions.weather.activate = activate;
     fieldConditions.weather.type = type;
     //store.commit('SET_FIELDCONDITIONS', fieldConditions);
 }
 
-const showFieldContionsDetails = () => {
-    console.log('FIELD CONDITIONS: ');
-    console.log(store.state.fieldConditions);
-}
-
-const showSideContionsDetails = () => {
-    console.log('USER SIDE CONDITIONS: ');
-    console.log(store.state.userSideConditions);
-    console.log('RIVAL SIDE CONDITIONS: ');
-    console.log(store.state.rivalSideConditions);
-}
-
+/** Poner a 0 todos los boosts de un side. */
 const clearBoosts = (playerID: string) => {
     if (playerID === battleUser.id) {
         userSideConditions.boosts.atk = 0;
@@ -1995,6 +2010,7 @@ const clearBoosts = (playerID: string) => {
     }
 }
 
+/** Establecer qué Pokémon del usuario está activo en cada momento. */
 const setActivePokemon = (request: string) => {
     const requestJSON = JSON.parse(request);
     let pokemonIdentActive = '';
@@ -2014,6 +2030,7 @@ const setActivePokemon = (request: string) => {
     }
 }
 
+/** Establecer a qué Pokémon se pueden cambiar cuando el usuario está obligado a hacer un cambio del Pokémon activo. */
 const setPokemonToSwitchIn = (request: string) => {
     const requestJSON = JSON.parse(request);
     const pokemonToSwitchIn : string[] = [];

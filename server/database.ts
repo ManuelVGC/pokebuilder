@@ -1,4 +1,6 @@
-//Este .ts es para conectarme a la base de datos de MongoDB
+/**
+ * Archivo para el manejo de la conexión a MongoDB.
+ */
 
 import { connect } from 'mongoose'
 

@@ -1,6 +1,10 @@
+/**
+ * Archivo que se encarga del manejo de Axios para las llamadas HTTP.
+ * Actualmente hay dos instancias: una necesaria para conectar con Pokémon Showdown; y otra necesaria para conectar con mi servidor backend.
+ */
+
 import axios, { AxiosInstance} from 'axios'
 
-//Instancia de axios necesaria para logearte en Pokémon Showdown
 export const axiosInstanceShowdown: AxiosInstance = axios.create({
     baseURL: 'https://play.pokemonshowdown.com/action.php',
     headers: {

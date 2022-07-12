@@ -1,3 +1,7 @@
+/**
+ * Este archivo implementa diferentes funciones para hacer el CRUD de los equipos del Teambuilder en el backend.
+ */
+
 import {axiosInstanceMyServer} from "@/services/axios";
 import {AxiosResponse} from "axios";
 

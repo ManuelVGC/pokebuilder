@@ -1,8 +1,13 @@
+/**
+ * Archivo que se encarga de la gestión del WebSocket para conectarse con Pokémon Showdown
+ * Este archivo implementa diferentes funciones que serán usadas en el resto del programa.
+ */
+
 import {messageParser} from "@/messageParser";
 
 const ws = new WebSocket('wss://sim3.psim.us/showdown/websocket');
 
-//Función que abre una conexión en el WebSocket
+/** Función que abre una conexión en el WebSocket */
 export const onOpen = () => {
     ws.onopen = event => {
         console.log(event);
@@ -10,7 +15,7 @@ export const onOpen = () => {
     }
 }
 
-//Función que se queda a la escucha de mensajes del servidor de Pokémon Showdown
+/** Función que se queda a la escucha de mensajes del servidor de Pokémon Showdown */
 export const messageListener = () => {
     ws.onmessage = event => {
         console.log(event);
@@ -18,14 +23,14 @@ export const messageListener = () => {
     }
 }
 
-//Función que cierra el WebSocket
+/** Función que cierra el WebSocket */
 export const onClose = () => {
     ws.onclose = event => {
         console.log(event);
     }
 }
 
-//Función del WebSocket para manejo de errores
+/** Función del WebSocket para manejo de errores */
 export const onError = () => {
     ws.onerror = event => {
         console.log(event);

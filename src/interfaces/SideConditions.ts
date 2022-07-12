@@ -1,5 +1,13 @@
+/**
+ * Interface ISideConditions y clase SideConditions.
+ *
+ * Esta interface define el tipo ISideConditions, el cual es utilizado para los efectos que afectan a uno de los lados del campo de batalla, ya sea del rival o del usuario.
+ *
+ * La clase correspondiente es utilizada para crear un objeto para guardar la información de los diferentes tipos SideConditions.
+ */
+
 export interface ISideConditions {
-    boosts: {
+    boosts: { /** Cambios en las estadísticas del Pokémon en campo. Estos cambios duran mientras el Pokémon esté en campo o mientras no sean alterados con movimientos, por ejemplo. */
         atk: number,
         def: number,
         spa: number,
@@ -7,12 +15,12 @@ export interface ISideConditions {
         spe: number,
         acc: number,
     },
-    lightscreen: boolean,
-    reflect: boolean,
-    mist: boolean,
-    safeguard: boolean,
-    spikes: number,
-    leechseed: boolean,
+    lightscreen: boolean, /** Lightscreen activada o no. */
+    reflect: boolean, /** Reflect activado o no. */
+    mist: boolean, /** Mist activada o no. */
+    safeguard: boolean, /** Safeguard activado o no. */
+    spikes: number, /** Número de spikes en uno de los lados del campo de batalla. */
+    leechseed: boolean, /** Si el Pokémon actual en campo tiene Leech Seed (que le van drenando la vida poco a poco) o no. */
 }
 
 export class SideConditions {

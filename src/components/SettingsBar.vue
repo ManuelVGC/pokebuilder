@@ -12,7 +12,11 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+/**
+ * Barra de navegación de la página web.
+ */
+
 import {defineComponent} from "vue";
 
 export default defineComponent({

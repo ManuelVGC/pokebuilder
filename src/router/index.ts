@@ -1,3 +1,7 @@
+/**
+ * Define las rutas con las que va a contar el frontend de la aplicación.
+ */
+
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -30,7 +34,7 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: routes, //se podría haber puesto solo routes y ya está, sin el : routes.
+    routes: routes,
 });
 
 export default router;

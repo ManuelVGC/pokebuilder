@@ -2,8 +2,12 @@
   <h1>Detalle del Pokémon</h1>
 </template>
 
-<script>
-
+<script lang="ts">
+/**
+ * Componente de Vue que se utilizará para mostrar la información relativa a un Pokémon durante una batalla (vida, movimientos, tipo, ...).
+ *
+ * Aún no desarrollado.
+ */
 </script>
 
 <style scoped>

@@ -1,6 +1,8 @@
 <template>
   <SettingsBar/>
   <div class="gridContainer">
+
+
     <div class="battle">
       <table class="table table-hover">
         <tr>
@@ -75,6 +77,8 @@
         </tr>
       </table>
     </div>
+
+
     <div class="chat">
       <div style= "overflow: auto; max-height: 500px;" >
         <h1>GAME CHAT</h1>
@@ -89,6 +93,8 @@
         <input type="submit" value="Send" class="btn btn-success">
       </form>
     </div>
+
+
     <div v-if="!battleFinished" class="move-Pokemon">
       <button v-if="!fightFlag && !pokemonFlag && !choiseSent" type="button" class="btn btn-danger" @click="changeFightFlag(true)">Fight</button>
       <button v-if="!fightFlag && !pokemonFlag && !choiseSent" type="button" class="btn btn-info" @click="changePokemonFlag(true)">Pokémon</button>
@@ -119,6 +125,9 @@
       </div>
     </div>
   </div>
+
+
+
   <div class="manageEndOfBattle" style="padding: 100px">
     <button v-if="!battleFinished" @click="manageForfeit()">Forfeit</button>
     <button type="button" class="btn btn-outline-primary" v-if="battleFinished" @click="returnToMenu()">Main menu</button>
@@ -126,6 +135,8 @@
 </template>
 
 <script lang="ts">
+/** View para la página de batalla.  */
+
 import {defineComponent} from "vue";
 import SettingsBar from "@/components/SettingsBar.vue";
 import {send} from "@/services/websocket";
@@ -142,41 +153,56 @@ export default defineComponent({
     }
   },
   methods: {
-    //Rendición en una batalla
+    /** Rendición en una batalla. */
     manageForfeit() {
       const data = this.$store.state.battleInfo + '|/forfeit';
       send(data);
       this.$store.commit('SET_BATTLEFINISHED', true);
     },
+
+    /** Cambiar el flag de mostrar ataques o no. */
     changeFightFlag(flag: boolean) {
       this.$store.commit('SET_FIGHTFLAG', flag);
     },
+
+    /** Cambiar el flag de mostrar Pokémon para cambiar o no. */
     changePokemonFlag(flag: boolean) {
       this.$store.commit('SET_POKEMONFLAG', flag);
     },
+
+    /** Cancelar decisión del turno (la decisión puede ser elegir un movimiento del Pokémon activo o cambiar de Pokémon). */
     cancelChoice() {
       const data = this.$store.state.battleInfo + '|/undo';
       send(data);
       this.$store.commit('SET_CHOISESENT', false);
     },
+
+    /** Enviar a Pokémon Showdown la decisión de movimiento elegido. */
     sendChosenMove(chosenMove: string) {
       const data = this.$store.state.battleInfo + '|/choose move ' + chosenMove;
       send(data);
       this.$store.commit('SET_CHOISESENT', true);
     },
+
+    /** Enviar a Pokémon Showdown la decisión de cambio por el Pokémon elegido. */
     sendChosenPokemon(chosenPokemon: string) {
       const data = this.$store.state.battleInfo + '|/choose switch ' + chosenPokemon;
       send(data);
       this.$store.commit('SET_CHOISESENT', true);
     },
+
     returnToMenu() {
       this.$router.push({name: "home"});
     },
+
+    /** Mandar mensaje al chat. */
     sendMessageToChat() {
       const data = this.$store.state.battleInfo + '|' + this.chatMessage;
       send(data);
       this.chatMessage = '';
     },
+
+    /** Activar el timer de la batalla. */
     setTimer(status: string) {
       const data = this.$store.state.battleInfo + '|/timer ' + status;
       send(data);
@@ -200,6 +226,8 @@ export default defineComponent({
                'rivalSideConditions',
                'fieldConditions',
     ]),
+
+    /** Cambiar el tiempo restante del timer al formato 'minutos:segundos'. */
     timerInMinutes() {
       let minutes = Math.floor(this.timer / 60);
       let seconds = Math.floor(this.timer % 60);
@@ -212,14 +240,7 @@ export default defineComponent({
     }
   },
   watch: {
-    /*timerEnabled(value: boolean) { //con este watcher triggereamos el primer cambio del timer, de forma que se activa el watcher timer
-      if (value) {
-        setTimeout(() => {
-          this.$store.commit('SET_TIMERRESET', this.timer - 1);
-        }, 1000);
-      }
-    },*/
-    timer: {
+    timer: { /** Watcher para controlar cuándo cambia el valor de la variable timer. */
       handler(value) {
 
         if (value > 0) {
