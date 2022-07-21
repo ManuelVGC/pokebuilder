@@ -6,7 +6,7 @@
     <input style="margin: 1em" class="form-control me-sm-2" type="text" placeholder="Type the name of a Pokémon to add" v-model="pokemonSpecies">
     <ul class="autocomplete-results">
       <li class="autocomplete-result">
-        (result)
+
       </li>
     </ul>
   </div>

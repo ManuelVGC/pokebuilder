@@ -1,5 +1,6 @@
 /**
- * Archivo que indica las rutas del backend y qué hará cada una cuando sea accedida de una determinada forma.
+ * Define una API REST para poder manipular los datos de la base de datos.
+ * (Archivo que indica las rutas del backend y qué hará cada una cuando sea accedida de una determinada forma).
  */
 
 import {Router} from "express";

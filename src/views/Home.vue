@@ -40,22 +40,23 @@ export default defineComponent({
   },
   methods: {
     /** Búsqueda de partida en la ladder. */
-    /*searchGame() {
+    searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
       send('|/search ' + format);
       this.searchingGame = true;
       console.log("Searching for a game...");
-    },*/
+    },
 
     /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
+    /*
     searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
       send('|/challenge Smile DD, ' + format);
       this.searchingGame = true;
       console.log("Searching for a game...");
-    },
+    },*/
 
     /** Cancelación de búsqueda de partida. */
     cancelSearch() {

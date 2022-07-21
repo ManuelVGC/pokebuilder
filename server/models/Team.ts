@@ -40,3 +40,5 @@ const teamSchema = new Schema({
 });
 
 export default model('Team', teamSchema);
+
+
