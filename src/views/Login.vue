@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-/** View para la página de logeo de la aplicación. */
+/** View para la página de inicio de sesión de la aplicación. */
 
 import {defineComponent} from "vue";
 import {logInShowdown} from "@/services/pokemonShowdownService";
@@ -26,12 +26,12 @@ import {send} from "@/services/websocket";
 
 export default defineComponent({
   methods: {
-    /** Logeo en Pokémon Showdown. */
+    /** Inicio de sesión en Pokémon Showdown. */
     async logIn() {
       const assertion = await logInShowdown(this.$store.state.user);
       if (assertion === -1) { //Fallo en el logeo
         console.log('Failed to log in: invalid username or password');
-      } else { //Logeo correcto
+      } else { //Inicio de sesión correcto
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion);
         console.log("Log in successful");
         this.$router.push({name: "home"});

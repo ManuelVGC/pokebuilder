@@ -32,5 +32,6 @@ export interface ITeam {
             spe: number,
         }],
         moves: string[], /** Pool de movimientos con los que cuenta el Pokémon, con un máximo de 4. */
+        happiness: number, /** Nivel de felicidad del Pokémon, relevante para ciertos movimientos. */
     }]
 }

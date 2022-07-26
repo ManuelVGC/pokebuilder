@@ -8,7 +8,7 @@ import {IMove} from "@/interfaces/Move";
 
 export interface IBattlePokemon {
     ident: string; /** Pertenencia del Pokémon (si es del jugador 1 o el 2) y mote. --> Ej: p2: Charizard */
-    details: string; /** Nombre del Pokémon, nivel y género (si lo tiene). --> Ej: Charizard, L83, F */
+    details: string; /** Especie del Pokémon, nivel y género (si lo tiene). --> Ej: Charizard, L83, F */
     condition: string; /** Vida del Pokémon y status. --> Ej: 227/227 tox */
     active: boolean; /** Si el Pokémon está actualmente en campo o no. */
     stats: { /** Estadísticas del Pokémon. */

@@ -33,7 +33,8 @@ const teamSchema = new Schema({
         moves: {
             type: Array,
             default: [],
-        }
+        },
+        happiness: Number,
     }],
 }, {
     versionKey: false,

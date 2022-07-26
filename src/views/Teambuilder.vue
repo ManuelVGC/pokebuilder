@@ -30,8 +30,8 @@ export default defineComponent({
   },
   methods: {
     /*onChange() {
-      //getAllPokemon();
-    },*/
+      getAllPokemon();
+    }*/
   }
 })
 </script>
