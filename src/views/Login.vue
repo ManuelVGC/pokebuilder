@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 1em" >
+  <div style="margin: 1em">
     <form @submit.prevent="logIn()">
       <h1>Log in to Pokémon Showdown</h1>
       <div style="margin-top: 1em">

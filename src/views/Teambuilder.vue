@@ -10,6 +10,7 @@
       </li>
     </ul>
   </div>
+  <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="getTeams()">GET TEAMS</button>
 </template>
 
 <script lang="ts">
@@ -17,6 +18,7 @@
 
 import {defineComponent} from "vue";
 import SettingsBar from "@/components/SettingsBar.vue";
+import { getDex } from "@/services/teambuilderService";
 
 export default defineComponent({
   name: 'TeambuilderView',
@@ -32,6 +34,10 @@ export default defineComponent({
     /*onChange() {
       getAllPokemon();
     }*/
+    async getTeams() {
+      const res = await getDex('hola');
+      console.log(res);
+    },
   }
 })
 </script>

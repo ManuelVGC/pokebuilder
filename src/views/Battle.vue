@@ -3,8 +3,10 @@
   <div class="gridContainer">
 
 
-    <div class="battle">
-      <table class="table table-hover">
+    <div class="battle" style="overflow: hidden">
+      <!--<button type="button" class="btn btn-danger" @click="showSrc()">SHOW SRC</button>-->
+      <iframe ref="battleIframe" :src="src" width="650" height="416" style="position: relative; left: -101px; top: -56px; right: -10000px"></iframe>
+      <!--<table class="table table-hover">
         <tr>
           <th scope="col">User team</th>
           <th scope="col">Rival team</th>
@@ -75,7 +77,7 @@
             <h6>Weather: {{fieldConditions.weather.type}}</h6>
           </td>
         </tr>
-      </table>
+      </table>-->
     </div>
 
 
@@ -150,14 +152,24 @@ export default defineComponent({
   data() {
     return {
       chatMessage: '' as string,
+      //src: "https://play.pokemonshowdown.com/battle-gen8anythinggoes-1632918427" as string,
+      src: "https://play.pokemonshowdown.com/" + this.$store.state.battleInfo as string,
     }
   },
   methods: {
+
+    /*showSrc() {
+      console.log(this.src);
+    },*/
+
+
     /** Rendición en una batalla. */
     manageForfeit() {
-      const data = this.$store.state.battleInfo + '|/forfeit';
-      send(data);
-      this.$store.commit('SET_BATTLEFINISHED', true);
+      if(confirm("Do you really want to forfeit?")) {
+        const data = this.$store.state.battleInfo + '|/forfeit';
+        send(data);
+        this.$store.commit('SET_BATTLEFINISHED', true);
+      }
     },
 
     /** Cambiar el flag de mostrar ataques o no. */
@@ -252,7 +264,7 @@ export default defineComponent({
       },
       immediate: true
     }
-  }
+  },
 })
 </script>
 
@@ -265,7 +277,7 @@ export default defineComponent({
     "battle chat"
     "move-Pokemon chat"
     "endBattle chat";
-  gap: 50px;
+  gap: 20px;
 }
 .battle {
   grid-area: battle;

@@ -5,6 +5,7 @@
 
 import {Router} from "express";
 import Team from "../models/Team";
+import {getAllPokemon} from "../dex";
 
 const router = Router();
 
@@ -21,6 +22,14 @@ router.get('/teams/:user', async (req, res) => {
 
     res.send(teams);
 });
+
+
+router.get('/dex/', async (req, res) => {
+    const pokemonList = getAllPokemon();
+    res.send(pokemonList);
+});
+
+
 
 /** Añadir un equipo. */
 router.post('/teams', async (req, res) => {

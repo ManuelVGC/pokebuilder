@@ -49,8 +49,8 @@ export default defineComponent({
     },
 
     /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
-    /*
-    searchGame() {
+
+    /*searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
       send('|/challenge Smile DD, ' + format);
@@ -63,6 +63,9 @@ export default defineComponent({
       send('|/cancelsearch');
       this.searchingGame = false;
     },
+  },
+  mounted() {
+    this.$store.commit('SET_BATTLEFINISHED', true);
   }
 })
 </script>

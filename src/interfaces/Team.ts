@@ -14,23 +14,23 @@ export interface ITeam {
         gender: string, /** Género del Pokémon. */
         item: string, /** Item que porta el Pokémon. */
         ability: string, /** Habilidad del Pokémon. */
-        evs: [{ /** Puntos de esfuerzo del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Puntos_de_esfuerzo). */
+        evs: { /** Puntos de esfuerzo del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Puntos_de_esfuerzo). */
             hp: number,
             atk: number,
             def: number,
             spa: number,
             spd: number,
             spe: number,
-        }],
+        },
         nature: string, /** Naturaleza del Pokémon. */
-        ivs: [{ /** Valores individuales del Pokémon. Son los "genes" del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Gen%C3%A9tica_Pok%C3%A9mon). */
+        ivs: { /** Valores individuales del Pokémon. Son los "genes" del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Gen%C3%A9tica_Pok%C3%A9mon). */
             hp: number,
             atk: number,
             def: number,
             spa: number,
             spd: number,
             spe: number,
-        }],
+        },
         moves: string[], /** Pool de movimientos con los que cuenta el Pokémon, con un máximo de 4. */
         happiness: number, /** Nivel de felicidad del Pokémon, relevante para ciertos movimientos. */
     }]

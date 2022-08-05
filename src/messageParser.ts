@@ -13,6 +13,7 @@ import {BattleText} from "@/assets/battleText";
 import {IMove} from "@/interfaces/Move";
 import {FieldConditions} from "@/interfaces/FieldConditions";
 import {SideConditions} from "@/interfaces/SideConditions";
+import {send} from "@/services/websocket";
 
 const battleUser = new BattleUser();
 const battleRival = new BattleUser();
@@ -111,7 +112,8 @@ const battleMessagesParser = (messages : string[]) => {
             /** Mensajes que tienen que ver con el progreso de la batalla. */
 
             case 'request': { /** Llega un mensaje del tipo |request|REQUEST, donde REQUEST es un JSON con la información de mi usuario. */
-                if (message[1] != '') {
+                if (message[1] != '' && message[1] != 'null') {
+
                     const request = JSON.parse(message[1]);
 
                     store.commit('SET_CHOISESENT', false);
@@ -293,7 +295,6 @@ const battleMessagesParser = (messages : string[]) => {
                         moves : [],
                         baseAbility : '',
                         item : '',
-                        pokeball : '',
                     };
                     updateRivalTeam(pokemonSwitchedIn);
                     if (rivalLastPokemonActive === '' || message[0] === 'drag') {
@@ -1985,8 +1986,8 @@ const updateRivalMoves = (pokemonIdent: string, move: string) => {
 }
 
 /** Establecer las fieldConditions. */
-const setFieldConditions = (activate: boolean, type: string) => {
-    fieldConditions.weather.activate = activate;
+const setFieldConditions = (active: boolean, type: string) => {
+    fieldConditions.weather.active = active;
     fieldConditions.weather.type = type;
     //store.commit('SET_FIELDCONDITIONS', fieldConditions);
 }

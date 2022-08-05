@@ -21,7 +21,6 @@ export interface IBattlePokemon {
     moves: IMove[]; /** Pool de movimientos del Pokémon, con un máximo de 4 movimientos. */
     baseAbility: string; /** Habilidad del Pokémon. */
     item: string; /** Item que porta el Pokémon. */
-    pokeball: string; /** Pokeball en la que se guarda el Pokémon. */
 }
 
 /*
@@ -40,7 +39,6 @@ export class BattlePokemon {
     moves = [];
     baseAbility = '';
     item = '';
-    pokeball = '';
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {

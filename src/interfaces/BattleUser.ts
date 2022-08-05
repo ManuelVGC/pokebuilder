@@ -20,7 +20,7 @@ export class BattleUser implements IBattleUser {
     id = '';
     avatar = '';
     team: IBattlePokemon[] = [];
-    //team = {pokemon: [{active: false, baseAbility: '', condition: '', details: '', ident: '', item: '', moves: {move1: '', move2: '', move3: '', move4: ''}, pokeball: '', stats: {atk: 0, def: 0, spa: 0, spd: 0, spe: 0}}]};
+    //team = {pokemon: [{active: false, baseAbility: '', condition: '', details: '', ident: '', item: '', moves: {move1: '', move2: '', move3: '', move4: ''}, stats: {atk: 0, def: 0, spa: 0, spd: 0, spe: 0}}]};
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {

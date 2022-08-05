@@ -9,14 +9,14 @@
 
 export interface IFieldConditions {
     weather: {
-        activate: boolean, /** Weather activo o no. */
+        active: boolean, /** Weather activo o no. */
         type: string, /** Tipo de weather, podrá ser Rain, Sunnyday, Sandstorm, Hail o none. */
     },
 }
 
 export class FieldConditions {
     weather = {
-        activate: false,
+        active: false,
         type: 'none',
     }
 
