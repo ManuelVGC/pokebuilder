@@ -8,3 +8,5 @@ La aplicación está dockerizada así que para hacer el build simplemente basta 
 ```
 docker-compose up --build
 ```
+
+La aplicación corre en ```http://localhost:8080/```.
