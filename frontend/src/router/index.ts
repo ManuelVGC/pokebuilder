@@ -8,27 +8,27 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'login',
-        component: () => import('@/views/Login.vue'),
+        component: () => import('../views/Login.vue'),
     },
     {
         path: '/home',
         name: 'home',
-        component: () => import('@/views/Home.vue'),
+        component: () => import('../views/Home.vue'),
     },
     {
         path: '/battle/:id',
         name: 'battle',
-        component: () => import('@/views/Battle.vue'),
+        component: () => import('../views/Battle.vue'),
     },
     {
         path: '/teams',
         name: 'teams',
-        component: () => import('@/views/Teams.vue'),
+        component: () => import('../views/Teams.vue'),
     },
     {
         path: '/teambuilder',
         name: 'teambuilder',
-        component: () => import('@/views/Teambuilder.vue'),
+        component: () => import('../views/Teambuilder.vue'),
     }
 ]
 

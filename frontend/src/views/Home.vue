@@ -17,8 +17,8 @@
 /** View para el menú principal de la página web. */
 
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar.vue";
-import {send} from "@/services/websocket";
+import SettingsBar from "../components/SettingsBar.vue";
+import {send} from "../services/websocket";
 
 export default defineComponent({
   name: 'HomeView',

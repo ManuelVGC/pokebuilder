@@ -6,7 +6,7 @@
  * La clase correspondiente es utilizada para crear dos objetos para guardar la información de los dos usuarios de una batalla.
  */
 
-import {IBattlePokemon} from "@/interfaces/BattlePokemon";
+import {IBattlePokemon} from "../interfaces/BattlePokemon";
 
 export interface IBattleUser {
     username: string; /** Nombre de usuario. */

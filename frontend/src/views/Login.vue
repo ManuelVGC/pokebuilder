@@ -21,8 +21,8 @@
 /** View para la página de inicio de sesión de la aplicación. */
 
 import {defineComponent} from "vue";
-import {logInShowdown} from "@/services/pokemonShowdownService";
-import {send} from "@/services/websocket";
+import {logInShowdown} from "../services/pokemonShowdownService";
+import {send} from "../services/websocket";
 
 export default defineComponent({
   methods: {

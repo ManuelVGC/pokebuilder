@@ -1,24 +1,10 @@
-# pokebuilder
+# Pokebuilder
 
-## Project setup
-```
-npm install
-```
+Aplicación web que utiliza el stack MEVN (MongoDB, Express, Vue y NodeJS) y que permite al usuario participar en
+batallas en la ladder de Pokémon Showdown y construir equipos de Pokémon con la ayuda de un sistema recomendador.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+La aplicación está dockerizada así que para hacer el build simplemente basta con utilizar el comando siguiente:
 
-### Compiles and minifies for production
 ```
-npm run build
+docker-compose up --build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -2,11 +2,11 @@
  * Store de Vuex.
  */
 
-import { createStore } from 'vuex'
-import {IUser} from "@/interfaces/User";
-import {IBattleUser} from "@/interfaces/BattleUser";
-import {IFieldConditions} from "@/interfaces/FieldConditions";
-import {ISideConditions} from "@/interfaces/SideConditions";
+import { createStore} from 'vuex'
+import {IUser} from "../interfaces/User";
+import {IBattleUser} from "../interfaces/BattleUser";
+import {IFieldConditions} from "../interfaces/FieldConditions";
+import {ISideConditions} from "../interfaces/SideConditions";
 
 export default createStore({
     state: {

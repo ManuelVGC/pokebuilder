@@ -4,7 +4,7 @@
  * Esta interface define el tipo IBattlePokemon, el cual es utilizado para los Pokémon en las batallas.
  */
 
-import {IMove} from "@/interfaces/Move";
+import {IMove} from "../interfaces/Move";
 
 export interface IBattlePokemon {
     ident: string; /** Pertenencia del Pokémon (si es del jugador 1 o el 2) y mote. --> Ej: p2: Charizard */

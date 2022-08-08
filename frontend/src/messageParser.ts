@@ -5,15 +5,15 @@
  * https://github.com/smogon/pokemon-showdown/blob/master/sim/SIM-PROTOCOL.md
  */
 
-import store from "@/store";
-import router from "@/router";
-import {BattleUser} from "@/interfaces/BattleUser";
-import {IBattlePokemon} from "@/interfaces/BattlePokemon";
-import {BattleText} from "@/assets/battleText";
-import {IMove} from "@/interfaces/Move";
-import {FieldConditions} from "@/interfaces/FieldConditions";
-import {SideConditions} from "@/interfaces/SideConditions";
-import {send} from "@/services/websocket";
+import store from "./store";
+import router from "./router";
+import {BattleUser} from "./interfaces/BattleUser";
+import {IBattlePokemon} from "./interfaces/BattlePokemon";
+import {BattleText} from "./assets/battleText";
+import {IMove} from "./interfaces/Move";
+import {FieldConditions} from "./interfaces/FieldConditions";
+import {SideConditions} from "./interfaces/SideConditions";
+import {send} from "./services/websocket";
 
 const battleUser = new BattleUser();
 const battleRival = new BattleUser();

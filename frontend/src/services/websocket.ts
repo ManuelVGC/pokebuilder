@@ -3,7 +3,7 @@
  * Este archivo implementa diferentes funciones que serán usadas en el resto del programa.
  */
 
-import {messageParser} from "@/messageParser";
+import {messageParser} from "../messageParser";
 
 const ws = new WebSocket('wss://sim3.psim.us/showdown/websocket');
 

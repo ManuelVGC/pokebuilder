@@ -2,10 +2,10 @@
  * Este archivo implementa diferentes funciones para hacer el CRUD de los equipos del Teambuilder en el backend.
  */
 
-import {axiosInstanceMyServer} from "@/services/axios";
+import {axiosInstanceMyServer} from "../services/axios";
 import {AxiosResponse} from "axios";
 
-import { ITeam } from "@/interfaces/Team";
+import { ITeam } from "../interfaces/Team";
 
 export const createTeam = async (team: ITeam) => await axiosInstanceMyServer.post('/teams', team);
 

@@ -140,8 +140,8 @@
 /** View para la página de batalla.  */
 
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar.vue";
-import {send} from "@/services/websocket";
+import SettingsBar from "../components/SettingsBar.vue";
+import {send} from "../services/websocket";
 import {mapState} from "vuex";
 
 export default defineComponent({

@@ -35,9 +35,9 @@
 /** View donde se muestran los equipos creados por el usuario. */
 
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar.vue";
-import {ITeam} from "@/interfaces/Team";
-import {deleteTeam, getUserTeams} from "@/services/teambuilderService";
+import SettingsBar from "../components/SettingsBar.vue";
+import {ITeam} from "../interfaces/Team";
+import {deleteTeam, getUserTeams} from "../services/teambuilderService";
 
 export default defineComponent({
   name: 'TeamsView',

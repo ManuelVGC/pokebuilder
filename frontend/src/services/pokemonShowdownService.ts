@@ -2,9 +2,9 @@
  * Este archivo implementa diferentes funciones son usadas para el inicio de sesión en Pokémon Showdown.
  */
 
-import {axiosInstanceShowdown} from "@/services/axios";
+import {axiosInstanceShowdown} from "../services/axios";
 
-import {IUser} from "@/interfaces/User";
+import {IUser} from "../interfaces/User";
 
 /** Inicio de sesión en Pokémon Showdown, puede ser exitoso o no, lo indicará la assertion */
 export const logInShowdown = async (user: IUser) => {

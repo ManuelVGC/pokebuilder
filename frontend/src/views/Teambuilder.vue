@@ -17,8 +17,8 @@
 /** View para la página de creación de equipos. */
 
 import {defineComponent} from "vue";
-import SettingsBar from "@/components/SettingsBar.vue";
-import { getDex } from "@/services/teambuilderService";
+import SettingsBar from "../components/SettingsBar.vue";
+import { getDex } from "../services/teambuilderService";
 
 export default defineComponent({
   name: 'TeambuilderView',
