@@ -1,5 +1,6 @@
 /**
  * Define una API REST para poder manipular los datos de la base de datos.
+ * Además permite pasar datos de la biblioteca pokemon-showdown al frontend.
  * (Archivo que indica las rutas del backend y qué hará cada una cuando sea accedida de una determinada forma).
  */
 
@@ -22,14 +23,6 @@ router.get('/teams/:user', async (req, res) => {
 
     res.send(teams);
 });
-
-
-router.get('/dex/', async (req, res) => {
-    const pokemonList = getAllPokemon();
-    res.send(pokemonList);
-});
-
-
 
 /** Añadir un equipo. */
 router.post('/teams', async (req, res) => {
@@ -81,5 +74,13 @@ router.put('/teams/:user/:id', async(req, res) => {
         return res.status(500).send(error); //el id no es un objectId
     }
 });
+
+/** Recuperar una lista con todos los posibles Pokémon que se pueden utilizar. */
+router.get('/dex/', async (req, res) => {
+    const pokemonList = getAllPokemon();
+    res.send(pokemonList);
+});
+
+
 
 export default router;
