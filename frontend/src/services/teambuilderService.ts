@@ -13,8 +13,6 @@ export const getUserTeams = async (user: string) : Promise<AxiosResponse<ITeam[]
 
 export const getTeam = async (user: string, id: string) : Promise<AxiosResponse<ITeam>> => await axiosInstanceMyServer.get("/teams/" + user + "/" + id);
 
-export const updateTeam = async (user: string, id: string, team: ITeam) => await axiosInstanceMyServer.put("/teams/" + user + "/" + id);
+export const updateTeam = async (user: string, id: string, team: ITeam) => await axiosInstanceMyServer.put("/teams/" + user + "/" + id, team);
 
 export const deleteTeam = async (user: string, id: string)  : Promise<AxiosResponse<ITeam>> => await axiosInstanceMyServer.delete("/teams/" + user + "/" + id);
-
-export const getDex = async (hola: string) => await axiosInstanceMyServer.get('/dex/');

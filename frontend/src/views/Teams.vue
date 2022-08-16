@@ -2,7 +2,7 @@
   <SettingsBar/>
   <div style="margin: 1em">
     <h3>My created teams</h3>
-    <button style="margin: 1em" type="button" class="btn btn-warning" @click="this.$router.push('/teambuilder')">Create team</button>
+    <button style="margin: 1em" type="button" class="btn btn-warning" @click="this.$router.push({name: 'teambuilder', params: {id: 'newTeam'}});">Create team</button>
     <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="this.$router.push('/home')">Go back to home</button>
   </div>
   <table style="margin: 1em" v-if="userTeams.length > 0" class="table table-hover">
@@ -17,7 +17,7 @@
       <tr v-for="team in userTeams" :key="team" class="table-primary">
         <th scope="row">{{team.name}}</th>
         <td v-for="pokemon in team.pokemon" :key="pokemon">
-          {{pokemon.species}}
+          {{pokemon.name}}
         </td>
         <td>
           <button type="button" class="btn btn-danger" @click="deleteTeam(team._id)">Delete team</button>
@@ -55,6 +55,8 @@ export default defineComponent({
       const res = await getUserTeams(this.$store.state.user.username);
 
       this.userTeams = res.data;
+      console.log('Los teams son:');
+      console.log(this.userTeams);
     },
 
     /** Borrar un equipo de entre la lista de los equipos creados. */
@@ -67,6 +69,7 @@ export default defineComponent({
 
     /** Editar un equipo de la lista de equipos creados. */
     async editTeam(teamID: string) {
+      this.$router.push({name: 'teambuilder', params: {id: teamID}});
       //aquí irá el push a la página de Teambuilder con el parámetro teamID para que se me muestre ese equipo para editarlo
     }
   },

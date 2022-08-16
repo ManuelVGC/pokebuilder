@@ -6,7 +6,8 @@
 
 import {Router} from "express";
 import Team from "../models/Team";
-import {getAllPokemon} from "../dex";
+import {getAllPokemon, getPokemonLearnset, getPokemonAbilities, getItems, getNatures, getPokemonBaseStats} from "../dex";
+import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
 
 const router = Router();
 
@@ -24,13 +25,18 @@ router.get('/teams/:user', async (req, res) => {
     res.send(teams);
 });
 
-/** Añadir un equipo. */
+/** Añadir un equipo y validarlo. */
 router.post('/teams', async (req, res) => {
     const teamReceived = req.body;
-    const team = new Team(teamReceived);
+    console.log(teamReceived.pokemon);
+    const validation = validateTeam(teamReceived.pokemon);
 
-    await team.save();
-    res.json(team);
+    if (validation == null) {
+        const team = new Team(teamReceived);
+        await team.save();
+    }
+    res.send(validation);
+
 });
 
 /** Recuperar un equipo de entre los equipos creados por un determinado usuario. */
@@ -48,7 +54,6 @@ router.get('/teams/:user/:id', async(req, res) => {
 
 /** Borrar un equipo creado por un determinado usuario. */
 router.delete('/teams/:user/:id', async (req, res) => {
-    console.log("hola");
     try {
         const team = await Team.findByIdAndDelete(req.params.id);
         if (!team) { //el id podría parecerse a un objectId pero el team no existe
@@ -62,17 +67,22 @@ router.delete('/teams/:user/:id', async (req, res) => {
 
 /** Actualizar un equipo creado por un determinado usuario. */
 router.put('/teams/:user/:id', async(req, res) => {
-    try {
-        const updatedTeam = await Team.findByIdAndUpdate(req.params.id, req.body, {
-            new: true, //de esta forma me devuelve el team actualizado
-        });
-        if (!updatedTeam) {
-            res.status(404).json({message: "Team not found"});
+    const teamReceived = req.body;
+    const validation = validateTeam(teamReceived.pokemon);
+
+    if (validation == null) {
+        try {
+            const updatedTeam = await Team.findByIdAndUpdate(req.params.id, req.body, {
+                new: true, //de esta forma me devuelve el team actualizado
+            });
+            if (!updatedTeam) {
+                res.status(404).json({message: "Team not found"});
+            }
+        } catch (error) {
+            return res.status(500).send(error); //el id no es un objectId
         }
-        res.json(updatedTeam);
-    } catch (error) {
-        return res.status(500).send(error); //el id no es un objectId
     }
+    res.send(validation);
 });
 
 /** Recuperar una lista con todos los posibles Pokémon que se pueden utilizar. */
@@ -81,6 +91,62 @@ router.get('/dex/', async (req, res) => {
     res.send(pokemonList);
 });
 
+/** Recuperar una información determinada de un Pokémon en concreto. */
+router.get('/dex/:pokemonName/:info', async (req, res) => {
+    /** Recuperar habilidades del Pokémon. */
+    if (req.params.info === 'abilities') {
+        const abilities = getPokemonAbilities(req.params.pokemonName);
+        res.send(abilities);
+    }
 
+    /** Recuperar movimientos que puede aprender el Pokémon. */
+    else if (req.params.info === 'learnset') {
+        const learnset = getPokemonLearnset(req.params.pokemonName);
+        res.send(learnset);
+    }
+
+    /** Recuperar stats base del Pokémon. */
+    else if (req.params.info === 'baseStats') {
+        const baseStats = getPokemonBaseStats(req.params.pokemonName);
+        res.send(baseStats);
+    }
+});
+
+/** Recuperar lista de items que pueden llevar equipados los Pokémon. */
+router.get('/dex/itemsList', async (req, res) => {
+    const items = getItems();
+    res.send(items);
+});
+
+/** Recuperar lista de posibles naturalezas que puede tener un Pokémon. */
+router.get('/dex/naturesList', async (req, res) => {
+    const natures = getNatures();
+    res.send(natures);
+});
+
+/** Convertir el equipo pasado como parámetro a formato JSON. */
+router.post('/teamValidator/json', async (req, res) => {
+    let convertedTeam = req.body;
+
+    convertedTeam = convertFromStringToJSON(convertedTeam);
+
+    res.send(convertedTeam);
+});
+
+/*
+router.post('/teamValidator/export', async (req, res) => {
+    let convertedTeam = req.body;
+
+    res.send(convertedTeam);
+});*/
+
+/** Convertir el equipo pasado como parámetro de formato JSON a formato packed. */
+router.post('/teamValidator/packed', async (req, res) => {
+    let convertedTeam = req.body;
+
+    convertedTeam = convertFromJSONToPacked(convertedTeam);
+
+    res.send(convertedTeam);
+});
 
 export default router;

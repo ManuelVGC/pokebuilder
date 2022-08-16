@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/Teams.vue'),
     },
     {
-        path: '/teambuilder',
+        path: '/teambuilder/:id',
         name: 'teambuilder',
         component: () => import('../views/Teambuilder.vue'),
     }

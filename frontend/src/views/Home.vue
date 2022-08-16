@@ -10,6 +10,14 @@
       <div class="loader" style="margin: 1em"></div>
       <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="cancelSearch()">Cancel search</button>
     </div>
+    <div>
+      <select v-model="teamSelected" name="teams">
+        <option v-for="(team, index) in packedTeams" :key="index" :value="team.team">
+          <div>{{team.name}}</div>
+          <div v-for="(pokemon, index2) in team.team" :key="index2">{{pokemon.name}}</div>
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -19,6 +27,10 @@
 import {defineComponent} from "vue";
 import SettingsBar from "../components/SettingsBar.vue";
 import {send} from "../services/websocket";
+import {ITeam} from "@/interfaces/Team";
+import {getUserTeams} from "@/services/teambuilderService";
+import {IPokemon} from "@/interfaces/Pokemon";
+import {convertToPacked} from "@/services/showdownLibraryService";
 
 export default defineComponent({
   name: 'HomeView',
@@ -29,27 +41,31 @@ export default defineComponent({
     return {
       searchingGame: false as boolean, /** Flag que indica si se está buscando batalla. */
 
-      /** Equipo Pokémon que se enviará a Showdown para jugarlo en una batalla. De momento está puesto a mano pero la idea final es poder escoger uno de los equipos creados en el Teambuilder. */
-      team: ['Swampert||leftovers|torrent|earthquake,icebeam,hydropump,roar|Relaxed|252,,216,40,,|||||]'
-      + 'Skarmory||leftovers|keeneye|spikes,whirlwind,toxic,protect|Impish|252,,4,,252,|||||]'
-      + 'Dugtrio||choiceband|arenatrap|earthquake,rockslide,aerialace,substitute|Jolly|4,252,,,,252|||||]'
-      + 'Castform||leftovers|forecast|raindance,blizzard,bodyslam,doubleedge|Timid|4,,,252,,252|||||]'
-      + 'Salamence||choiceband|intimidate|crunch,rockslide,earthquake,fireblast|Adamant|4,252,,,,252|||||]'
-      + 'Celebi||leftovers|naturalcure|batonpass,gigadrain,psychic,recover|Timid|252,,80,,,176|||||'],
+      userTeams: [] as ITeam[], /** Equipos del usuario. */
+      packedTeams: [{ /** Equipos del usuario en formato packed. */
+        name: '' as string,
+        team: '' as string,
+      }],
+
+      teamSelected: [] as string[], /** Equipo Pokémon que se enviará a Showdown para jugarlo en una batalla. */
     }
   },
   methods: {
     /** Búsqueda de partida en la ladder. */
     searchGame() {
       const format = "gen3ou";
-      send('|/utm ' + this.team);
-      send('|/search ' + format);
-      this.searchingGame = true;
-      console.log("Searching for a game...");
+      console.log(this.teamSelected);
+      if (this.teamSelected.length != 0) {
+        send('|/utm ' + this.teamSelected);
+        send('|/search ' + format);
+        this.searchingGame = true;
+        console.log("Searching for a game...");
+      } else {
+        console.log('You need a team to battle!');
+      }
     },
 
     /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
-
     /*searchGame() {
       const format = "gen3ou";
       send('|/utm ' + this.team);
@@ -63,9 +79,39 @@ export default defineComponent({
       send('|/cancelsearch');
       this.searchingGame = false;
     },
+
+    /** Cargar desde el backend los equipos creados por el usuario y convertirlos a formato packed */
+    async loadUserTeams() {
+      let packedTeams = [];
+
+      const res = await getUserTeams(this.$store.state.user.username);
+
+      this.userTeams = res.data;
+
+      for (let i = 0; i < this.userTeams.length; i++) {
+        let team = await this.convertToPackedTeam(this.userTeams[i].pokemon);
+        let packedTeam = {
+          name: '' as string,
+          team: '' as string,
+        };
+        packedTeam.name = this.userTeams[i].name;
+        packedTeam.team = team;
+
+        packedTeams.push(packedTeam);
+
+      }
+      this.packedTeams = packedTeams;
+    },
+
+    /** Conversión de un equipo Pokémon a formato packed. */
+    async convertToPackedTeam(team: IPokemon[]) {
+      const packedTeam = await convertToPacked(team);
+      return packedTeam.data;
+    },
   },
   mounted() {
     this.$store.commit('SET_BATTLEFINISHED', true);
+    this.loadUserTeams();
   }
 })
 </script>
