@@ -1,64 +1,67 @@
 <template>
-  <div class="tableContainer">
+  <div class="sidebarContainer">
+    <div class="sidebar">
+      <div class="pokemonInfo">
+        <div>
+          <div class="pokemonSelected">{{pokemonSelected.name}}</div>
+          <div class="pokemonTypes">Pokemon types</div>
+        </div>
+        <font-awesome-icon @click="closeSidebar()" class="close" icon="fa-solid fa-xmark"/>
+      </div>
 
-    <div class="pokemonInfo">
-      <div>{{pokemonSelected.name}}</div>
-      <div>Pokemon types</div>
-    </div>
-
-    <div>
-      <table style="margin: 1em" class="table table-hover" v-if="actionType === 'ability'">
-        <thead>
-        <tr class="table-info">
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="ability in abilitiesList" :key="ability" class="table-primary">
-          <td>{{ability.name}}</td>
-          <td>{{ability.desc}}</td>
-          <td>
-            <button type="button" class="btn btn-danger" @click="addAbility(ability.name)">Add</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <table style="margin: 1em" class="table table-hover" v-if="actionType === 'item'">
-        <thead>
-        <tr class="table-info">
-          <th scope="col"></th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="item in itemsList" :key="item" class="table-primary">
-          <td>Icon</td>
-          <td>{{item.name}}</td>
-          <td>{{item.desc}}</td>
-          <td>
-            <button type="button" class="btn btn-danger" @click="addItem(item.name)">Add</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <table style="margin: 1em" class="table table-hover" v-if="actionType === 'move'">
-        <thead>
-          <tr class="table-info">
-            <th scope="col">Type</th>
+      <div class="tableContainer">
+        <table class="table" v-if="actionType === 'ability'">
+          <thead>
+          <tr class="table-head">
             <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="ability in abilitiesList" :key="ability" class="table-primary">
+            <td style="font-weight: bold">{{ability.name}}</td>
+            <td>{{ability.desc}}</td>
+            <td>
+              <button type="button" class="button" @click="addAbility(ability.name)">Add</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table" v-if="actionType === 'item'">
+          <thead>
+          <tr class="table-head">
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in itemsList" :key="item" class="table-primary">
+            <td>Icon</td>
+            <td style="font-weight: bold">{{item.name}}</td>
+            <td>{{item.desc}}</td>
+            <td>
+              <button type="button" class="button" @click="addItem(item.name)">Add</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table" v-if="actionType === 'move'">
+          <thead>
+          <tr class="table-head">
+            <th scope="col">Type</th>
+            <th scope="col" style="font-weight: bold">Name</th>
             <th scope="col">Power</th>
             <th scope="col">Accuracy</th>
             <th scope="col">Description</th>
             <th scope="col"></th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr v-for="move in movesList" :key="move" class="table-primary">
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.type}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.name}}</td>
@@ -66,31 +69,31 @@
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.accuracy}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.shortDesc}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
-              <button type="button" class="btn btn-danger" @click="addMove(move.name)">Add</button>
+              <button type="button" class="button" @click="addMove(move.name)">Add</button>
             </td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-      <table style="margin: 1em" class="table table-hover" v-if="actionType === 'nature'">
-        <thead>
-        <tr class="table-info">
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="nature in naturesList" :key="nature" class="table-primary">
-          <td>{{nature.name}}</td>
-          <td>{{nature.description}}</td>
-          <td>
-            <button type="button" class="btn btn-danger" @click="addNature(nature.name)">Add</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
+        <table class="table" v-if="actionType === 'nature'">
+          <thead>
+          <tr class="table-head">
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="nature in naturesList" :key="nature" class="table-primary">
+            <td style="font-weight: bold">{{nature.name}}</td>
+            <td>{{nature.description}}</td>
+            <td>
+              <button type="button" class="button" @click="addNature(nature.name)">Add</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -175,7 +178,12 @@ export default defineComponent({
       this.modifiedPokemon = this.pokemonSelected;
       this.modifiedPokemon.nature = natureName;
       this.$emit('abilityItemMoveNatureAdded', this.modifiedPokemon);
-    }
+    },
+
+    /** Cerrar el sidebar. */
+    closeSidebar() {
+      this.$emit('closeSidebar');
+    },
   },
   mounted() {
     this.getAbilitiesList(this.pokemonSelected.name);
@@ -187,10 +195,76 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.tableContainer {
-  width: 60%;
+.sidebarContainer {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: end;
+  align-items: start;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  overflow: scroll;
 }
-.pokemonInfo {
+
+.sidebar {
+  width: 50%;
+  background: white;
+}
+
+.tableContainer {
   padding: 1.5em;
+}
+
+.pokemonSelected {
+  display: inline-block;
+}
+
+.pokemonTypes {
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.pokemonInfo {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  padding: 1.5em 1.5em 0em 1.5em;
+  font-size: large;
+  color: #1e1e1e;
+  font-weight: bold;
+}
+
+.button {
+  height: 4em;
+  width: 5em;
+  background-color: #d7313e;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5em;
+}
+
+.button:hover {
+  background-color: #e85660;
+}
+
+.button:active {
+  background-color: #d7313e;
+}
+
+.table-head {
+  background-color: #3498db;
+  color: #1e1e1e;
+}
+
+.table {
+  border: 0.1em solid #1e1e1e;
+}
+
+.close {
+  justify-self: end;
+  margin-right: 0.5em;
+  align-self: center;
+  cursor: pointer;
 }
 </style>

@@ -1,27 +1,41 @@
 <template>
-  <SettingsBar/>
-  <div v-if="errorInTeam" class="alert alert-dismissible alert-warning">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <h4 class="alert-heading">The team has the following errors:</h4>
-    <div v-for="error in errosInTeam" :key="error">- {{error}}</div>
+  <div class="background">
+    <SettingsBar class="settingsBar"/>
+    <SideBar v-if="pokemonSelectedProps.actionType !== ''" v-bind="pokemonSelectedProps" @abilityItemMoveNatureAdded="handleAbilityItemMoveNatureAdded" @closeSidebar="handleCloseSidebar"/>
+    <div class="grid">
+      <div class="teamNameButtons">
+        <div class="teamName">
+          <div class="teamNameText">Team name: </div>
+          <input class="inputTeamName" type="text" placeholder=" Type the name of your Pokémon team!" v-model="pokemonTeamName">
+        </div>
+        <div class="buttons">
+          <button type="button" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="goBackToTeamList()">Go back</button>
+          <button type="button" class="button3" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="saveTeam()">Save team</button>
+        </div>
+      </div>
+      <div class="autocomplete">
+        <input class="searchPokemonInput" type="text" placeholder=" Type the name of a Pokémon to add it to the team" v-model="search" @input="onChange()">
+        <ul v-show="isOpen" class="autocomplete-results">
+          <li v-for="(pokemon, i) in resultListAutocomplete" :key="i" class="autocomplete-result" @click="addPokemon(pokemon)">
+            {{pokemon}}
+          </li>
+        </ul>
+      </div>
+      <div class="suggestions">
+
+      </div>
+
+      <PokemonCard v-for="(pokemon, index) in pokemonTeamArray" :key="index" :pokemon="pokemon" @addAbility="handleAddAbility" @addItem="handleAddItem" @addMove="handleAddMove" @addNature="handleAddNature" @deleteItemAbilityMoveNature="handleDeleteItemAbilityMoveNature" @deletePokemon="handleDeletePokemon" @updateEVsIVs="handleUpdateEVsIVs"></PokemonCard>
+
+    </div>
+    <div v-if="errorInTeam" class="popUpContainer">
+      <div class="popUp">
+        <p class="errorTitle">The team has the following errors:</p>
+        <div class="errorDescription" v-for="error in errosInTeam" :key="error">- {{error}}</div>
+        <button @click="closeError()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+      </div>
+    </div>
   </div>
-  <SideBar v-if="pokemonSelectedProps.actionType != ''" v-bind="pokemonSelectedProps" @abilityItemMoveNatureAdded="handleAbilityItemMoveNatureAdded"/>
-  <button style="margin: 1em" type="button" class="btn btn-outline-secondary btn-sm" @click="goBackToTeamList()">Go back to the team list</button>
-  <button style="margin: 1em" type="button" class="btn btn-success" @click="saveTeam()">Save team</button>
-  <h1 style="margin: 1em">Welcome to the teambuilder!</h1>
-  <div class="teamName">
-    <div>Team name: </div>
-    <input class="inputTeamName" type="text" placeholder="Type the name of your Pokémon team!" v-model="pokemonTeamName">
-  </div>
-  <div class="autocomplete">
-    <input style="margin: 1em" class="form-control me-sm-2" type="text" placeholder="Type the name of a Pokémon to add" v-model="search" @input="onChange()">
-    <ul v-show="isOpen" class="autocomplete-results">
-      <li v-for="(pokemon, i) in resultListAutocomplete" :key="i" class="autocomplete-result" @click="addPokemon(pokemon)">
-       {{pokemon}}
-      </li>
-    </ul>
-  </div>
-  <PokemonCard v-for="(pokemon, index) in pokemonTeamArray" :key="index" :pokemon="pokemon" @addAbility="handleAddAbility" @addItem="handleAddItem" @addMove="handleAddMove" @addNature="handleAddNature" @deleteItemAbilityMoveNature="handleDeleteItemAbilityMoveNature" @deletePokemon="handleDeletePokemon" @updateEVsIVs="handleUpdateEVsIVs"></PokemonCard>
 </template>
 
 <script lang="ts">
@@ -197,6 +211,10 @@ export default defineComponent({
       }
     },
 
+    handleCloseSidebar() {
+      this.pokemonSelectedProps.actionType = '';
+    },
+
     /** Manejo del evento deleteItemAbilityMoveNature. */
     handleDeleteItemAbilityMoveNature(pokemon: IPokemon) {
       for (let i = 0; i < this.pokemonTeamArray.length; i++) {
@@ -232,7 +250,12 @@ export default defineComponent({
         this.pokemonTeamArray = res.data.pokemon;
         this.pokemonTeamName = res.data.name;
       }
-    }
+    },
+
+    /** Cerrar el cuadro de texto que nos indica los errores en el equipo. */
+    closeError() {
+      this.errorInTeam = false;
+    },
 
   },
   mounted() {
@@ -244,25 +267,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.autocomplete {
-  position: relative;
-}
-
-.autocomplete-results {
-  padding: 0;
-  margin: 1em;
-  border: 1px solid #eeeeee;
-  height: 120px;
-  min-height: 1em;
-  max-height: 6em;
-  overflow: auto;
-}
-
-.autocomplete-result {
-  list-style: none;
-  text-align: left;
-  padding: 6px 6px;
-  cursor: pointer;
+.background {
+  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  height: 150vh;
 }
 
 .autocomplete-result:hover {
@@ -270,14 +277,169 @@ export default defineComponent({
   color: white;
 }
 
-.teamName {
+.settingsBar {
+  border-bottom: 0.3em solid #1e1e1e;
+}
+
+
+.popUpContainer {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+.popUp {
+  background-color: white;
+  width: 30em;
+  padding: 3em;
+  border-radius: 0.5em;
+  box-shadow: 0 1em 1em rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.errorTitle {
+  color: red;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.errorDescription {
+  color: red;
+  font-weight: bold;
+}
+
+.button {
+  margin-top: 2em;
+  height: 4em;
+  width: 20em;
+  background-color: #4b88c3;
+  color: white;
+  font-size: large;
+}
+
+.button:hover {
+  background-color: #5397d9;
+}
+
+.button:active {
+  background-color: #4b88c3;
+}
+
+.button2 {
+  height: 4em;
+  width: 10em;
+  background-color: #d7313e;
+  color: white;
+}
+
+.button2:hover {
+  background-color: #e85660;
+}
+
+.button2:active {
+  background-color: #d7313e;
+}
+
+.button3 {
+  height: 4em;
+  width: 10em;
+  background-color: #4bbf73;
+  color: #1e1e1e;
+  margin-left: 1em;
+}
+
+.button3:hover {
+  background-color: #58e88a;
+}
+
+.button3:active {
+  background-color: #4bbf73;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: auto 1fr;
-  margin-left: 2em;
+  grid-template-rows: 1fr 1fr 1fr 5fr;
+  height: 85vh;
+}
+
+.teamNameButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+}
+
+.teamName {
+  background-color: white;
+  border-radius: 0.5em;
+  filter: drop-shadow(0.1em 0em 0.2em #1e1e1e);
+  margin: 1em 0em 1em 1.5em;
+  padding: 1em 1.5em;
+}
+
+.teamNameText {
+  font-size: x-large;
+  font-weight: bold;
+  color: #1e1e1e;
+  display: inline-block;
 }
 
 .inputTeamName {
+  border-radius: 0.3em;
+  display: inline-block;
   margin-left: 1em;
-  width: 50%;
+  width: 82%;
+  height: 2em;
 }
+
+.buttons {
+  justify-self: end;
+  margin-right: 1.5em;
+}
+
+.searchPokemonInput {
+  width: 94vw;
+  border-radius: 0.3em;
+  height: 3em;
+}
+
+
+.autocomplete {
+  background-color: white;
+  border-radius: 0.5em;
+  filter: drop-shadow(0.1em 0em 0.2em #1e1e1e);
+  margin: 0em 0em 1.5em 1.5em;
+  padding: 1.5em;
+  width: 96.5vw;
+
+}
+
+.autocomplete-results {
+  padding: 0;
+  min-height: 1em;
+  max-height: 6em;
+  overflow: auto;
+  background-color: white;
+  margin: 0.5em 0em 0em 0em;
+}
+
+.autocomplete-result {
+  border: 0.1em solid #1e1e1e;
+  text-align: left;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  color: #1e1e1e;
+}
+
+.suggestions {
+  background-color: #d7313e;
+}
+
+
 </style>
