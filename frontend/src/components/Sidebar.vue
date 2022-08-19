@@ -3,8 +3,12 @@
     <div class="sidebar">
       <div class="pokemonInfo">
         <div>
-          <div class="pokemonSelected">{{pokemonSelected.name}}</div>
-          <div class="pokemonTypes">Pokemon types</div>
+          <div class="pokemonSelected">
+            <img :src="pokemonURL + pokemonSelected.name.toLowerCase() + extension">
+          </div>
+          <div class="pokemonTypes" >
+            <img v-for="type in pokemonTypes" :key="type" :src="typesURL + type + extension">
+          </div>
         </div>
         <font-awesome-icon @click="closeSidebar()" class="close" icon="fa-solid fa-xmark"/>
       </div>
@@ -32,7 +36,6 @@
         <table class="table" v-if="actionType === 'item'">
           <thead>
           <tr class="table-head">
-            <th scope="col"></th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col"></th>
@@ -40,7 +43,6 @@
           </thead>
           <tbody>
           <tr v-for="item in itemsList" :key="item" class="table-primary">
-            <td>Icon</td>
             <td style="font-weight: bold">{{item.name}}</td>
             <td>{{item.desc}}</td>
             <td>
@@ -63,10 +65,13 @@
           </thead>
           <tbody>
           <tr v-for="move in movesList" :key="move" class="table-primary">
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.type}}</td>
+            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
+              <img :src="typesURL + move.type + extension">
+            </td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.name}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.basePower}}</td>
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.accuracy}}</td>
+            <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy == true">100</td>
+            <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy != true">{{move.accuracy}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.shortDesc}}</td>
             <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
               <button type="button" class="button" @click="addMove(move.name)">Add</button>
@@ -124,6 +129,12 @@ export default defineComponent({
       itemsList: [], /** Lista de posibles items que puede llevar Pokémon seleccionado. */
       naturesList: [], /** Lista de posibles naturalezas del Pokémon seleccionado. */
       modifiedPokemon: {} as IPokemon, /** Pokémon modificado con los nuevos valores. */
+
+      pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
+      typesURL: 'https://play.pokemonshowdown.com/sprites/types/' as string,  /** URL donde se encuentran los iconos de los tipos de Pokémon. */
+      extension: '.png' as string, /** Extensión de los iconos. */
+
+      pokemonTypes: [] as string[], /** Tipos del Pokémon seleccionado. */
     }
   },
   methods: {
@@ -131,7 +142,6 @@ export default defineComponent({
     async getAbilitiesList(pokemonName: string) {
       const res = await getPokemonData(pokemonName, 'abilities');
       this.abilitiesList = res.data;
-
     },
 
     /** Conseguir la lista de posibles movimientos que puede tener el Pokémon seleccionado. */
@@ -184,12 +194,19 @@ export default defineComponent({
     closeSidebar() {
       this.$emit('closeSidebar');
     },
+
+    /** Conseguir tipos del Pokémon de la tarjeta. */
+    async getTypes (pokemonName: string) {
+      const res = await getPokemonData(pokemonName, 'types');
+      this.pokemonTypes = res.data;
+    },
   },
   mounted() {
     this.getAbilitiesList(this.pokemonSelected.name);
     this.getMovesList(this.pokemonSelected.name);
     this.getItemsList();
     this.getNaturesList();
+    this.getTypes(this.pokemonSelected.name);
   }
 })
 </script>
@@ -205,7 +222,6 @@ export default defineComponent({
   width: 100vw;
   top: 0;
   left: 0;
-  overflow: scroll;
 }
 
 .sidebar {
@@ -224,6 +240,10 @@ export default defineComponent({
 .pokemonTypes {
   display: inline-block;
   margin-left: 1em;
+}
+
+.pokemonTypes img {
+  margin-right: 0.5em;
 }
 
 .pokemonInfo {

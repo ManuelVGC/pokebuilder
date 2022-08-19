@@ -1,35 +1,37 @@
 <template>
   <SettingsBar class="settingsBar"/>
-  <div class="grid">
-    <div class="leftGrid">
-      <img class="imageForm" src="../assets/home/pokemonWallpaper20Anniversary.jpg" alt="loginImage">
-      <p class="welcome">Welcome to Pokebuilder, {{this.$store.state.user.username}}!</p>
-    </div>
-    <div class="rightGrid">
-      <div class="battle">
-        <div class="selectTeam">
-          <select class="form-select" v-model="teamSelected" name="teams">
-            <option v-for="(team, index) in packedTeams" :key="index" :value="team.team">
-              <div>{{team.name}}</div>
-              <div v-for="(pokemon, index2) in team.team" :key="index2">{{pokemon.name}}</div>
-            </option>
-          </select>
-        </div>
-        <button type="button" class="button2 searchGame" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.6); border-radius: 0.5em;" @click="searchGame()">Search game</button>
-        <div v-if="searchingGame">
-          <b>Searching for a game...</b>
-          <div class="loader" style="margin: 1em"></div>
-          <button type="button" class="btn btn-outline-secondary btn-sm" @click="cancelSearch()">Cancel search</button>
+  <div class="background">
+    <div class="grid">
+      <div class="leftGrid">
+        <div class="welcome">
+          <p class="welcomeText" >Welcome to Pokebuilder, {{this.$store.state.user.username}}!</p>
         </div>
       </div>
-      <button type="button" class="button teambuilder" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/teams')">Teambuilder</button>
+      <div class="rightGrid">
+        <div class="battle">
+          <div class="selectTeam">
+            <select class="form-select" v-model="teamSelected" name="teams">
+              <option class="selectOption" v-for="(team, index) in packedTeams" :key="index" :value="team.team">
+                <div>{{team.name}}</div>
+              </option>
+            </select>
+          </div>
+          <div v-if="!searchingGame" class="searchGame">
+            <button type="button" class="buttonSearch" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.6); border-radius: 0.5em;" @click="searchGame()">Search game</button>
+          </div>
+          <div v-if="searchingGame" class="searchingGame">
+            <button type="button" class="buttonSearching" style="border-radius: 0.5em;" @click="cancelSearch()">Searching game... Click to cancel.</button>
+          </div>
+        </div>
+        <button type="button" class="button teambuilder" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/teams')">Teambuilder</button>
+      </div>
     </div>
-  </div>
-  <div v-if="error" class="popUpContainer">
-    <div class="popUp">
-      <p class="errorTitle">Error</p>
-      <p class="errorDescription">You need a team to battle!</p>
-      <button @click="closeError()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+    <div v-if="error" class="popUpContainer">
+      <div class="popUp">
+        <p class="errorTitle">Error</p>
+        <p class="errorDescription">You need a team to battle!</p>
+        <button @click="closeError()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +68,7 @@ export default defineComponent({
   },
   methods: {
     /** Búsqueda de partida en la ladder. */
+    /*
     searchGame() {
       const format = "gen3ou";
       if (this.teamSelected.length != 0) {
@@ -76,16 +79,20 @@ export default defineComponent({
       } else {
         this.error = true;
       }
-    },
+    },*/
 
     /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
-    /*searchGame() {
+    searchGame() {
       const format = "gen3ou";
-      send('|/utm ' + this.team);
-      send('|/challenge Smile DD, ' + format);
-      this.searchingGame = true;
-      console.log("Searching for a game...");
-    },*/
+      if (this.teamSelected.length != 0) {
+        send('|/utm ' + this.teamSelected);
+        send('|/challenge Smile DD, ' + format);
+        this.searchingGame = true;
+        console.log("Searching for a game...");
+      } else {
+        this.error = true;
+      }
+    },
 
     /** Cancelación de búsqueda de partida. */
     cancelSearch() {
@@ -138,6 +145,13 @@ export default defineComponent({
 .settingsBar {
   border-bottom: 0.3em solid #1e1e1e;
   position: fixed;
+  height: 10vh;
+}
+
+.background {
+  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  min-height: 100vh;
+  height: auto;
 }
 
 .grid {
@@ -154,18 +168,12 @@ export default defineComponent({
   height: 100vh;
 }
 .leftGrid {
-  overflow: hidden;
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
 }
 
-.imageForm {
-  height: 100vh;
-}
-
-.welcome {
-  position: fixed;
+.welcomeText {
   font-weight: bold;
   font-size: xxx-large;
   color: black;
@@ -179,23 +187,37 @@ export default defineComponent({
   grid-template-rows: 1fr 1fr;
   border-radius: 0.5em;
   width: 30em;
+  justify-items: center;
+  align-items: center;
   justify-self: center;
   padding: 2em;
-  filter: drop-shadow(0.1em 0em 0.2em #1e1e1e);
+  box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.6);
 }
 
 .selectTeam {
   justify-self: center;
   align-self: center;
+
+}
+
+.selectOption {
+  color: #1e1e1e;
 }
 
 .searchGame {
-  justify-self: center;
-  align-self: center;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.searchingGame {
+  display: grid;
+  justify-items: center;
+  align-items: center;
 }
 
 .form-select {
-  filter: drop-shadow(0 0.2em 0.1em #1e1e1e);
+  box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.6);
 }
 
 .teambuilder {
@@ -203,8 +225,8 @@ export default defineComponent({
   justify-self: center;
 }
 
-.button2 {
-  margin-top: 2em;
+.buttonSearch {
+  margin: 1em 0em;
   height: 4em;
   width: 20em;
   background-color: #d7313e;
@@ -212,12 +234,29 @@ export default defineComponent({
   font-size: large;
 }
 
-.button2:hover {
+.buttonSearch:hover {
   background-color: #e85660;
 }
 
-.button2:active {
+.buttonSearch:active {
   background-color: #d7313e;
+}
+
+.buttonSearching {
+  margin: 1em 0em;
+  height: 4em;
+  width: 20em;
+  background-color: #A4A4A4;
+  color: white;
+  font-size: large;
+}
+
+.buttonSearching:hover {
+  background-color: #e85660;
+}
+
+.buttonSearching:active {
+  background-color: #A4A4A4;
 }
 
 .button {
@@ -270,18 +309,4 @@ export default defineComponent({
 }
 
 
-
-.loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 </style>

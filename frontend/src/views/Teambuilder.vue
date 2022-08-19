@@ -1,19 +1,20 @@
 <template>
   <div class="background">
     <SettingsBar class="settingsBar"/>
-    <SideBar v-if="pokemonSelectedProps.actionType !== ''" v-bind="pokemonSelectedProps" @abilityItemMoveNatureAdded="handleAbilityItemMoveNatureAdded" @closeSidebar="handleCloseSidebar"/>
+    <SideBar class="sideBar" v-if="pokemonSelectedProps.actionType !== ''" v-bind="pokemonSelectedProps" @abilityItemMoveNatureAdded="handleAbilityItemMoveNatureAdded"
+             @closeSidebar="handleCloseSidebar"/>
     <div class="grid">
       <div class="teamNameButtons">
         <div class="teamName">
           <div class="teamNameText">Team name: </div>
-          <input class="inputTeamName" type="text" placeholder=" Type the name of your Pokémon team!" v-model="pokemonTeamName">
+          <input class="inputTeamName" type="text" placeholder=" Type the name of your Pokémon team!" v-model.trim="pokemonTeamName">
         </div>
         <div class="buttons">
           <button type="button" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="goBackToTeamList()">Go back</button>
           <button type="button" class="button3" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="saveTeam()">Save team</button>
         </div>
       </div>
-      <div class="autocomplete">
+      <div class="autocomplete" v-if="pokemonTeamArray.length < 6">
         <input class="searchPokemonInput" type="text" placeholder=" Type the name of a Pokémon to add it to the team" v-model="search" @input="onChange()">
         <ul v-show="isOpen" class="autocomplete-results">
           <li v-for="(pokemon, i) in resultListAutocomplete" :key="i" class="autocomplete-result" @click="addPokemon(pokemon)">
@@ -21,18 +22,40 @@
           </li>
         </ul>
       </div>
-      <div class="suggestions">
+      <div class="suggestions" v-if="pokemonTeamArray.length < 6">
 
       </div>
 
-      <PokemonCard v-for="(pokemon, index) in pokemonTeamArray" :key="index" :pokemon="pokemon" @addAbility="handleAddAbility" @addItem="handleAddItem" @addMove="handleAddMove" @addNature="handleAddNature" @deleteItemAbilityMoveNature="handleDeleteItemAbilityMoveNature" @deletePokemon="handleDeletePokemon" @updateEVsIVs="handleUpdateEVsIVs"></PokemonCard>
-
+    </div>
+    <div class="pokemonCards">
+      <PokemonCard v-for="(pokemon, index) in pokemonTeamArray" :key="index" :pokemon="pokemon" class="pokemonCard" @addAbility="handleAddAbility"
+                   @addItem="handleAddItem" @addMove="handleAddMove" @addNature="handleAddNature" @deleteItemAbilityMoveNature="handleDeleteItemAbilityMoveNature"
+                   @deletePokemon="handleDeletePokemon" @updateEVsIVs="handleUpdateEVsIVs"></PokemonCard>
     </div>
     <div v-if="errorInTeam" class="popUpContainer">
       <div class="popUp">
         <p class="errorTitle">The team has the following errors:</p>
         <div class="errorDescription" v-for="error in errosInTeam" :key="error">- {{error}}</div>
-        <button @click="closeError()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+        <button @click="closeErrorInTeam()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+      </div>
+    </div>
+
+    <div v-if="errorTeamNameEmpty" class="popUpContainer">
+      <div class="popUp">
+        <p class="errorTitle">The team has the following errors:</p>
+        <div class="errorDescription">You have to introduce a team name.</div>
+        <button @click="closeErrorTeamNameEmpty()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+      </div>
+    </div>
+
+    <div v-if="goBackConfirmation" class="popUpContainer">
+      <div class="popUp">
+        <p class="errorTitle">Warning!</p>
+        <div class="errorDescription">Are you sure you want to go back to the teamlist without saving the current changes?</div>
+        <div>
+          <button @click="this.$router.push('/teams')" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Go back</button>
+          <button @click="cancel()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -73,6 +96,8 @@ export default defineComponent({
 
       errorInTeam: false as boolean, /** Flag que indica si ha habido algún error al intentar guardar el equipo. */
       errosInTeam: [] as string[], /** Errores que han surgido al intentar guardar el equipo. */
+      errorTeamNameEmpty: false as boolean, /** Flag que indica que el usuario no ha introducido un nombre para el equipo. */
+      goBackConfirmation: false as boolean, /** Flag que indica si el jugador quiere volver a la página anterior. */
     }
   },
   computed: {
@@ -91,47 +116,54 @@ export default defineComponent({
   methods: {
     /** Volver a la vista Teams.vue. */
     goBackToTeamList(){
-      if(confirm("Are you sure you want to go back to the teamlist without saving the current team?")) {
-        this.$router.push('/teams')
-      }
+      this.goBackConfirmation = true;
+    },
+
+    /** Cancelar volver a la vista Teams.vue. */
+    cancel() {
+      this.goBackConfirmation = false;
     },
 
     /** Validar y guardar el equipo en construcción. */
     async saveTeam() {
-      let pokemonTeam = {} as ITeam;
+      if (this.pokemonTeamName.trim() != '') {
+        let pokemonTeam = {} as ITeam;
 
-      for (let i = 0; i < this.pokemonTeamArray.length; i++) {
-        this.pokemonTeamArray[i].happiness = 100;
-        this.pokemonTeamArray[i].species = this.pokemonTeamArray[i].name;
-        for (let j = 0; j < this.pokemonTeamArray[i].moves.length; j++) {
-          if (this.pokemonTeamArray[i].moves[j] === 'Frustration') {
-            this.pokemonTeamArray[i].happiness = 0;
+        for (let i = 0; i < this.pokemonTeamArray.length; i++) {
+          this.pokemonTeamArray[i].happiness = 100;
+          this.pokemonTeamArray[i].species = this.pokemonTeamArray[i].name;
+          for (let j = 0; j < this.pokemonTeamArray[i].moves.length; j++) {
+            if (this.pokemonTeamArray[i].moves[j] === 'Frustration') {
+              this.pokemonTeamArray[i].happiness = 0;
+            }
           }
         }
-      }
 
-      pokemonTeam.pokemon = this.pokemonTeamArray;
-      pokemonTeam.user = this.$store.state.user.username;
-      pokemonTeam.name = this.pokemonTeamName;
+        pokemonTeam.pokemon = this.pokemonTeamArray;
+        pokemonTeam.user = this.$store.state.user.username;
+        pokemonTeam.name = this.pokemonTeamName;
 
-      const res = await convertToJSON(pokemonTeam.pokemon);
-      pokemonTeam.pokemon = res.data;
+        const res = await convertToJSON(pokemonTeam.pokemon);
+        pokemonTeam.pokemon = res.data;
 
-      let validation;
-      const id = this.$route.params.id as string;
-      if (id === 'newTeam') {
-        validation = await createTeam(pokemonTeam);
+        let validation;
+        const id = this.$route.params.id as string;
+        if (id === 'newTeam') {
+          validation = await createTeam(pokemonTeam);
+        } else {
+          validation = await updateTeam(this.$store.state.user.username, id, pokemonTeam);
+        }
+
+        if (validation.data != '') {
+          this.errorInTeam = true;
+          this.errosInTeam = validation.data;
+        } else {
+          this.errorInTeam = false;
+          this.errosInTeam = [];
+          this.$router.push('/teams')
+        }
       } else {
-        validation = await updateTeam(this.$store.state.user.username, id, pokemonTeam);
-      }
-
-      if (validation.data != '') {
-        this.errorInTeam = true;
-        this.errosInTeam = validation.data;
-      } else {
-        this.errorInTeam = false;
-        this.errosInTeam = [];
-        this.$router.push('/teams')
+        this.errorTeamNameEmpty = true;
       }
     },
 
@@ -253,10 +285,14 @@ export default defineComponent({
     },
 
     /** Cerrar el cuadro de texto que nos indica los errores en el equipo. */
-    closeError() {
+    closeErrorInTeam() {
       this.errorInTeam = false;
     },
 
+    /** Cerrar el cuadro de texto que nos indica que falta por introducir el nombre del equipo. */
+    closeErrorTeamNameEmpty() {
+      this.errorTeamNameEmpty = false;
+    },
   },
   mounted() {
     this.loadTeam();
@@ -269,7 +305,8 @@ export default defineComponent({
 <style scoped>
 .background {
   background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
-  height: 150vh;
+  min-height: 100vh;
+  height: auto;
 }
 
 .autocomplete-result:hover {
@@ -279,6 +316,11 @@ export default defineComponent({
 
 .settingsBar {
   border-bottom: 0.3em solid #1e1e1e;
+  height: 10vh;
+}
+
+.sideBar {
+  overflow-y: scroll;
 }
 
 
@@ -364,21 +406,19 @@ export default defineComponent({
 
 .grid {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 5fr;
-  height: 85vh;
+  grid-template-rows: 7em 1fr 7em;
 }
 
 .teamNameButtons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-
 }
 
 .teamName {
   background-color: white;
   border-radius: 0.5em;
-  filter: drop-shadow(0.1em 0em 0.2em #1e1e1e);
+  box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5);
   margin: 1em 0em 1em 1.5em;
   padding: 1em 1.5em;
 }
@@ -413,11 +453,10 @@ export default defineComponent({
 .autocomplete {
   background-color: white;
   border-radius: 0.5em;
-  filter: drop-shadow(0.1em 0em 0.2em #1e1e1e);
-  margin: 0em 0em 1.5em 1.5em;
+  box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5);
+  margin: 0em 1.5em 1.5em 1.5em;
   padding: 1.5em;
-  width: 96.5vw;
-
+  align-self: center;
 }
 
 .autocomplete-results {
@@ -441,5 +480,15 @@ export default defineComponent({
   background-color: #d7313e;
 }
 
+.pokemonCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  margin-top: 3em;
+}
 
+.pokemonCard {
+  margin-bottom: 2.5em;
+  justify-self: center;
+}
 </style>

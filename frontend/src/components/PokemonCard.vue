@@ -1,95 +1,117 @@
 <template>
   <div class="mainGrid">
-    <div class="mainGridLeft">
-      <div class="containerSpriteTypes">
-        <div class="pokemonSprite">Pokémon Sprite</div>
-        <div>Pokémon type</div>
-      </div>
-      <div>{{pokemon.name}}</div>
-      <div class="button" @click="addItem()" v-if="pokemon.item === ''">
-        <font-awesome-icon icon="fas fa-plus-square" />
-        <p>Add item</p>
-      </div>
-      <div v-else>
-        <font-awesome-icon icon="fas fa-minus-square" @click="deleteItem()" class="button"/>
-        <p>{{pokemon.item}}</p>
-      </div>
-      <div class="button" @click="addAbility()" v-if="pokemon.ability === ''">
-        <font-awesome-icon icon="fas fa-plus-square" />
-        <p>Add ability</p>
-      </div>
-      <div v-else>
-        <font-awesome-icon icon="fas fa-minus-square" @click="deleteAbility()" class="button"/>
-        <p>{{pokemon.ability}}</p>
-      </div>
-      <div class="button" @click="addNature()" v-if="pokemon.nature === ''">
-        <font-awesome-icon icon="fas fa-plus-square" />
-        <p>Add nature</p>
-      </div>
-      <div v-else>
-        <font-awesome-icon icon="fas fa-minus-square" @click="deleteNature()" class="button"/>
-        <p>{{pokemon.nature}}</p>
-      </div>
-    </div>
-
-
-    <div class="mainGridRight">
-      <div v-if="pokemon.moves.length > 0" >
-        <div v-for="move in pokemon.moves" :key="move">
-          <font-awesome-icon icon="fas fa-minus-square" @click="deleteMove(move)" class="button"/>
-          <p>{{move}}</p>
+    <div class="gridAddElements">
+      <div class="mainGridLeft">
+        <div class="containerSpriteTypes">
+          <div class="pokemonSprite">
+            <img :src="pokemonURL + pokemon.name.toLowerCase() + extension">
+          </div>
+          <div class="pokemonTypes" >
+            <img v-for="type in pokemonTypes" :key="type" :src="typesURL + type + extension">
+          </div>
+        </div>
+        <div class="pokemonName">{{pokemon.name}}</div>
+        <div class="addItemAbilityNature">
+          <div class="button" @click="addItem()" v-if="pokemon.item === ''">
+            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
+            <p class="addDeleteText">Add item</p>
+          </div>
+          <div v-else>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteItem()" class="button addDeleteIcon"/>
+            <p class="addDeleteText">{{pokemon.item}}</p>
+          </div>
+        </div>
+        <div class="addItemAbilityNature">
+          <div class="button" @click="addAbility()" v-if="pokemon.ability === ''">
+            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
+            <p class="addDeleteText">Add ability</p>
+          </div>
+          <div v-else>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteAbility()" class="button addDeleteIcon"/>
+            <p class="addDeleteText">{{pokemon.ability}}</p>
+          </div>
+        </div>
+        <div class="addItemAbilityNature">
+          <div class="button" @click="addNature()" v-if="pokemon.nature === ''">
+            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
+            <p class="addDeleteText">Add nature</p>
+          </div>
+          <div v-else>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteNature()" class="button addDeleteIcon"/>
+            <p class="addDeleteText">{{pokemon.nature}}</p>
+          </div>
         </div>
       </div>
-      <div class="button" @click="addMove()" v-if="pokemon.moves.length <= 3">
-        <font-awesome-icon icon="fas fa-plus-square" />
-        <p>Add move</p>
+
+      <div class="mainGridRight">
+        <div v-if="pokemon.moves.length > 0" >
+          <div v-for="move in pokemon.moves" :key="move">
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteMove(move)" class="button addDeleteIcon"/>
+            <p class="addDeleteText">{{move}}</p>
+          </div>
+        </div>
+        <div class="button" @click="addMove()" v-if="pokemon.moves.length <= 3">
+          <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
+          <p class="addDeleteText">Add move</p>
+        </div>
       </div>
     </div>
-
 
     <div class="evsIvs">
       <div class="stat">
-        <p>HP</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="hpEVs">
-        <input class="inputEVsIVs" placeholder="0" type="number" step="1" max="31" min="0" v-model="hpIVs">
+        <p class="statName">HP</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="hpEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="hpIVs">
+        </div>
         <p class="finalStat">{{finalHP}}</p>
       </div>
       <div class="stat">
-        <p>ATK</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="atkEVs">
-        <input class="inputEVsIVs" placeholder="0" type="number" step="1" max="31" min="0" v-model="atkIVs">
+        <p class="statName">ATK</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="atkEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="atkIVs">
+        </div>
         <p class="finalStat">{{finalAttack}}</p>
       </div>
       <div class="stat">
-        <p>DEF</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="defEVs">
-        <input class="inputEVsIVs" placeholder="0" type="number" step="1" max="31" min="0" v-model="defIVs">
+        <p class="statName">DEF</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="defEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="defIVs">
+        </div>
         <p class="finalStat">{{finalDefense}}</p>
       </div>
       <div class="stat">
-        <p>SPA</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="spaEVs">
-        <input class="inputEVsIVs" placeholder="0" type="number" step="1" max="31" min="0" v-model="spaIVs">
+        <p class="statName">SPA</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="spaEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="spaIVs">
+        </div>
         <p class="finalStat">{{finalSpecialAttack}}</p>
       </div>
       <div class="stat">
-        <p>SPD</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="spdEVs">
-        <input class="inputEVsIVs" placeholder="0" type="number" step="1" max="31" min="0" v-model="spdIVs">
+        <p class="statName">SPD</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="spdEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="spdIVs">
+        </div>
         <p class="finalStat">{{finalSpecialDefense}}</p>
       </div>
       <div class="stat">
-        <p>SPE</p>
-        <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="speEVs">
-        <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="speIVs">
+        <p class="statName">SPE</p>
+        <div class="inputEVsIVsGrid">
+          <input class="inputEVsIVs" placeholder="0" type="number" step="4" max="252" min="0" v-model="speEVs">
+          <input class="inputEVsIVs" placeholder="31" type="number" step="1" max="31" min="0" v-model="speIVs">
+        </div>
         <p class="finalStat">{{finalSpeed}}</p>
       </div>
     </div>
 
 
     <div @click="removePokemon()" class="deletePokemonButton button">
-      <font-awesome-icon icon="fas fa-minus-square"/>
-      <p>Remove Pokémon</p>
+      <font-awesome-icon class="addDeleteIcon" icon="fas fa-minus-square"/>
+      <p class="addDeleteText">Remove Pokémon</p>
     </div>
   </div>
 </template>
@@ -143,6 +165,12 @@ export default defineComponent({
       finalSpeed: 0 as number, /** Estadística final de velocidad del Pokémon. */
 
       maxEVs: 508 as number, /** Número máximo de EVs que se pueden distribuir entre las diferentes estadísticas del Pokémon. */
+
+      pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
+      typesURL: 'https://play.pokemonshowdown.com/sprites/types/' as string,  /** URL donde se encuentran los iconos de los tipos de Pokémon. */
+      extension: '.png' as string, /** Extensión de los iconos. */
+
+      pokemonTypes: [] as string[], /** Tipos del Pokémon de la tarjeta. */
     }
   },
   computed: {
@@ -266,6 +294,12 @@ export default defineComponent({
       this.finalSpecialAttack = Math.floor(this.calculateFinalValue('spa', this.baseStats.spa, this.spaEVs, this.spaIVs, this.pokemon));
       this.finalSpecialDefense = Math.floor(this.calculateFinalValue('spd', this.baseStats.spd, this.spdEVs, this.spdIVs, this.pokemon));
       this.finalSpeed = Math.floor(this.calculateFinalValue('spe', this.baseStats.spe, this.speEVs, this.speIVs, this.pokemon));
+    },
+
+    /** Conseguir tipos del Pokémon de la tarjeta. */
+    async getTypes (pokemonName: string) {
+      const res = await getPokemonData(pokemonName, 'types');
+      this.pokemonTypes = res.data;
     },
 
     /** Calcular valor final de una estadística del Pokémon de la tarjeta. */
@@ -508,7 +542,7 @@ export default defineComponent({
   mounted() {
     this.updateInitialEVsIVs();
     this.getBaseStats(this.pokemon.name);
-
+    this.getTypes(this.pokemon.name);
   }
 })
 </script>
@@ -521,16 +555,22 @@ div {
 
 .mainGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 3fr 1fr 0.5fr;
-  margin: 2em;
-  width: 30em; /*esto no sé si será min-contend o width Xem, de momento lo dejo en 30em*/
-  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.7);
+  grid-template-rows: 1fr 0.5fr 0.1fr;
+  grid-template-columns: 1fr;
+  width: 30em;
+  box-shadow: 0.3em 0.3em 0.2em grey;
+  height: min-content;
 }
+
+.gridAddElements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .mainGridLeft {
   display:grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-  padding: 2em;
+  grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
+  padding: 1em 2em 0em 2em;
   background: cadetblue;
   align-items: center;
 }
@@ -541,45 +581,80 @@ div {
 }
 
 .mainGridRight {
-  padding: 2em;
+  padding: 2em 2em;
   background: #3498db;
 }
+
 .containerSpriteTypes {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 1em;
+  align-items: center;
+  justify-items: center;
 }
 
-.pokemonSprite {
-  margin-right: 1em;
+.pokemonSprite img{
+  width: 5em;
+}
+
+.pokemonTypes {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.pokemonName {
+  height: 1em;
+}
+
+.addItemAbilityNature {
+  padding-top: 1em;
+}
+
+.evsIvs {
+  background: orange;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  padding: 0em 1.5em;
+}
+
+.stat {
+  color: black;
+  display: grid;
+  grid-template-rows: 0.5fr 1fr 0.5fr;
+  justify-items: center;
+}
+
+.statName {
+  font-size: small;
+  padding-top: 1em;
+}
+
+.inputEVsIVsGrid {
+  display: grid;
+}
+
+.inputEVsIVs {
+  background: #3498db;
+  width: 3em;
+}
+
+.finalStat {
+  padding-top: 1em;
+  font-size: small;
 }
 
 .deletePokemonButton {
-  grid-column: 1/3;
   background: firebrick;
   text-align: center;
   padding-top: 1em;
 }
 
-.evsIvs {
-  grid-column: 1/3;
-  background: orange;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  padding: 1em;
+.addDeleteIcon {
+  display: inline-block;
 }
 
-.inputEVsIVs {
-  background: #3498db;
-  outline: none;
-}
-
-.stat {
-  color: black;
-}
-
-.finalStat {
-  padding-top: 0.75em;
+.addDeleteText {
+  display: inline-block;
+  margin-left: 0.5em;
 }
 
 </style>

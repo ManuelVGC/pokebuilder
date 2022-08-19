@@ -1,12 +1,22 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="gridNavBar">
-      <router-link to="/home" class="navbar-brand" @click="returnToMainMenu()">Pokémon Showdown</router-link>
+      <div class="navbar-brand">Pokebuilder</div>
       <div class="nameLogOut">
         <ul class="navbar-nav">
           <li class="nav-item name">{{this.$store.state.user.username}}</li>
-          <li class="nav-item logout" @click="logOut()">Log out</li>
+          <li class="nav-item logout" @click="tryLogOut()">Log out</li>
         </ul>
+      </div>
+    </div>
+    <div v-if="logOutConfirmation" class="popUpContainer">
+      <div class="popUp">
+        <p class="errorTitle">Warning!</p>
+        <div class="errorDescription">Do you really want to log out?"</div>
+        <div>
+          <button @click="logOut()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log out</button>
+          <button @click="cancel()" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -19,33 +29,37 @@
 
 import {defineComponent} from "vue";
 import {send} from "@/services/websocket";
-import {deleteTeam} from "@/services/teambuilderService";
 import store from "@/store";
 
 export default defineComponent({
   name: "SettingsBar",
+  data() {
+    return {
+      logOutConfirmation: false as boolean, /** Flag que indica si el jugador quiere cerrar sesión en la cuenta actual. */
+    }
+  },
   methods: {
-    logOut() {
-      if(confirm("Do you really want to log out?")) {
-        if (this.$store.state.battleFinished === false) {
-          const data = store.state.battleInfo + '|/forfeit';
-          send(data);
-          store.commit('SET_BATTLEFINISHED', true);
-        }
-        send('|/logout');
-        this.$store.commit('SET_USERNAME', '');
-        this.$store.commit('SET_PASSWORD', '');
-        this.$router.push({name: "login"});
-      }
+    /** Intentar cerrar sesión. */
+    tryLogOut() {
+      this.logOutConfirmation = true;
     },
-    returnToMainMenu() {
-        if (this.$store.state.battleFinished === false) {
-          if(confirm("Do you really want to return to the main menu?")) {
-            const data = store.state.battleInfo + '|/forfeit';
-            send(data);
-            store.commit('SET_BATTLEFINISHED', true);
-          }
-        }
+
+    /** Cierre de sesión con la confirmación del usuario. */
+    logOut() {
+      if (this.$store.state.battleFinished === false) {
+        const data = store.state.battleInfo + '|/forfeit';
+        send(data);
+        store.commit('SET_BATTLEFINISHED', true);
+      }
+      send('|/logout');
+      this.$store.commit('SET_USERNAME', '');
+      this.$store.commit('SET_PASSWORD', '');
+      this.$router.push({name: "login"});
+    },
+
+    /** Cancela el intento de cierre de sesión. */
+    cancel() {
+      this.logOutConfirmation = false;
     }
   }
 })
@@ -85,7 +99,73 @@ export default defineComponent({
   color: #1e1e1e;
 }
 
-.navbar-brand:hover {
-  color: #1e1e1e;
+
+.popUpContainer {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
 }
+
+.popUp {
+  background-color: white;
+  width: 30em;
+  padding: 3em;
+  border-radius: 0.5em;
+  box-shadow: 0 1em 1em rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.errorTitle {
+  color: red;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.errorDescription {
+  color: red;
+  font-weight: bold;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 2em;
+  height: 3em;
+  width: 10em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.button:hover {
+  background-color: #e85660;
+}
+
+.button:active {
+  background-color: #d7313e;
+}
+
+.button2 {
+  display: inline-block;
+  margin-top: 2em;
+  height: 3em;
+  width: 10em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.button2:hover {
+  background-color: #e85660;
+}
+
+.button2:active {
+  background-color: #d7313e;
+}
+
 </style>

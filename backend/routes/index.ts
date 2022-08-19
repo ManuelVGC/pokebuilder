@@ -6,7 +6,7 @@
 
 import {Router} from "express";
 import Team from "../models/Team";
-import {getAllPokemon, getPokemonLearnset, getPokemonAbilities, getItems, getNatures, getPokemonBaseStats} from "../dex";
+import {getAllPokemon, getPokemonLearnset, getPokemonAbilities, getItems, getNatures, getPokemonBaseStats, getPokemonType} from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
 
 const router = Router();
@@ -109,6 +109,11 @@ router.get('/dex/:pokemonName/:info', async (req, res) => {
     else if (req.params.info === 'baseStats') {
         const baseStats = getPokemonBaseStats(req.params.pokemonName);
         res.send(baseStats);
+    }
+
+    else if (req.params.info === 'types') {
+        const types = getPokemonType(req.params.pokemonName);
+        res.send(types);
     }
 });
 

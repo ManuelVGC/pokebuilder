@@ -190,3 +190,9 @@ export const getPokemonBaseStats = (pokemonName: string) => {
     const baseStats = Dex.mod(gen).species.get(pokemonName).baseStats;
     return baseStats;
 }
+
+/** Función que devuelve el tipo del Pokémon pasado como parámetro. */
+export const getPokemonType = (pokemonName: string) => {
+    const types = Dex.mod(gen).species.get(pokemonName).types;
+    return types;
+}

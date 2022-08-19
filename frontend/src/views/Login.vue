@@ -126,7 +126,6 @@ export default defineComponent({
   width: 15em;
   background-color: #4b88c3;
   color: white;
-  border: none;
   font-size: large;
 }
 

@@ -60,6 +60,9 @@ export default createStore({
         ADD_MESSAGE(state: any, message: string){
             state.chatMessages.push(message);
         },
+        EMPTY_CHATMESSAGES(state: any) {
+            state.chatMessages = [];
+        },
         SET_FIELDCONDITIONS(state: any, fieldConditions: IFieldConditions){
             state.fieldConditions = fieldConditions;
         },
