@@ -9,8 +9,8 @@ import {startConnection} from "./database";
 startConnection();
 
 /** Inicio del servidor backend. */
-app.listen(3000);
-console.log('Servidor runneando en el puerto 3000...')
+app.listen(4000);
+console.log('Servidor runneando en el puerto 4000...')
 
 
 

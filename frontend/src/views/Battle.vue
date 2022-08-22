@@ -4,7 +4,7 @@
     <div class="grid">
       <div class="gridLeft">
         <div class="battle" style="overflow: hidden">
-          <!--<iframe ref="battleIframe" :src="src" width="650" height="416" style="position: relative; left: -101px; top: -56px; right: -10000px"></iframe>-->
+          <iframe ref="battleIframe" class="iframeShowdown" :src="src"></iframe>
         </div>
 
         <div class="timerForfeit" v-if="!battleFinished" >
@@ -34,7 +34,10 @@
                 <div class="pokemonSprite">
                   <img :src="pokemonURL + pokemon.toLowerCase() + extension">
                 </div>
-                <p class="pokemonNameText">{{pokemon}}</p>
+                <div class="pokemonNameHP">
+                  <p class="pokemonNameText">{{pokemon}}</p>
+                  <progress class="healthBar" :value=getPokemonHealth(pokemon).hpleft :max=getPokemonHealth(pokemon).maxhp></progress>
+                </div>
               </button>
             </div>
             <button v-if="!forceSwitch" @click="changePokemonFlag(false)" class="buttonCancelSwitch" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.7); border-radius: 0.5em;">Cancel</button>
@@ -42,14 +45,22 @@
 
           <div class="fightMoves" v-if="fightFlag && !choiseSent">
             <div class="movesButtons" v-for="move in activeMoves" :key="move">
-              <button type="button" :disabled="move.disabled" class="buttonMove" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.7); border-radius: 0.5em;" @click="sendChosenMove(move.move)">{{move.move}}</button>
+              <button type="button" :disabled="move.disabled" class="buttonMove" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.7); border-radius: 0.5em;" @click="sendChosenMove(move.move)">
+                <div class="moveType">
+                  <img :src="typesURL + move.moveType + extension">
+                </div>
+                <p>{{move.move}}</p>
+                <p>{{move.pp}}/{{move.maxpp}}</p>
+              </button>
             </div>
             <button @click="changeFightFlag(false)" class="buttonCancelFight" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.7); border-radius: 0.5em;">Cancel</button>
           </div>
 
-          <div v-if="choiseSent">
-            <h1>Waiting for opponent...</h1>
-            <div class="loader"></div>
+          <div v-if="choiseSent" class="waitingForOpponent">
+            <div class="waitingForOpponentLoading">
+              <div class="loader"></div>
+              <p class="waitingText">Waiting for opponent...</p>
+            </div>
             <button @click="cancelChoice()" class="buttonCancelAction" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.7); border-radius: 0.5em;">Cancel</button>
           </div>
         </div>
@@ -113,6 +124,7 @@ export default defineComponent({
       forfeitFlag: false as boolean, /** Flag que controla la rendición en una batalla. */
 
       pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
+      typesURL: 'https://play.pokemonshowdown.com/sprites/types/' as string,  /** URL donde se encuentran los iconos de los tipos de Pokémon. */
       extension: '.png' as string, /** Extensión de los iconos. */
     }
   },
@@ -128,6 +140,7 @@ export default defineComponent({
       send(data);
       this.$store.commit('SET_BATTLEFINISHED', true);
       this.forfeitFlag = false;
+      this.timer = -1;
     },
 
     /** Cancelar rendición. */
@@ -183,6 +196,23 @@ export default defineComponent({
       const data = this.$store.state.battleInfo + '|/timer ' + status;
       send(data);
     },
+
+    /** Conseguir la vida restante y la vida máxima del Pokémon pasado como parámetro. */
+    getPokemonHealth(pokemonName: string) {
+      let health = {
+        hpleft: 0 as number,
+        maxhp: 0 as number,
+      }
+
+      for (let i = 0; i < this.battleUser.team.length; i++) {
+        if (this.battleUser.team[i].ident.split(' ')[1] === pokemonName) {
+          health.hpleft = this.battleUser.team[i].condition.split(' ')[0].split('/')[0];
+          health.maxhp = this.battleUser.team[i].condition.split(' ')[0].split('/')[1];
+        }
+      }
+
+      return health;
+    }
   },
   computed: {
     ...mapState([
@@ -229,6 +259,8 @@ export default defineComponent({
       immediate: true
     }
   },
+
+  //width="650" height="416" style="position: relative; left: -101px; top: -56px; right: -10000px
 })
 </script>
 
@@ -257,6 +289,14 @@ export default defineComponent({
 
 .battle {
   background-color: #d7313e;
+}
+
+.iframeShowdown {
+  width: 100vw;
+  height: 100%;
+  pointer-events: none;
+  position: relative;
+  clip-path: inset(3.6em 80em 11.1em 0em);
 }
 
 .timerForfeit {
@@ -389,25 +429,6 @@ export default defineComponent({
   background-color: #d7313e;
 }
 
-.movesButtons {
-
-}
-
-.buttonCancelAction {
-  height: 1em;
-  width: 3em;
-  background-color: #d7313e;
-  color: white;
-  font-size: large;
-}
-
-.buttonCancelAction:hover {
-  background-color: #e85660;
-}
-
-.buttonCancelAction:active {
-  background-color: #d7313e;
-}
 
 .buttonFight {
   height: 3em;
@@ -444,11 +465,20 @@ export default defineComponent({
 
 
 .buttonMove {
-  height: 3em;
-  width: 10em;
+  height: 4em;
+  width: 15em;
   background-color: #d7313e;
   color: white;
-  font-size: large;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  font-size: medium;
+  padding: 0.5em;
+}
+
+.buttonMove p {
+  margin: 0;
 }
 
 .buttonMove:hover {
@@ -459,6 +489,13 @@ export default defineComponent({
   background-color: #d7313e;
 }
 
+.moveType {
+  margin-right: 0.5em;
+}
+
+.moveType img {
+  width: 2.5em;
+}
 
 .buttonPokemon {
   height: 4em;
@@ -481,27 +518,77 @@ export default defineComponent({
   background-color: #d7313e;
 }
 
-.card-tooltip .card-tooltip.text{
-  visibility: hidden;
+.pokemonNameHP {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-items: start;
 }
 
-.card-tooltip:hover .card-tooltip.text{
-  visibility: visible;
-  opacity: 1;
+.pokemonNameHP p {
+  margin: 0;
+}
+
+.pokemonNameHP progress {
+  width: 6em;
+}
+
+.waitingForOpponent {
+  grid-column: 1/3;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.waitingForOpponentLoading {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.waitingText {
+  display: inline-block;
+  font-size: xx-large;
+  font-weight: bold;
+  color: #1e1e1e;
+  margin: 0;
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
+  display: inline-block;
+  border: 2em solid #f3f3f3; /* Light grey */
+  border-top: 2em solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 3em;
+  height: 3em;
   animation: spin 2s linear infinite;
+  margin-right: 2em;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.buttonCancelAction {
+  margin: 0em 1em 1.2em 0em;
+
+  position: fixed;
+  justify-self: end;
+  align-self: end;
+
+  height: 2em;
+  width: 4em;
+  background-color: #d7313e;
+  color: white;
+  font-size: medium;
+}
+
+.buttonCancelAction:hover {
+  background-color: #e85660;
+}
+
+.buttonCancelAction:active {
+  background-color: #d7313e;
 }
 
 .mainMenu {

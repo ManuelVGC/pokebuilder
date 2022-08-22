@@ -13,7 +13,7 @@ import {BattleText} from "./assets/battleText";
 import {IMove} from "./interfaces/Move";
 import {FieldConditions} from "./interfaces/FieldConditions";
 import {SideConditions} from "./interfaces/SideConditions";
-import {send} from "./services/websocket";
+import {getMoveData} from "@/services/showdownLibraryService";
 
 const battleUser = new BattleUser();
 const battleRival = new BattleUser();
@@ -77,7 +77,7 @@ export const messageParser = (messageData: string) => {
 }
 
 /** Manejo de mensajes de batalla. */
-const battleMessagesParser = (messages : string[]) => {
+const battleMessagesParser = async (messages : string[]) => {
     let message: string[];
 
     if (messages[0].startsWith(store.state.battleInfo) && messages[0].trim() != store.state.battleInfo) { /** A veces showdown añade una subcadena a la info de batalla original, así que lo que hago aquí es cambiarla para que funcione correctamente la batalla. */
@@ -125,6 +125,10 @@ const battleMessagesParser = (messages : string[]) => {
 
                         store.commit('SET_FIGHTFLAG', false);
                         store.commit('SET_POKEMONFLAG', false);
+
+                        for (let i = 0; i < activeData.moves.length; i++) {
+                            activeData.moves[i].moveType = await getMoveType(activeData.moves[i].move);
+                        }
 
                         store.commit('SET_ACTIVEMOVES', activeData.moves);
 
@@ -2043,5 +2047,14 @@ const setPokemonToSwitchIn = (request: string) => {
     }
 
     store.commit('SET_POKEMONTOSWITCHIN', pokemonToSwitchIn);
+}
+
+
+
+/** Añadir tipo del movimiento a los movimientos del Pokémon activo en la batalla. */
+const getMoveType = async (moveName: string) => {
+    const moveData = await getMoveData(moveName);
+    const moveType = moveData.data.baseMoveType;
+    return moveType;
 }
 

@@ -196,3 +196,9 @@ export const getPokemonType = (pokemonName: string) => {
     const types = Dex.mod(gen).species.get(pokemonName).types;
     return types;
 }
+
+/** Función que devuelve la información del movimiento pasado como parámetro. */
+export const getMoveInfo = (moveName: string) => {
+    const moveInfo = Dex.mod(gen).moves.get(moveName);
+    return moveInfo;
+}

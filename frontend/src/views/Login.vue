@@ -48,10 +48,11 @@ export default defineComponent({
     /** Inicio de sesión en Pokémon Showdown. */
     async logIn() {
       const assertion = await logInShowdown(this.$store.state.user);
-      if (assertion === -1) { //Fallo en el logeo
+
+      if (assertion.data === -1) { //Fallo en el logeo
         this.error = true;
       } else { //Inicio de sesión correcto
-        send('|/trn ' + this.$store.state.user.username + ',0,' + assertion);
+        send('|/trn ' + this.$store.state.user.username + ',0,' + assertion.data);
         console.log("Log in successful");
         this.$router.push({name: "home"});
       }

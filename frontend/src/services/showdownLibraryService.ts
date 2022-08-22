@@ -14,6 +14,7 @@ export const getItemList = async () : Promise<AxiosResponse> => await axiosInsta
 
 export const getNatureList = async () : Promise<AxiosResponse> => await axiosInstanceMyServer.get('/dex/naturesList');
 
+export const getMoveData = async (moveName: string) : Promise<AxiosResponse> => await axiosInstanceMyServer.get('/move/' + moveName);
 
 export const convertToJSON = async (pokemonTeam: IPokemon[]) : Promise<AxiosResponse> => await axiosInstanceMyServer.post('/teamValidator/json', pokemonTeam);
 

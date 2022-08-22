@@ -6,8 +6,18 @@
 
 import {Router} from "express";
 import Team from "../models/Team";
-import {getAllPokemon, getPokemonLearnset, getPokemonAbilities, getItems, getNatures, getPokemonBaseStats, getPokemonType} from "../dex";
+import {
+    getAllPokemon,
+    getPokemonLearnset,
+    getPokemonAbilities,
+    getItems,
+    getNatures,
+    getPokemonBaseStats,
+    getPokemonType,
+    getMoveInfo
+} from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
+import {axiosInstanceShowdown} from "../axios";
 
 const router = Router();
 
@@ -153,5 +163,33 @@ router.post('/teamValidator/packed', async (req, res) => {
 
     res.send(convertedTeam);
 });
+
+/** Inicio de sesión en Pokémon Showdown. */
+router.post('/logInShowdown/', async (req, res) => {
+    const user = req.body;
+    let checkAssertion;
+
+    const act = 'login';
+    const data = 'act=' + act + '&name=' + user.username + '&pass=' + user.password + '&challstr=' + user.challstr;
+    const response = await axiosInstanceShowdown.post('', data);
+    const message = JSON.parse(response.data.substring(1));
+    const assertion = message.assertion;
+
+    if(assertion.substring(0, 2) === ';;') {
+        checkAssertion = -1;
+    } else {
+        checkAssertion = assertion;
+    }
+
+
+    res.send(checkAssertion);
+});
+
+/** Recuperar la información de un movimiento en concreto. */
+router.get('/move/:moveName/', async (req, res) => {
+    const moveInfo = getMoveInfo(req.params.moveName);
+    res.send(moveInfo);
+});
+
 
 export default router;
