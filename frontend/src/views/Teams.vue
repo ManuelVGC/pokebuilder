@@ -5,8 +5,8 @@
       <div class="gridMenu">
         <p class="myCreatedTeamsText">My created teams</p>
         <div class="buttons">
-          <button type="button" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push({name: 'teambuilder', params: {id: 'newTeam'}});">Create team</button>
-          <button type="button" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/home')">Go back to home</button>
+          <button type="button" class="buttonCreateTeam" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push({name: 'teambuilder', params: {id: 'newTeam'}});">Create team</button>
+          <button type="button" class="buttonGoBack" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/home')">Go back to home</button>
         </div>
       </div>
 
@@ -28,7 +28,7 @@
                 <p class="errorTitle">Warning!</p>
                 <div class="errorDescription">Are you sure you want to delete this team?</div>
                 <div>
-                  <button @click="deleteTeam(team._id)" class="buttonConfirmDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Go back</button>
+                  <button @click="deleteTeam(team._id)" class="buttonConfirmDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Delete</button>
                   <button @click="cancel()" class="buttonCancelDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
                 </div>
               </div>
@@ -85,6 +85,7 @@ export default defineComponent({
     async deleteTeam(teamID: string) {
       await deleteTeam(this.$store.state.user.username, teamID);
       this.loadUserTeams();
+      this.deleteTeamFlag = false;
     },
 
     /** Cancelar acción de borrar equipo. */
@@ -120,7 +121,6 @@ export default defineComponent({
   display: grid;
   grid-template-rows: 1fr 5fr;
   justify-items: center;
-  align-items: center;
 }
 
 .gridMenu {
@@ -181,7 +181,7 @@ export default defineComponent({
   margin-right: 2em;
 }
 
-.button2 {
+.buttonGoBack {
   margin-left: 1em;
   height: 3em;
   width: 10em;
@@ -190,61 +190,61 @@ export default defineComponent({
   font-size: large;
 }
 
-.button2:hover {
+.buttonGoBack:hover {
   background-color: #e85660;
 }
 
-.button2:active {
+.buttonGoBack:active {
   background-color: #d7313e;
 }
 
-.button {
+.buttonCreateTeam {
   height: 3em;
   width: 10em;
-  background-color: #4b88c3;
-  color: white;
+  background-color: #4bbf73;
+  color: #1e1e1e;
   font-size: large;
 }
 
-.button:hover {
-  background-color: #5397d9;
+.buttonCreateTeam:hover {
+  background-color: #58e88a;
 }
 
-.button:active {
-  background-color: #4b88c3;
+.buttonCreateTeam:active {
+  background-color: #4bbf73;
 }
 
 .buttonDelete {
   height: 3em;
   width: 10em;
-  background-color: #4b88c3;
+  background-color: #d7313e;
   color: white;
   font-size: medium;
 }
 
 .buttonDelete:hover {
-  background-color: #5397d9;
+  background-color: #e85660;
 }
 
 .buttonDelete:active {
-  background-color: #4b88c3;
+  background-color: #d7313e;
 }
 
 .buttonEdit {
   margin-left: 1em;
   height: 3em;
   width: 10em;
-  background-color: #4b88c3;
+  background-color: #1768AC;
   color: white;
   font-size: medium;
 }
 
 .buttonEdit:hover {
-  background-color: #5397d9;
+  background-color: #5397f9;
 }
 
 .buttonEdit:active {
-  background-color: #4b88c3;
+  background-color: #1768AC;
 }
 
 .noTeams {
@@ -309,17 +309,17 @@ export default defineComponent({
   margin: 1em 0em;
   height: 4em;
   width: 20em;
-  background-color: #d7313e;
+  background-color: #1768AC;
   color: white;
   font-size: large;
 }
 
 .buttonCancelDelete:hover {
-  background-color: #e85660;
+  background-color: #5397f9;
 }
 
 .buttonCancelDelete:active {
-  background-color: #d7313e;
+  background-color: #1768AC;
 }
 
 </style>

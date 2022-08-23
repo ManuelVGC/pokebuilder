@@ -10,8 +10,8 @@
           <input class="inputTeamName" type="text" placeholder=" Type the name of your Pokémon team!" v-model.trim="pokemonTeamName">
         </div>
         <div class="buttons">
-          <button type="button" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="goBackToTeamList()">Go back</button>
-          <button type="button" class="button3" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="saveTeam()">Save team</button>
+          <button type="button" class="buttonGoBack" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="goBackToTeamList()">Go back</button>
+          <button type="button" class="buttonSaveTeam" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.5); border-radius: 0.5em;" @click="saveTeam()">Save team</button>
         </div>
       </div>
       <div class="autocomplete" v-if="pokemonTeamArray.length < 6">
@@ -23,7 +23,7 @@
         </ul>
       </div>
       <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-
+        <p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>
       </div>
 
     </div>
@@ -36,7 +36,7 @@
       <div class="popUp">
         <p class="errorTitle">The team has the following errors:</p>
         <div class="errorDescription" v-for="error in errosInTeam" :key="error">- {{error}}</div>
-        <button @click="closeErrorInTeam()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+        <button @click="closeErrorInTeam()" class="buttonCloseError" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
       <div class="popUp">
         <p class="errorTitle">The team has the following errors:</p>
         <div class="errorDescription">You have to introduce a team name.</div>
-        <button @click="closeErrorTeamNameEmpty()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+        <button @click="closeErrorTeamNameEmpty()" class="buttonCloseError" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
       </div>
     </div>
 
@@ -53,8 +53,8 @@
         <p class="errorTitle">Warning!</p>
         <div class="errorDescription">Are you sure you want to go back to the teamlist without saving the current changes?</div>
         <div>
-          <button @click="this.$router.push('/teams')" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Go back</button>
-          <button @click="cancel()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
+          <button @click="this.$router.push('/teams')" class="buttonGoBackConfirm" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Go back</button>
+          <button @click="cancel()" class="buttonCancel" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
         </div>
       </div>
     </div>
@@ -356,7 +356,7 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.button {
+.buttonCancel {
   margin-top: 2em;
   height: 4em;
   width: 20em;
@@ -365,30 +365,65 @@ export default defineComponent({
   font-size: large;
 }
 
-.button:hover {
+.buttonCancel:hover {
   background-color: #5397d9;
 }
 
-.button:active {
+.buttonCancel:active {
   background-color: #4b88c3;
 }
 
-.button2 {
+.buttonGoBackConfirm {
+  margin-top: 2em;
+  height: 4em;
+  width: 20em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.buttonGoBackConfirm:hover {
+  background-color: #e85660;
+}
+
+.buttonGoBackConfirm:active {
+  background-color: #d7313e;
+}
+
+.buttonCloseError {
+  margin-top: 2em;
+  height: 4em;
+  width: 20em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.buttonCloseError:hover {
+  background-color: #e85660;
+}
+
+.buttonCloseError:active {
+  background-color: #d7313e;
+}
+
+.buttonGoBack {
   height: 4em;
   width: 10em;
   background-color: #d7313e;
   color: white;
 }
 
-.button2:hover {
+.buttonGoBack:hover {
   background-color: #e85660;
 }
 
-.button2:active {
+.buttonGoBack:active {
   background-color: #d7313e;
 }
 
-.button3 {
+
+.buttonSaveTeam {
   height: 4em;
   width: 10em;
   background-color: #4bbf73;
@@ -396,11 +431,11 @@ export default defineComponent({
   margin-left: 1em;
 }
 
-.button3:hover {
+.buttonSaveTeam:hover {
   background-color: #58e88a;
 }
 
-.button3:active {
+.buttonSaveTeam:active {
   background-color: #4bbf73;
 }
 
@@ -478,6 +513,15 @@ export default defineComponent({
 
 .suggestions {
   background-color: #d7313e;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.sugerencias {
+  font-weight: bold;
+  color: black;
+  font-size: x-large;
 }
 
 .pokemonCards {

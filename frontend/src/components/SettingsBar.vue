@@ -14,8 +14,8 @@
         <p class="errorTitle">Warning!</p>
         <div class="errorDescription">Do you really want to log out?"</div>
         <div>
-          <button @click="logOut()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log out</button>
-          <button @click="cancel()" class="button2" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
+          <button @click="logOut()" class="buttonLogOut" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log out</button>
+          <button @click="cancel()" class="buttonCancel" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@ export default defineComponent({
 
 <style scoped>
 .navbar {
-  background-color: #4b88c3;
+  background-color: #1768AC;
 }
 .gridNavBar {
   display: grid;
@@ -132,7 +132,7 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.button {
+.buttonLogOut {
   display: inline-block;
   margin-top: 2em;
   height: 3em;
@@ -142,30 +142,30 @@ export default defineComponent({
   font-size: large;
 }
 
-.button:hover {
+.buttonLogOut:hover {
   background-color: #e85660;
 }
 
-.button:active {
+.buttonLogOut:active {
   background-color: #d7313e;
 }
 
-.button2 {
+.buttonCancel {
   display: inline-block;
   margin-top: 2em;
   height: 3em;
   width: 10em;
-  background-color: #d7313e;
+  background-color: #1768AC;
   color: white;
   font-size: large;
 }
 
-.button2:hover {
-  background-color: #e85660;
+.buttonCancel:hover {
+  background-color: #5397f9;
 }
 
-.button2:active {
-  background-color: #d7313e;
+.buttonCancel:active {
+  background-color: #1768AC;
 }
 
 </style>

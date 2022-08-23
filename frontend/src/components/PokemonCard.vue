@@ -12,47 +12,47 @@
         </div>
         <div class="pokemonName">{{pokemon.name}}</div>
         <div class="addItemAbilityNature">
-          <div class="button" @click="addItem()" v-if="pokemon.item === ''">
-            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
-            <p class="addDeleteText">Add item</p>
+          <div class="buttonLeft" @click="addItem()" v-if="pokemon.item === ''">
+            <font-awesome-icon class="addDeleteIconLeft" icon="fas fa-plus-square" />
+            <p class="addDeleteTextLeft">Add item</p>
           </div>
           <div v-else>
-            <font-awesome-icon icon="fas fa-minus-square" @click="deleteItem()" class="button addDeleteIcon"/>
-            <p class="addDeleteText">{{pokemon.item}}</p>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteItem()" class="buttonDeleteLeft addDeleteIconLeft"/>
+            <p class="addDeleteTextLeft">{{pokemon.item}}</p>
           </div>
         </div>
         <div class="addItemAbilityNature">
-          <div class="button" @click="addAbility()" v-if="pokemon.ability === ''">
-            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
-            <p class="addDeleteText">Add ability</p>
+          <div class="buttonLeft" @click="addAbility()" v-if="pokemon.ability === ''">
+            <font-awesome-icon class="addDeleteIconLeft" icon="fas fa-plus-square" />
+            <p class="addDeleteTextLeft">Add ability</p>
           </div>
           <div v-else>
-            <font-awesome-icon icon="fas fa-minus-square" @click="deleteAbility()" class="button addDeleteIcon"/>
-            <p class="addDeleteText">{{pokemon.ability}}</p>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteAbility()" class="buttonDeleteLeft addDeleteIconLeft"/>
+            <p class="addDeleteTextLeft">{{pokemon.ability}}</p>
           </div>
         </div>
         <div class="addItemAbilityNature">
-          <div class="button" @click="addNature()" v-if="pokemon.nature === ''">
-            <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
-            <p class="addDeleteText">Add nature</p>
+          <div class="buttonLeft" @click="addNature()" v-if="pokemon.nature === ''">
+            <font-awesome-icon class="addDeleteIconLeft" icon="fas fa-plus-square" />
+            <p class="addDeleteTextLeft">Add nature</p>
           </div>
           <div v-else>
-            <font-awesome-icon icon="fas fa-minus-square" @click="deleteNature()" class="button addDeleteIcon"/>
-            <p class="addDeleteText">{{pokemon.nature}}</p>
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteNature()" class="buttonDeleteLeft addDeleteIconLeft"/>
+            <p class="addDeleteTextLeft">{{pokemon.nature}}</p>
           </div>
         </div>
       </div>
 
       <div class="mainGridRight">
         <div v-if="pokemon.moves.length > 0" >
-          <div v-for="move in pokemon.moves" :key="move">
-            <font-awesome-icon icon="fas fa-minus-square" @click="deleteMove(move)" class="button addDeleteIcon"/>
-            <p class="addDeleteText">{{move}}</p>
+          <div v-for="move in pokemon.moves" :key="move" class="buttonAddMove">
+            <font-awesome-icon icon="fas fa-minus-square" @click="deleteMove(move)" class="buttonDeleteRight addDeleteIconRight"/>
+            <p class="addDeleteTextRight">{{move}}</p>
           </div>
         </div>
-        <div class="button" @click="addMove()" v-if="pokemon.moves.length <= 3">
-          <font-awesome-icon class="addDeleteIcon" icon="fas fa-plus-square" />
-          <p class="addDeleteText">Add move</p>
+        <div class="buttonRight" @click="addMove()" v-if="pokemon.moves.length <= 3">
+          <font-awesome-icon class="addDeleteIconRight" icon="fas fa-plus-square" />
+          <p class="addDeleteTextRight">Add move</p>
         </div>
       </div>
     </div>
@@ -109,9 +109,9 @@
     </div>
 
 
-    <div @click="removePokemon()" class="deletePokemonButton button">
-      <font-awesome-icon class="addDeleteIcon" icon="fas fa-minus-square"/>
-      <p class="addDeleteText">Remove Pokémon</p>
+    <div @click="removePokemon()" class="deletePokemonButton">
+      <font-awesome-icon class="addDeleteIconLeft" icon="fas fa-minus-square"/>
+      <p class="deletePokemonText">Remove Pokémon</p>
     </div>
   </div>
 </template>
@@ -571,18 +571,46 @@ div {
   display:grid;
   grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
   padding: 1em 2em 0em 2em;
-  background: cadetblue;
+  background: #4b88c3;
   align-items: center;
 }
 
-.button:hover {
-  color: black;
+.buttonLeft:hover {
+  color: #1e1e1e;
+  cursor: pointer;
+}
+
+.buttonRight {
+  cursor: pointer;
+  color: #1e1e1e;
+}
+
+.buttonRight:hover {
+  cursor: pointer;
+  color: #4b88c3;
+}
+
+.buttonAddMove {
+  color: #1e1e1e;
+}
+
+.buttonDeleteLeft:hover {
+  color: #d7313e;
+  cursor: pointer;
+}
+
+.buttonDeleteRight {
+  color: #1e1e1e;
+}
+
+.buttonDeleteRight:hover {
+  color: #d7313e;
   cursor: pointer;
 }
 
 .mainGridRight {
   padding: 2em 2em;
-  background: #3498db;
+  background: white;
 }
 
 .containerSpriteTypes {
@@ -610,7 +638,8 @@ div {
 }
 
 .evsIvs {
-  background: orange;
+  background: #5397d9;
+  border-top: 0.2em solid #1e1e1e;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   padding: 0em 1.5em;
@@ -633,7 +662,7 @@ div {
 }
 
 .inputEVsIVs {
-  background: #3498db;
+  background: white;
   width: 3em;
 }
 
@@ -643,16 +672,37 @@ div {
 }
 
 .deletePokemonButton {
-  background: firebrick;
-  text-align: center;
-  padding-top: 1em;
+  display: flex;
+  background: #d7313e;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
 }
 
-.addDeleteIcon {
+.deletePokemonButton:hover {
+  color: #1e1e1e;
+  cursor: pointer;
+}
+
+.deletePokemonText {
+  margin: 0em 0em 0em 1em;
+}
+
+.addDeleteIconLeft {
   display: inline-block;
 }
 
-.addDeleteText {
+.addDeleteIconRight {
+  display: inline-block;
+
+}
+
+.addDeleteTextLeft {
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.addDeleteTextRight {
   display: inline-block;
   margin-left: 0.5em;
 }

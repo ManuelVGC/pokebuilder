@@ -95,8 +95,8 @@
         <p class="errorTitle">Warning!</p>
         <div class="errorDescription">Do you really want to forfeit?</div>
         <div>
-          <button @click="forfeit()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Forfeit</button>
-          <button @click="cancel()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
+          <button @click="forfeit()" class="buttonForfeitConfirm" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Forfeit</button>
+          <button @click="cancel()" class="buttonCancelForfeit" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
         </div>
       </div>
     </div>
@@ -309,8 +309,7 @@ export default defineComponent({
 }
 
 .move-Pokemon {
-  background-color: #58e88a;
-
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .questionText {
@@ -324,34 +323,38 @@ export default defineComponent({
 .buttonTimer {
   height: 3em;
   width: 7em;
-  background-color: #d7313e;
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-size: small;
 }
 
 .buttonTimer:hover {
-  background-color: #e85660;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: black;
 }
 
 .buttonTimer:active {
-  background-color: #d7313e;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
 }
 
 
 .buttonForfeit {
   height: 3em;
   width: 7em;
-  background-color: #d7313e;
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-size: small;
 }
 
 .buttonForfeit:hover {
-  background-color: #e85660;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: black;
 }
 
 .buttonForfeit:active {
-  background-color: #d7313e;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
 }
 
 .move-Pokemon {
@@ -385,10 +388,6 @@ export default defineComponent({
   grid-template-rows: 1fr 1fr;
   align-items: center;
   justify-items: center;
-
-}
-
-.movesButtons {
 
 }
 
@@ -450,17 +449,17 @@ export default defineComponent({
 .buttonSwitch {
   height: 3em;
   width: 10em;
-  background-color: #d7313e;
+  background-color: #1768AC;
   color: white;
   font-size: large;
 }
 
 .buttonSwitch:hover {
-  background-color: #e85660;
+  background-color: #5397f9;
 }
 
 .buttonSwitch:active {
-  background-color: #d7313e;
+  background-color: #1768AC;
 }
 
 
@@ -500,7 +499,7 @@ export default defineComponent({
 .buttonPokemon {
   height: 4em;
   width: 12em;
-  background-color: #d7313e;
+  background-color: #1768AC;
   color: white;
   font-size: medium;
   padding: 0.5em;
@@ -511,11 +510,11 @@ export default defineComponent({
 }
 
 .buttonPokemon:hover {
-  background-color: #e85660;
+  background-color: #5397f9;
 }
 
 .buttonPokemon:active {
-  background-color: #d7313e;
+  background-color: #1768AC;
 }
 
 .pokemonNameHP {
@@ -530,6 +529,7 @@ export default defineComponent({
 
 .pokemonNameHP progress {
   width: 6em;
+  background-color: #4bbf73;
 }
 
 .waitingForOpponent {
@@ -592,7 +592,7 @@ export default defineComponent({
 }
 
 .mainMenu {
-  background-color: #58e88a;
+  background-color: rgba(0, 0, 0, 0.4);
   grid-row: 2/4;
   display: grid;
   justify-items: center;
@@ -702,7 +702,25 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.button {
+.buttonForfeitConfirm {
+  margin-top: 2em;
+  height: 4em;
+  width: 20em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.buttonForfeitConfirm:hover {
+  background-color: #e85660;
+}
+
+.buttonForfeitConfirm:active {
+  background-color: #d7313e;
+}
+
+
+.buttonCancelForfeit {
   margin-top: 2em;
   height: 4em;
   width: 20em;
@@ -711,11 +729,11 @@ export default defineComponent({
   font-size: large;
 }
 
-.button:hover {
+.buttonCancelForfeit:hover {
   background-color: #5397d9;
 }
 
-.button:active {
+.buttonCancelForfeit:active {
   background-color: #4b88c3;
 }
 

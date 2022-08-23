@@ -125,34 +125,35 @@ export default defineComponent({
   margin-top: 2em;
   height: 4em;
   width: 15em;
-  background-color: #4b88c3;
+  background-color: #d7313e;
   color: white;
   font-size: large;
+  font-weight: bold;
 }
 
 .button:hover {
-  background-color: #5397d9;
+  background-color: #e85660;
 }
 
 .button:active {
-  background-color: #4b88c3;
+  background-color: #d7313e;
 }
 
 .button2 {
   margin-top: 2em;
   height: 3em;
   width: 10em;
-  background: #4b88c3;
+  background: #d7313e;
   color: white;
   border: none;
 }
 
 .button2:hover {
-  background-color: #5397d9;
+  background-color: #e85660;
 }
 
 .button2:active {
-  background-color: #4b88c3;
+  background-color: #d7313e;
 }
 
 .popUpContainer {

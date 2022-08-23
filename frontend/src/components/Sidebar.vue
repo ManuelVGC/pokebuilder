@@ -258,18 +258,18 @@ export default defineComponent({
 .button {
   height: 4em;
   width: 5em;
-  background-color: #d7313e;
-  color: white;
+  background-color: #4bbf73;
+  color: #1e1e1e;
   font-weight: bold;
   border-radius: 0.5em;
 }
 
 .button:hover {
-  background-color: #e85660;
+  background-color: #58e88a;
 }
 
 .button:active {
-  background-color: #d7313e;
+  background-color: #4bbf73;
 }
 
 .table-head {

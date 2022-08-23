@@ -23,14 +23,14 @@
             <button type="button" class="buttonSearching" style="border-radius: 0.5em;" @click="cancelSearch()">Searching game... Click to cancel.</button>
           </div>
         </div>
-        <button type="button" class="button teambuilder" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/teams')">Teambuilder</button>
+        <button type="button" class="buttonTeambuilder teambuilder" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="this.$router.push('/teams')">Teambuilder</button>
       </div>
     </div>
     <div v-if="error" class="popUpContainer">
       <div class="popUp">
         <p class="errorTitle">Error</p>
         <p class="errorDescription">You need a team to battle!</p>
-        <button @click="closeError()" class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
+        <button @click="closeError()" class="buttonError" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
       </div>
     </div>
   </div>
@@ -260,21 +260,40 @@ export default defineComponent({
   background-color: #A4A4A4;
 }
 
-.button {
-  margin-top: 2em;
+.buttonTeambuilder {
+  margin: 1em 0em;
   height: 4em;
   width: 20em;
-  background-color: #4b88c3;
+  background-color: #1768AC;
   color: white;
   font-size: large;
 }
 
-.button:hover {
-  background-color: #5397d9;
+.buttonTeambuilder:hover {
+  background-color: #5397f9;
+  color: white;
 }
 
-.button:active {
-  background-color: #4b88c3;
+.buttonTeambuilder:active {
+  background-color: #1768AC;
+}
+
+
+.buttonError {
+  margin-top: 2em;
+  height: 4em;
+  width: 20em;
+  background-color: #d7313e;
+  color: white;
+  font-size: large;
+}
+
+.buttonError:hover {
+  background-color: #e85660;
+}
+
+.buttonError:active {
+  background-color: #d7313e;
 }
 
 .popUpContainer {
