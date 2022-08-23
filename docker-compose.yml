@@ -3,8 +3,8 @@ version: '3'
 services:
   back-end:
     build: backend
-    ports:
-      - "4000:4000"
+    expose:
+      - "4000"
     links:
       - mongo
 
@@ -15,5 +15,5 @@ services:
 
   mongo:
     image: mongo:latest
-    ports:
-      - "27017:27017"
+    expose:
+      - "27017"
