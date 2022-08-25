@@ -17,7 +17,7 @@ import {
     getMoveInfo
 } from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
-import {axiosInstanceShowdown} from "../axios";
+import {axiosInstanceShowdown, axiosInstanceRecommendationSystem} from "../axios";
 
 const router = Router();
 
@@ -189,6 +189,21 @@ router.post('/logInShowdown/', async (req, res) => {
 router.get('/move/:moveName/', async (req, res) => {
     const moveInfo = getMoveInfo(req.params.moveName);
     res.send(moveInfo);
+});
+
+
+/** Conseguir recomendaciones de Pokémon del sistema recomendador a partir de unos Pokémon dados. */
+router.post('/recommendationSystem/', async (req, res) => {
+    const ids = req.body;
+
+    const recommendations = await axiosInstanceRecommendationSystem.post('/', {
+        "sequence" : [1,2],
+        "topk" : 5
+    }).then(response => {
+        res.send(recommendations);
+    }).catch(err => {
+        res.send(err);
+    });
 });
 
 

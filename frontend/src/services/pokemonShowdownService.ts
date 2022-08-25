@@ -1,5 +1,5 @@
 /**
- * Este archivo implementa diferentes funciones son usadas para el inicio de sesión en Pokémon Showdown.
+ * Este archivo implementa diferentes funciones que son usadas para el inicio de sesión en Pokémon Showdown.
  */
 
 import {axiosInstanceMyServer} from "../services/axios";

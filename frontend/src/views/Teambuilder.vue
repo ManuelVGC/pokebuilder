@@ -23,7 +23,8 @@
         </ul>
       </div>
       <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-        <p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>
+        <!--<p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>-->
+        <button @click="showRecommendationsFromSystem()">RECOMENDACIONES</button>
       </div>
 
     </div>
@@ -72,6 +73,7 @@ import {IPokemon, Pokemon} from "@/interfaces/Pokemon";
 import SideBar from "@/components/Sidebar.vue";
 import {createTeam, getTeam, updateTeam} from "@/services/teambuilderService";
 import {ITeam} from "@/interfaces/Team";
+import {getRecommendations} from "@/services/recommendationSystemService";
 
 export default defineComponent({
   name: 'TeambuilderView',
@@ -98,6 +100,8 @@ export default defineComponent({
       errosInTeam: [] as string[], /** Errores que han surgido al intentar guardar el equipo. */
       errorTeamNameEmpty: false as boolean, /** Flag que indica que el usuario no ha introducido un nombre para el equipo. */
       goBackConfirmation: false as boolean, /** Flag que indica si el jugador quiere volver a la página anterior. */
+
+      recommendations: [],
     }
   },
   computed: {
@@ -293,11 +297,31 @@ export default defineComponent({
     closeErrorTeamNameEmpty() {
       this.errorTeamNameEmpty = false;
     },
+
+
+    async getRecommendationsFromSystem() {
+      /*const ids =  {
+        sequence: [1,2],
+        topk: 20
+      };
+      console.log('Las ids son: ');
+      console.log(ids);*/
+      const res = await getRecommendations();
+      this.recommendations = res.data;
+      console.log('Las recomendaciones que me dan son: ');
+      console.log(this.recommendations);
+    },
+
+    showRecommendationsFromSystem() {
+      console.log(this.recommendations);
+    },
+
   },
   mounted() {
     this.loadTeam();
     this.getPokemonList();
     document.addEventListener('click', this.handleClickOutside);
+    this.getRecommendationsFromSystem();
   },
 })
 </script>

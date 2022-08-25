@@ -1,0 +1,8 @@
+cloudpickle==2.1.0
+fastapi==0.80.0
+numpy==1.21.6
+pandas==1.3.5
+pokebase==1.3.0
+pydantic==1.9.2
+recbole==1.0.1
+uvicorn==0.18.2

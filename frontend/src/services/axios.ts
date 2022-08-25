@@ -11,5 +11,11 @@ export const axiosInstanceMyServer: AxiosInstance = axios.create({
         'Content-Type': 'application/json',
     }
 });
-
-
+/*
+export const axiosInstanceRecommenderSystem: AxiosInstance = axios.create({
+    baseURL: 'http://localhost:8888/v1/recommend',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
+*/

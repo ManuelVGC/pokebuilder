@@ -1,6 +1,6 @@
 /**
  * Archivo que se encarga del manejo de Axios para las llamadas HTTP.
- * Concretamente hay una instancia, necesaria para conectar con Pokémon Showdown.
+ * Concretamente hay dos instancias: una necesaria para conectar con Pokémon Showdown y otra para conectar con el sistema recomendador.
  */
 
 import axios, { AxiosInstance} from 'axios'
@@ -10,5 +10,12 @@ export const axiosInstanceShowdown: AxiosInstance = axios.create({
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded; encoding=UTF-8',
         'Access-Control-Allow-Origin': '*',
+    }
+});
+
+export const axiosInstanceRecommendationSystem: AxiosInstance = axios.create({
+    baseURL: 'http://localhost:8888/v1/recommend',
+    headers: {
+        'Content-Type': 'application/json',
     }
 });
