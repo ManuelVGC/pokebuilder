@@ -14,7 +14,8 @@ import {
     getNatures,
     getPokemonBaseStats,
     getPokemonType,
-    getMoveInfo
+    getMoveInfo,
+    getPokemonID
 } from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
 import {axiosInstanceShowdown, axiosInstanceRecommendationSystem} from "../axios";
@@ -125,6 +126,11 @@ router.get('/dex/:pokemonName/:info', async (req, res) => {
         const types = getPokemonType(req.params.pokemonName);
         res.send(types);
     }
+
+    else if (req.params.info === 'id') {
+        const id = getPokemonID(req.params.pokemonName);
+        res.send(id);
+    }
 });
 
 /** Recuperar lista de items que pueden llevar equipados los Pokémon. */
@@ -194,19 +200,12 @@ router.get('/move/:moveName/', async (req, res) => {
 
 /** Conseguir recomendaciones de Pokémon del sistema recomendador a partir de unos Pokémon dados. */
 router.post('/recommendationSystem/', async (req, res) => {
+    const ids = req.body;
     const axios = require('axios');
 
     const response = await axios.post(
         'http://144.24.193.216:8888/v1/recommend',
-        // '{\n  "sequence": [\n    22,23,24\n  ],\n  "topk": 5\n}',
-        {
-            'sequence': [
-                22,
-                23,
-                24
-            ],
-            'topk': 5
-        },
+        ids,
         {
             headers: {
                 'accept': 'application/json',

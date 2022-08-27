@@ -67,7 +67,7 @@
 
 import {defineComponent} from "vue";
 import SettingsBar from "../components/SettingsBar.vue";
-import {convertToJSON, getPokemonListDex} from "../services/showdownLibraryService";
+import {convertToJSON, getPokemonListDex, getPokemonData} from "../services/showdownLibraryService";
 import PokemonCard from "@/components/PokemonCard.vue";
 import {IPokemon, Pokemon} from "@/interfaces/Pokemon";
 import SideBar from "@/components/Sidebar.vue";
@@ -102,6 +102,8 @@ export default defineComponent({
       goBackConfirmation: false as boolean, /** Flag que indica si el jugador quiere volver a la página anterior. */
 
       recommendations: [],
+
+      pokemonTeamIDs: [] as string[],
     }
   },
   computed: {
@@ -115,6 +117,10 @@ export default defineComponent({
         pokemonTeamNames.push(pokemonName);
       }
       return pokemonTeamNames;
+    },
+
+    pokemonTeamLength() {
+      return this.pokemonTeamArray.length;
     },
   },
   methods: {
@@ -299,30 +305,38 @@ export default defineComponent({
     },
 
 
-    async getRecommendationsFromSystem() {
-      /*const ids =  {
-        sequence: [1,2],
-        topk: 20
+    async getRecommendationsFromSystem(teamIDs: string[]) {
+      const ids =  {
+        'sequence': teamIDs,
+        'topk': 5
       };
-      console.log('Las ids son: ');
-      console.log(ids);*/
-      const res = await getRecommendations();
+
+      const res = await getRecommendations(ids);
       this.recommendations = res.data;
       console.log('Las recomendaciones que me dan son: ');
       console.log(this.recommendations);
       console.log(res);
     },
 
-    showRecommendationsFromSystem() {
-      console.log(this.recommendations);
+    async getPokemonID(pokemonName: string) {
+      const res = await getPokemonData(pokemonName, 'id');
+      return res.data.num;
     },
-
+  },
+  watch: {
+    pokemonTeamLength: {
+      async handler(value) {
+        for (let i = 0; i < this.pokemonTeamLength; i++) {
+          let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
+          this.pokemonTeamIDs.push(pokemonID);
+        }
+      }
+    }
   },
   mounted() {
     this.loadTeam();
     this.getPokemonList();
     document.addEventListener('click', this.handleClickOutside);
-    this.getRecommendationsFromSystem();
   },
 })
 </script>
