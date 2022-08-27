@@ -23,7 +23,10 @@
         </ul>
       </div>
       <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-        <p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>
+        <div v-for="(recommendation, j) in this.recommendations" :key="j" @click="addPokemon(pokemon)">
+          <font-awesome-icon icon="fas fa-plus-square"/>
+          <p>{{ recommendation }}</p>
+        </div>
       </div>
 
     </div>
@@ -180,6 +183,8 @@ export default defineComponent({
     async getPokemonList() {
       const res = await getPokemonListDex();
       this.pokemonNameList = res.data;
+      console.log('LA LISTA LA LISTA AQUI ESTA: ');
+      console.log(this.pokemonNameList);
     },
 
     /** Filtrar resultados autocompletados a partir de la palabra introducida por el usuario en la barra de búsqueda. */
@@ -311,10 +316,9 @@ export default defineComponent({
       };
 
       const res = await getRecommendations(ids);
-      this.recommendations = res.data;
+      this.recommendations = res.data.item_list;
       console.log('Las recomendaciones que me dan son: ');
       console.log(this.recommendations);
-      console.log(res);
     },
 
     async getPokemonID(pokemonName: string) {
@@ -329,7 +333,7 @@ export default defineComponent({
           let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
           this.pokemonTeamIDs.push(pokemonID);
         }
-        this.getRecommendationsFromSystem(this.pokemonTeamIDs);
+        await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
       }
     }
   },
