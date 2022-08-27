@@ -310,6 +310,7 @@ export default defineComponent({
       this.recommendations = res.data;
       console.log('Las recomendaciones que me dan son: ');
       console.log(this.recommendations);
+      console.log(res);
     },
 
     showRecommendationsFromSystem() {

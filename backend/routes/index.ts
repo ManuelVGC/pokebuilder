@@ -197,8 +197,12 @@ router.post('/recommendationSystem/', async (req, res) => {
     const ids = req.body;
 
     const recommendations = await axiosInstanceRecommendationSystem.post('/', {
-        "sequence" : [1,2],
-        "topk" : 5
+        'sequence': [
+            22,
+            23,
+            24
+        ],
+        'topk': 5
     }).then(response => {
         res.send(recommendations);
     }).catch(err => {
