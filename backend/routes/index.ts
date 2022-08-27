@@ -15,7 +15,8 @@ import {
     getPokemonBaseStats,
     getPokemonType,
     getMoveInfo,
-    getPokemonID
+    getPokemonID,
+    getPokemonListFiltered
 } from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
 import {axiosInstanceShowdown, axiosInstanceRecommendationSystem} from "../axios";
@@ -96,10 +97,23 @@ router.put('/teams/:user/:id', async(req, res) => {
     res.send(validation);
 });
 
-/** Recuperar una lista con todos los posibles Pokémon que se pueden utilizar. */
-router.get('/dex/', async (req, res) => {
-    const pokemonList = getAllPokemon();
-    res.send(pokemonList);
+/** Recuperar una lista con información acerca de Pokémon. Ya sea una lista con los Pokémon usables, lista de Pokémon de 3gen, lista de items o lista de naturalezas. */
+router.get('/dex/:list', async (req, res) => {
+
+    if(req.params.list === 'pokemonListFiltered') {
+        const pokemonListFiltered = getPokemonListFiltered();
+        res.send(pokemonListFiltered);
+    } else if (req.params.list === 'pokemonFullList') {
+        const fullPokemonList = getAllPokemon();
+        res.send(fullPokemonList);
+    } else if (req.params.list === 'itemsList') {
+        const items = getItems();
+        res.send(items);
+    } else if (req.params.list === 'naturesList') {
+        const natures = getNatures();
+        res.send(natures);
+    }
+
 });
 
 /** Recuperar una información determinada de un Pokémon en concreto. */
@@ -131,18 +145,6 @@ router.get('/dex/:pokemonName/:info', async (req, res) => {
         const id = getPokemonID(req.params.pokemonName);
         res.send(id);
     }
-});
-
-/** Recuperar lista de items que pueden llevar equipados los Pokémon. */
-router.get('/dex/itemsList', async (req, res) => {
-    const items = getItems();
-    res.send(items);
-});
-
-/** Recuperar lista de posibles naturalezas que puede tener un Pokémon. */
-router.get('/dex/naturesList', async (req, res) => {
-    const natures = getNatures();
-    res.send(natures);
 });
 
 /** Convertir el equipo pasado como parámetro a formato JSON. */

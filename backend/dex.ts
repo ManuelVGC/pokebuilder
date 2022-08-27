@@ -7,7 +7,7 @@ import {Dex} from 'pokemon-showdown';
 const gen = 'gen3';
 
 /** Función que devuelve una lista de los nombres de los Pokémon presentes en la tercera generación de Pokémon y formato OU. */
-export const getAllPokemon = () => {
+export const getPokemonListFiltered = () => {
     const allPokemonFromSelectedGen = Dex.mod(gen).species.all();
     let pokemonListFilteredByOU = allPokemonFromSelectedGen.filter(pokemon => (pokemon.num >= 1 && pokemon.num <= 386) && pokemon.tier != 'Illegal' && pokemon.tier != 'Uber');
     pokemonListFilteredByOU = pokemonListFilteredByOU.sort((a, b) => (a.num > b.num) ? 1 : -1);
@@ -18,6 +18,15 @@ export const getAllPokemon = () => {
     }
 
     return pokemonNameList;
+}
+
+/** Función que devuelve una lista de los Pokémon presentes en la tercera generación de Pokémon. */
+export const getAllPokemon = () => {
+    const allPokemonFromSelectedGen = Dex.mod(gen).species.all();
+    let pokemonListFiltered3Gen = allPokemonFromSelectedGen.filter(pokemon => (pokemon.num >= 1 && pokemon.num <= 386) && pokemon.tier != 'Illegal');
+    pokemonListFiltered3Gen = pokemonListFiltered3Gen.sort((a, b) => (a.num > b.num) ? 1 : -1);
+
+    return pokemonListFiltered3Gen;
 }
 
 /** Función que devuelve una lista con los movimientos que puede aprender el Pokémon pasado como parámetro. */

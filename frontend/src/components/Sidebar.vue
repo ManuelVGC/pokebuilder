@@ -108,7 +108,7 @@
 
 import {IPokemon} from "@/interfaces/Pokemon";
 import {defineComponent} from "vue";
-import {getItemList, getPokemonData, getNatureList} from "@/services/showdownLibraryService";
+import {getList, getPokemonData} from "@/services/showdownLibraryService";
 
 export default defineComponent({
   name: "SideBar",
@@ -152,13 +152,13 @@ export default defineComponent({
 
     /** Conseguir la lista de posibles items que puede tener el Pokémon seleccionado. */
     async getItemsList() {
-      const res = await getItemList();
+      const res = await getList('itemsList');
       this.itemsList = res.data;
     },
 
     /** Conseguir la lista de posibles naturalezas que puede tener el Pokémon seleccionado. */
     async getNaturesList() {
-      const res = await getNatureList();
+      const res = await getList('naturesList');
       this.naturesList = res.data;
     },
 

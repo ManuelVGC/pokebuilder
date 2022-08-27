@@ -69,7 +69,7 @@
 
 import {defineComponent} from "vue";
 import SettingsBar from "../components/SettingsBar.vue";
-import {convertToJSON, getPokemonListDex, getPokemonData} from "../services/showdownLibraryService";
+import {convertToJSON, getList, getPokemonData} from "../services/showdownLibraryService";
 import PokemonCard from "@/components/PokemonCard.vue";
 import {IPokemon, Pokemon} from "@/interfaces/Pokemon";
 import SideBar from "@/components/Sidebar.vue";
@@ -181,10 +181,13 @@ export default defineComponent({
 
     /** Conseguir una lista con todos los Pokémon que se pueden utilizar. */
     async getPokemonList() {
-      const res = await getPokemonListDex();
+      const res = await getList('pokemonListFiltered');
       this.pokemonNameList = res.data;
-      console.log('LA LISTA LA LISTA AQUI ESTA: ');
+      console.log('LISTA FILTERED: ');
       console.log(this.pokemonNameList);
+      const res2 = await getList('pokemonFullList');
+      console.log('LISTA COMPLETA: ')
+      console.log(res2);
     },
 
     /** Filtrar resultados autocompletados a partir de la palabra introducida por el usuario en la barra de búsqueda. */
