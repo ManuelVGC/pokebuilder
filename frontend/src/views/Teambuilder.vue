@@ -23,8 +23,7 @@
         </ul>
       </div>
       <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-        <!--<p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>-->
-        <button @click="showRecommendationsFromSystem()">RECOMENDACIONES</button>
+        <p class="sugerencias">Aquí irían las sugerencias de Pokémon</p>
       </div>
 
     </div>
@@ -330,6 +329,7 @@ export default defineComponent({
           let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
           this.pokemonTeamIDs.push(pokemonID);
         }
+        this.getRecommendationsFromSystem(this.pokemonTeamIDs);
       }
     }
   },
