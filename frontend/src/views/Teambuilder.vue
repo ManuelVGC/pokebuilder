@@ -23,7 +23,7 @@
         </ul>
       </div>
       <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-        <div v-for="(recommendation, j) in this.recommendations" :key="j" @click="addPokemon(pokemon)">
+        <div v-for="(recommendation, j) in this.IDrecommendations" :key="j" @click="addPokemon(pokemon)">
           <font-awesome-icon icon="fas fa-plus-square"/>
           <p>{{ recommendation }}</p>
         </div>
@@ -88,7 +88,11 @@ export default defineComponent({
     return {
       search: '' as string, /** Palabra introducida por el usuario en la barra de búsqueda */
       resultListAutocomplete: [] as string[], /** Lista con los resultados autocompletados a partir de la palabra introducida por el usuario. */
-      pokemonNameList: [] as string[], /** Lista con todos los Pokémon que se pueden utilizar. */
+      pokemonNameList: [] as string[], /** Lista con todos los nombres de los Pokémon que se pueden utilizar. */
+      pokemonFullList: [{}] as [{
+        num: string,
+        baseSpecies: string,
+      }], /** Lista con todos los Pokémon de la tercera generación. */
       isOpen: false as boolean, /** Flag que maneja cuándo se ve la lista de resultados autocompletados. */
 
       pokemonSelectedProps: { /** Pokémon seleccionado para modificar y acción que se quiere realizar sobre él. */
@@ -103,7 +107,8 @@ export default defineComponent({
       errorTeamNameEmpty: false as boolean, /** Flag que indica que el usuario no ha introducido un nombre para el equipo. */
       goBackConfirmation: false as boolean, /** Flag que indica si el jugador quiere volver a la página anterior. */
 
-      recommendations: [],
+      IDrecommendations: [],
+      pokemonNameRecommendations: [] as string[],
 
       pokemonTeamIDs: [] as string[],
     }
@@ -183,11 +188,8 @@ export default defineComponent({
     async getPokemonList() {
       const res = await getList('pokemonListFiltered');
       this.pokemonNameList = res.data;
-      console.log('LISTA FILTERED: ');
-      console.log(this.pokemonNameList);
       const res2 = await getList('pokemonFullList');
-      console.log('LISTA COMPLETA: ')
-      console.log(res2);
+      this.pokemonFullList = res2.data;
     },
 
     /** Filtrar resultados autocompletados a partir de la palabra introducida por el usuario en la barra de búsqueda. */
@@ -319,9 +321,9 @@ export default defineComponent({
       };
 
       const res = await getRecommendations(ids);
-      this.recommendations = res.data.item_list;
+      this.IDrecommendations = res.data.item_list;
       console.log('Las recomendaciones que me dan son: ');
-      console.log(this.recommendations);
+      console.log(this.IDrecommendations);
     },
 
     async getPokemonID(pokemonName: string) {
@@ -337,6 +339,15 @@ export default defineComponent({
           this.pokemonTeamIDs.push(pokemonID);
         }
         await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
+        for (let j = 0; j < this.IDrecommendations.length; j++) {
+          for (let x = 0; x < this.pokemonFullList.length; x++) {
+            if (this.IDrecommendations[j] === this.pokemonFullList[x].num) {
+              this.pokemonNameRecommendations.push(this.pokemonFullList[x].baseSpecies);
+            }
+          }
+        }
+        console.log('LAS RECOMENDACIONES DEFINITIVAS SON: ');
+        console.log(this.pokemonNameRecommendations);
       }
     }
   },
