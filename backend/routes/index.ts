@@ -194,20 +194,28 @@ router.get('/move/:moveName/', async (req, res) => {
 
 /** Conseguir recomendaciones de Pokémon del sistema recomendador a partir de unos Pokémon dados. */
 router.post('/recommendationSystem/', async (req, res) => {
-    const ids = req.body;
+    const axios = require('axios');
 
-    const recommendations = await axiosInstanceRecommendationSystem.post('/', {
-        'sequence': [
-            22,
-            23,
-            24
-        ],
-        'topk': 5
-    }).then(response => {
-        res.send(recommendations);
-    }).catch(err => {
-        res.send(err);
-    });
+    const response = await axios.post(
+        'http://144.24.193.216:8888/v1/recommend',
+        // '{\n  "sequence": [\n    22,23,24\n  ],\n  "topk": 5\n}',
+        {
+            'sequence': [
+                22,
+                23,
+                24
+            ],
+            'topk': 5
+        },
+        {
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+
+    res.send(response.data);
 });
 
 
