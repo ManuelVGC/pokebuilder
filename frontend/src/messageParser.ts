@@ -67,6 +67,7 @@ export const messageParser = (messageData: string) => {
 
                 store.commit('EMPTY_CHATMESSAGES');
 
+                store.commit('SET_TIMERRESET', -1);
                 router.push('/battle/' + battleID);
             }
             break;
