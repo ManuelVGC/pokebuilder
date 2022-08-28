@@ -180,7 +180,6 @@ export default defineComponent({
     },
 
     returnToMenu() {
-      this.$store.commit('EMPTY_CHATMESSAGES');
       this.$router.push({name: "home"});
     },
 
@@ -292,10 +291,10 @@ export default defineComponent({
   height: 100%;
   pointer-events: none;
   position: relative;
-  clip-path: inset(3.6em 80em 12.1em 0em);
-  transform: scale(1.7);
-  top: 7.3em;
-  left: 42em;
+  clip-path: inset(3.6em 80em 12.0em 0em);
+  transform: scale(1.74);
+  top: 7.5em;
+  left: 44em;
 }
 
 .timerForfeit {

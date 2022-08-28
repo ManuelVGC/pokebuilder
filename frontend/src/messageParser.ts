@@ -65,6 +65,8 @@ export const messageParser = (messageData: string) => {
 
                 store.commit('SET_BATTLEFINISHED', false);
 
+                store.commit('EMPTY_CHATMESSAGES');
+
                 router.push('/battle/' + battleID);
             }
             break;
