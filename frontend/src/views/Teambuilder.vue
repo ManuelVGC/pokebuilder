@@ -23,10 +23,10 @@
         </ul>
       </div>
       <div class="recommendations" v-if="pokemonTeamArray.length < 6">
-        <button class="recommendation" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" @click="addPokemon(pokemon)">
-          <font-awesome-icon icon="fas fa-plus-square"/>
+        <button class="recommendation" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" @click="addPokemon(recommendation)">
+          <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
           <img :src="pokemonURL + recommendation.toLowerCase() + extension">
-          <p>{{ recommendation }}</p>
+          <p class="pokemonNameText">{{ recommendation }}</p>
         </button>
       </div>
 
@@ -574,13 +574,13 @@ export default defineComponent({
   background-color: #d7313e;
   display: grid;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .recommendation {
-  height: 3em;
-  width: 8em;
+  height: 4em;
+  width: 12em;
   background-color: #4bbf73;
   color: white;
   font-size: medium;
@@ -601,6 +601,16 @@ export default defineComponent({
 .recommendation img {
   width: 2em;
   margin-left: 0.5em;
+  display: inline-block;
+}
+
+.pokemonIcon {
+  display: inline-block;
+}
+
+.pokemonNameText {
+  display: inline-block;
+  margin-left: 0.2em;
 }
 
 .pokemonCards {
