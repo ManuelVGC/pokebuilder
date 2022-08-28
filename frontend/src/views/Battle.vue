@@ -278,7 +278,7 @@ export default defineComponent({
 
 .grid {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: 1.25fr 0.96fr;
   height: 90vh;
 }
 
@@ -287,16 +287,15 @@ export default defineComponent({
   grid-template-rows: 5fr 0.4fr 1.5fr;
 }
 
-.battle {
-  background-color: #d7313e;
-}
-
 .iframeShowdown {
   width: 100vw;
   height: 100%;
   pointer-events: none;
   position: relative;
-  clip-path: inset(3.6em 80em 11.1em 0em);
+  clip-path: inset(3.6em 80em 12.1em 0em);
+  transform: scale(1.7);
+  top: 7.3em;
+  left: 42em;
 }
 
 .timerForfeit {
