@@ -22,16 +22,15 @@
           </li>
         </ul>
       </div>
-      <div class="recommendations" v-if="pokemonTeamArray.length < 6">
-        <button class="recommendation" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" @click="addPokemon(recommendation)">
-          <div v-if="!this.pokemonTeamNames.includes(recommendation)">
+      <div v-if="pokemonTeamArray.length < 6" >
+        <div class="recommendations" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" >
+          <button class="recommendation" @click="addPokemon(recommendation)" v-if="!this.pokemonTeamNames.includes(recommendation)">
             <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
             <img :src="pokemonURL + recommendation.toLowerCase() + extension">
             <p class="pokemonNameText">{{ recommendation }}</p>
-          </div>
-        </button>
+          </button>
+        </div>
       </div>
-
     </div>
     <div class="pokemonCards">
       <PokemonCard v-for="(pokemon, index) in pokemonTeamArray" :key="index" :pokemon="pokemon" class="pokemonCard" @addAbility="handleAddAbility"
