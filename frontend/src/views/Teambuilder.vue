@@ -24,9 +24,11 @@
       </div>
       <div class="recommendations" v-if="pokemonTeamArray.length < 6">
         <button class="recommendation" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" @click="addPokemon(recommendation)">
-          <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
-          <img :src="pokemonURL + recommendation.toLowerCase() + extension">
-          <p class="pokemonNameText">{{ recommendation }}</p>
+          <div v-if="!this.pokemonTeamNames.includes(recommendation)">
+            <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
+            <img :src="pokemonURL + recommendation.toLowerCase() + extension">
+            <p class="pokemonNameText">{{ recommendation }}</p>
+          </div>
         </button>
       </div>
 
@@ -586,10 +588,10 @@ export default defineComponent({
   color: white;
   font-size: medium;
   display: grid;
-  justify-content: center;
+  justify-items: center;
   align-items: center;
   padding: 0.5em;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr;
 }
 
 .recommendation:hover {
@@ -602,6 +604,10 @@ export default defineComponent({
 
 .recommendation img {
   width: 3em;
+}
+
+.pokemonNameText {
+  margin: 0;
 }
 
 .pokemonCards {
