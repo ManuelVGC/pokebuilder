@@ -338,6 +338,7 @@ export default defineComponent({
   watch: {
     pokemonTeamLength: {
       async handler(value) {
+        this.pokemonNameRecommendations = [];
         for (let i = 0; i < this.pokemonTeamLength; i++) {
           let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
           this.pokemonTeamIDs.push(pokemonID);
@@ -588,6 +589,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   padding: 0.5em;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .recommendation:hover {
@@ -599,18 +601,7 @@ export default defineComponent({
 }
 
 .recommendation img {
-  width: 2em;
-  margin-left: 0.5em;
-  display: inline-block;
-}
-
-.pokemonIcon {
-  display: inline-block;
-}
-
-.pokemonNameText {
-  display: inline-block;
-  margin-left: 0.2em;
+  width: 3em;
 }
 
 .pokemonCards {
