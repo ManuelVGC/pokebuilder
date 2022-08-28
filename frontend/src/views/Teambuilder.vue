@@ -22,11 +22,12 @@
           </li>
         </ul>
       </div>
-      <div class="suggestions" v-if="pokemonTeamArray.length < 6">
-        <div v-for="(recommendation, j) in this.IDrecommendations" :key="j" @click="addPokemon(pokemon)">
+      <div class="recommendations" v-if="pokemonTeamArray.length < 6">
+        <button class="recommendation" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" @click="addPokemon(pokemon)">
           <font-awesome-icon icon="fas fa-plus-square"/>
+          <img :src="pokemonURL + recommendation.toLowerCase() + extension">
           <p>{{ recommendation }}</p>
-        </div>
+        </button>
       </div>
 
     </div>
@@ -111,6 +112,9 @@ export default defineComponent({
       pokemonNameRecommendations: [] as string[],
 
       pokemonTeamIDs: [] as string[],
+
+      pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
+      extension: '.png' as string, /** Extensión de los iconos. */
     }
   },
   computed: {
@@ -341,13 +345,11 @@ export default defineComponent({
         await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
         for (let j = 0; j < this.IDrecommendations.length; j++) {
           for (let x = 0; x < this.pokemonFullList.length; x++) {
-            if (this.IDrecommendations[j] === this.pokemonFullList[x].num) {
+            if (this.IDrecommendations[j] == this.pokemonFullList[x].num) {
               this.pokemonNameRecommendations.push(this.pokemonFullList[x].baseSpecies);
             }
           }
         }
-        console.log('LAS RECOMENDACIONES DEFINITIVAS SON: ');
-        console.log(this.pokemonNameRecommendations);
       }
     }
   },
@@ -568,17 +570,37 @@ export default defineComponent({
   color: #1e1e1e;
 }
 
-.suggestions {
+.recommendations {
   background-color: #d7313e;
   display: grid;
   align-items: center;
   justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.sugerencias {
-  font-weight: bold;
-  color: black;
-  font-size: x-large;
+.recommendation {
+  height: 3em;
+  width: 8em;
+  background-color: #4bbf73;
+  color: white;
+  font-size: medium;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em;
+}
+
+.recommendation:hover {
+  background-color: #58e88a;
+}
+
+.recommendation:active {
+  background-color: #4bbf73;
+}
+
+.recommendation img {
+  width: 2em;
+  margin-left: 0.5em;
 }
 
 .pokemonCards {
