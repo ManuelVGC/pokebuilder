@@ -22,8 +22,8 @@
           </li>
         </ul>
       </div>
-      <div v-if="pokemonTeamArray.length < 6" >
-        <div class="recommendations" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" >
+      <div class="recommendations" v-if="pokemonTeamArray.length < 6" >
+        <div class="recommendationDiv" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" >
           <button class="recommendation" @click="addPokemon(recommendation)" v-if="!this.pokemonTeamNames.includes(recommendation)">
             <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
             <img :src="pokemonURL + recommendation.toLowerCase() + extension">
@@ -573,11 +573,14 @@ export default defineComponent({
 }
 
 .recommendations {
-  background-color: #d7313e;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  display: inline-block;
+  align-self: center;
+  justify-self: center;
+  margin-left: 1em;
+}
+
+.recommendationDiv {
+  display: inline-block;
 }
 
 .recommendation {
@@ -591,6 +594,7 @@ export default defineComponent({
   align-items: center;
   padding: 0.5em;
   grid-template-columns: 0.5fr 0.5fr 1fr;
+  margin-left: 5em;
 }
 
 .recommendation:hover {
