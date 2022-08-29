@@ -59,8 +59,8 @@ export default defineComponent({
       } else { //Inicio de sesión correcto
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion.data);
         console.log("Log in successful");
-        this.loginIn = false;
         this.$router.push({name: "home"});
+        this.loginIn = false;
       }
     },
 
@@ -153,6 +153,7 @@ export default defineComponent({
   color: white;
   font-size: large;
   font-weight: bold;
+  cursor: default;
 }
 
 .button2 {

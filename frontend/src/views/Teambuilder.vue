@@ -346,6 +346,8 @@ export default defineComponent({
         for (let i = 0; i < this.pokemonTeamLength; i++) {
           let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
           this.pokemonTeamIDs.push(pokemonID);
+          console.log('Las IDs de los Pokémon del equipo son: ');
+          console.log(this.pokemonTeamIDs);
         }
         await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
         for (let j = 0; j < this.IDrecommendations.length; j++) {
