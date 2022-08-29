@@ -342,6 +342,7 @@ export default defineComponent({
     pokemonTeamLength: {
       async handler(value) {
         this.pokemonNameRecommendations = [];
+        this.pokemonTeamIDs = [];
         for (let i = 0; i < this.pokemonTeamLength; i++) {
           let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
           this.pokemonTeamIDs.push(pokemonID);

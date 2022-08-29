@@ -155,14 +155,6 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.buttonLogIn:hover {
-  background-color: #e85660;
-}
-
-.buttonLogIn:active {
-  background-color: #A4A4A4;
-}
-
 .button2 {
   margin-top: 2em;
   height: 3em;
