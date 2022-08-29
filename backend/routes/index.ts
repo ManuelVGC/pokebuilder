@@ -23,13 +23,6 @@ import {axiosInstanceShowdown, axiosInstanceRecommendationSystem} from "../axios
 
 const router = Router();
 
-/** Esta función la uso para depuración ,para saber todos los equipos que tengo guardados en la base datos. */
-router.get('/teams/', async (req, res) => {
-    const teams = await Team.find();
-
-    res.send(teams);
-});
-
 /** Recuperar los equipos creados por un determinado usuario. */
 router.get('/teams/:user', async (req, res) => {
     const teams = await Team.find({user: req.params.user});
@@ -136,11 +129,13 @@ router.get('/dex/:pokemonName/:info', async (req, res) => {
         res.send(baseStats);
     }
 
+    /** Recuperar tipos del Pokémon. */
     else if (req.params.info === 'types') {
         const types = getPokemonType(req.params.pokemonName);
         res.send(types);
     }
 
+    /** Recuperar id del Pokémon en la Pokédex. */
     else if (req.params.info === 'id') {
         const id = getPokemonID(req.params.pokemonName);
         res.send(id);
@@ -155,13 +150,6 @@ router.post('/teamValidator/json', async (req, res) => {
 
     res.send(convertedTeam);
 });
-
-/*
-router.post('/teamValidator/export', async (req, res) => {
-    let convertedTeam = req.body;
-
-    res.send(convertedTeam);
-});*/
 
 /** Convertir el equipo pasado como parámetro de formato JSON a formato packed. */
 router.post('/teamValidator/packed', async (req, res) => {
@@ -188,7 +176,6 @@ router.post('/logInShowdown/', async (req, res) => {
     } else {
         checkAssertion = assertion;
     }
-
 
     res.send(checkAssertion);
 });

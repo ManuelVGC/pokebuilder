@@ -119,8 +119,7 @@ export default defineComponent({
   data() {
     return {
       chatMessage: '' as string,
-      //src: "https://play.pokemonshowdown.com/battle-gen8anythinggoes-1632918427" as string,
-      src: "https://play.pokemonshowdown.com/" + this.$store.state.battleInfo as string,
+      src: "https://play.pokemonshowdown.com/" + this.$store.state.battleInfo as string, /** Ruta del iframe. */
       forfeitFlag: false as boolean, /** Flag que controla la rendición en una batalla. */
 
       pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
@@ -258,8 +257,6 @@ export default defineComponent({
       immediate: true
     }
   },
-
-  //width="650" height="416" style="position: relative; left: -101px; top: -56px; right: -10000px
 })
 </script>
 

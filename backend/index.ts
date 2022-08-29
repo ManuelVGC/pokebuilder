@@ -10,7 +10,6 @@ startConnection();
 
 /** Inicio del servidor backend. */
 app.listen(4000);
-console.log('Servidor runneando en el puerto 4000...')
 
 
 

@@ -80,21 +80,6 @@ export default defineComponent({
       }
     },
 
-    /** Búsqueda de partida contra una cuenta de Showdown específica (Smile DD) para hacer pruebas porque en la ladder normal no hay excesiva gente jugando. */
-/*
-    searchGame() {
-      const format = "gen3ou";
-      if (this.teamSelected.length != 0) {
-        send('|/utm ' + this.teamSelected);
-        send('|/challenge Smile DD, ' + format);
-        this.searchingGame = true;
-        console.log("Searching for a game...");
-      } else {
-        this.error = true;
-      }
-    },
-*/
-
     /** Cancelación de búsqueda de partida. */
     cancelSearch() {
       send('|/cancelsearch');

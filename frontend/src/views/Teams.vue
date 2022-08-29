@@ -63,7 +63,7 @@ export default defineComponent({
       pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
       extension: '.png' as string, /** Extensión de los iconos. */
 
-      deleteTeamFlag: false as boolean,
+      deleteTeamFlag: false as boolean, /** Flag que controla la confirmación de borrado de un equipo. */
     }
   },
   methods: {
@@ -96,7 +96,6 @@ export default defineComponent({
     /** Editar un equipo de la lista de equipos creados. */
     async editTeam(teamID: string) {
       this.$router.push({name: 'teambuilder', params: {id: teamID}});
-      //aquí irá el push a la página de Teambuilder con el parámetro teamID para que se me muestre ese equipo para editarlo
     }
   },
   mounted() {

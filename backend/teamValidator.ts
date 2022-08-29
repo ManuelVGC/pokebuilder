@@ -14,21 +14,11 @@ export const validateTeam = (team: PokemonSet[]) => {
     return output;
 }
 
-/*export const convertFromPackedToJSON = (packedTeam: string) => {
-    const output = Teams.unpack(packedTeam);
-    return output;
-}*/
-
 /** Convertir el equipo pasado como parámetro de formato JSON a formato packed. */
 export const convertFromJSONToPacked = (team: PokemonSet[]) => {
     const output = Teams.pack(team);
     return output;
 }
-
-/*export const convertFromJSONToExport = (team: PokemonSet[]) => {
-    const output = Teams.export(team);
-    return output;
-}*/
 
 /** Convertir el equipo pasado como parámetro a formato JSON. */
 export const convertFromStringToJSON = (team: Team) => {

@@ -109,10 +109,10 @@ export default defineComponent({
       errorTeamNameEmpty: false as boolean, /** Flag que indica que el usuario no ha introducido un nombre para el equipo. */
       goBackConfirmation: false as boolean, /** Flag que indica si el jugador quiere volver a la página anterior. */
 
-      IDrecommendations: [],
-      pokemonNameRecommendations: [] as string[],
+      IDrecommendations: [], /** IDs de los Pokémon recomendados por el sistema de recomendación. */
+      pokemonNameRecommendations: [] as string[], /** Nombres de los Pokémon recomendados por el sistema de recomendación. */
 
-      pokemonTeamIDs: [] as string[],
+      pokemonTeamIDs: [] as string[], /** IDs de los Pokémon que conforman el equipo en construcción. */
 
       pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
       extension: '.png' as string, /** Extensión de los iconos. */
@@ -131,6 +131,7 @@ export default defineComponent({
       return pokemonTeamNames;
     },
 
+    /** Número de Pokémon que conforman el equipo en construcción. */
     pokemonTeamLength() {
       return this.pokemonTeamArray.length;
     },
@@ -215,10 +216,6 @@ export default defineComponent({
 
     /** Añadir Pokémon seleccionado al equipo. */
     addPokemon(pokemon: string) {
-      /*this.pokemonCards.push({
-        name: PokemonCard.name,
-      });
-      this.pokemonSpecies = pokemon;*/
       const newPokemon = new Pokemon();
       newPokemon.name = pokemon;
       this.pokemonTeamArray.push(newPokemon);
@@ -267,6 +264,7 @@ export default defineComponent({
       }
     },
 
+    /** Manejo de cierre de la Sidebar. */
     handleCloseSidebar() {
       this.pokemonSelectedProps.actionType = '';
     },
@@ -318,7 +316,7 @@ export default defineComponent({
       this.errorTeamNameEmpty = false;
     },
 
-
+    /** Conseguir las recomendaciones del sistema de recomendación a partir de los Pokémon que conforman el equipo actualmente en construcción. */
     async getRecommendationsFromSystem(teamIDs: string[]) {
       const ids =  {
         'sequence': teamIDs,
@@ -333,6 +331,7 @@ export default defineComponent({
       console.log(this.pokemonTeamLength);
     },
 
+    /** Conseguir el ID de un Pokémon a partir de su nombre. */
     async getPokemonID(pokemonName: string) {
       const res = await getPokemonData(pokemonName, 'id');
       return res.data.num;

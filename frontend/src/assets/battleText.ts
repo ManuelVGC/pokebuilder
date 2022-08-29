@@ -1,6 +1,5 @@
 /**
- * Textos que aparecerán en el chat durante las batallas. El correspondiente texto se elegirá dependiendo de qué mensaje me envíe Pokémon Showdown.
- * Por ejemplo, si me llega un mensaje del tipo |start|algo, entonces utilizaré startBattle.
+ * Textos que aparecerán en el chat durante las batallas. El correspondiente texto se elegirá dependiendo de qué mensaje llegue desde Pokémon Showdown.
  */
 
 export const BattleText = {

@@ -22,26 +22,3 @@ export interface IBattlePokemon {
     baseAbility: string; /** Habilidad del Pokémon. */
     item: string; /** Item que porta el Pokémon. */
 }
-
-/*
-export class BattlePokemon {
-    ident = '';
-    details = '';
-    condition = '';
-    active = false;
-    stats = {
-        atk: 0,
-        def: 0,
-        spa: 0,
-        spd: 0,
-        spe: 0,
-    }
-    moves = [];
-    baseAbility = '';
-    item = '';
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {
-
-    }
-}*/

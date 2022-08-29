@@ -14,8 +14,6 @@ export const getMoveData = async (moveName: string) : Promise<AxiosResponse> => 
 
 export const convertToJSON = async (pokemonTeam: IPokemon[]) : Promise<AxiosResponse> => await axiosInstanceMyServer.post('/teamValidator/json', pokemonTeam);
 
-//export const convertToExport = async (pokemonTeam: IPokemon[]) : Promise<AxiosResponse> => await axiosInstanceMyServer.post('/teamValidator/export', pokemonTeam);
-
 export const convertToPacked = async (pokemonTeam: IPokemon[]) : Promise<AxiosResponse<string>> => await axiosInstanceMyServer.post('/teamValidator/packed', pokemonTeam);
 
 
