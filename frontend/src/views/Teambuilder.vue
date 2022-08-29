@@ -329,6 +329,8 @@ export default defineComponent({
       this.IDrecommendations = res.data.item_list;
       console.log('Las recomendaciones que me dan son: ');
       console.log(this.IDrecommendations);
+      console.log('El tamaño del equipo es: ');
+      console.log(this.pokemonTeamLength);
     },
 
     async getPokemonID(pokemonName: string) {

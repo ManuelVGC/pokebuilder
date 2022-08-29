@@ -16,7 +16,8 @@
               <input type="password" placeholder="Password" v-model="password" class="form-control" style="border-width: 0.1em;border-color: grey; border-radius: 0.3em" id="floatingPassword"/>
               <label for="floatingPassword">Password</label>
             </div>
-            <button class="button" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log in</button>
+            <button v-if="!loginIn" class="buttonLogIn" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log in</button>
+            <button v-if="loginIn" class="buttonLoginIn" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Login in...</button>
           </div>
         </form>
       </div>
@@ -42,18 +43,23 @@ export default defineComponent({
   data() {
     return {
       error: false as boolean, /** Indica cuando se ha producido un error en el inicio de sesión. */
+
+      loginIn: false as boolean /** Flag para controlar cuando se ha iniciado sesión. */
     }
   },
   methods: {
     /** Inicio de sesión en Pokémon Showdown. */
     async logIn() {
+      this.loginIn = true;
       const assertion = await logInShowdown(this.$store.state.user);
 
       if (assertion.data === -1) { //Fallo en el logeo
         this.error = true;
+        this.loginIn = false;
       } else { //Inicio de sesión correcto
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion.data);
         console.log("Log in successful");
+        this.loginIn = false;
         this.$router.push({name: "home"});
       }
     },
@@ -121,7 +127,7 @@ export default defineComponent({
   font-size: xx-large;
 }
 
-.button {
+.buttonLogIn {
   margin-top: 2em;
   height: 4em;
   width: 15em;
@@ -131,12 +137,30 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.button:hover {
+.buttonLogIn:hover {
   background-color: #e85660;
 }
 
-.button:active {
+.buttonLogIn:active {
   background-color: #d7313e;
+}
+
+.buttonLoginIn {
+  margin-top: 2em;
+  height: 4em;
+  width: 15em;
+  background-color: #A4A4A4;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+}
+
+.buttonLogIn:hover {
+  background-color: #e85660;
+}
+
+.buttonLogIn:active {
+  background-color: #A4A4A4;
 }
 
 .button2 {
