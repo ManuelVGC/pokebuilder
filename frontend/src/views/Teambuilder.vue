@@ -341,19 +341,21 @@ export default defineComponent({
   watch: {
     pokemonTeamLength: {
       async handler(value) {
-        this.pokemonNameRecommendations = [];
-        this.pokemonTeamIDs = [];
-        for (let i = 0; i < this.pokemonTeamLength; i++) {
-          let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
-          this.pokemonTeamIDs.push(pokemonID);
-          console.log('Las IDs de los Pokémon del equipo son: ');
-          console.log(this.pokemonTeamIDs);
-        }
-        await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
-        for (let j = 0; j < this.IDrecommendations.length; j++) {
-          for (let x = 0; x < this.pokemonFullList.length; x++) {
-            if (this.IDrecommendations[j] == this.pokemonFullList[x].num) {
-              this.pokemonNameRecommendations.push(this.pokemonFullList[x].baseSpecies);
+        if (value < 6) {
+          this.pokemonNameRecommendations = [];
+          this.pokemonTeamIDs = [];
+          for (let i = 0; i < this.pokemonTeamLength; i++) {
+            let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
+            this.pokemonTeamIDs.push(pokemonID);
+            console.log('Las IDs de los Pokémon del equipo son: ');
+            console.log(this.pokemonTeamIDs);
+          }
+          await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
+          for (let j = 0; j < this.IDrecommendations.length; j++) {
+            for (let x = 0; x < this.pokemonFullList.length; x++) {
+              if (this.IDrecommendations[j] == this.pokemonFullList[x].num) {
+                this.pokemonNameRecommendations.push(this.pokemonFullList[x].baseSpecies);
+              }
             }
           }
         }
