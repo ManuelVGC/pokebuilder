@@ -402,6 +402,7 @@ export default defineComponent({
   width: 100vw;
   top: 0;
   left: 0;
+  z-index: 3;
 }
 
 .popUp {

@@ -295,6 +295,7 @@ export default defineComponent({
   transform: scale(1.74);
   top: 7.5em;
   left: 44em;
+  z-index: 1;
 }
 
 .timerForfeit {
@@ -678,6 +679,7 @@ export default defineComponent({
   width: 100vw;
   top: 0;
   left: 0;
+  z-index: 3;
 }
 
 .popUp {
