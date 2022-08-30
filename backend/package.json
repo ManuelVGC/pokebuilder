@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev index.ts",
-    "docs": "typedoc --entryPointStrategy expand ../backend --out docs"
+    "dev": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",

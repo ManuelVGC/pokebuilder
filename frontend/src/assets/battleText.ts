@@ -429,6 +429,9 @@ export const BattleText = {
     flashfire: {
         start: "The power of [POKEMON]'s Fire-type moves rose!",
     },
+    liquidooze: {
+        damage: "[POKEMON] sucked up the liquid ooze and lost [PERCENTAGE] of its health!",
+    },
     naturalcure: {
         activate: "[POKEMON] is cured by its Natural Cure!",
     },
