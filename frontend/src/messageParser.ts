@@ -60,7 +60,7 @@ export const messageParser = (messageData: string) => {
          */
         case 'updatesearch': {
             const searchData = JSON.parse(parts[1]);
-            if (searchData.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
+            if (searchData.games != null) {
                 const battleInfo = Object.keys(searchData.games)[0];
                 const battleID = battleInfo.split('-')[2];
                 store.commit('SET_BATTLEINFO', battleInfo);

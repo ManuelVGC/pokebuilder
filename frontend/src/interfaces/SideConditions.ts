@@ -73,5 +73,4 @@ export class SideConditions implements ISideConditions {
     constructor() {
 
     }
-    //En la 3gen solo hay un tipo de condición de campo, que es el weather, pero en posteriores generaciones se añaden más
 }

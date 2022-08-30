@@ -58,12 +58,12 @@ router.get('/teams/:user/:id', async(req, res) => {
 router.delete('/teams/:user/:id', async (req, res) => {
     try {
         const team = await Team.findByIdAndDelete(req.params.id);
-        if (!team) { //el id podría parecerse a un objectId pero el team no existe
+        if (!team) {
             res.status(404).json({message: "Team not found"});
         }
         res.json(team);
     } catch (error) {
-        return res.status(500).send(error); //el id no es un objectId
+        return res.status(500).send(error);
     }
 });
 
@@ -75,13 +75,13 @@ router.put('/teams/:user/:id', async(req, res) => {
     if (validation == null) {
         try {
             const updatedTeam = await Team.findByIdAndUpdate(req.params.id, req.body, {
-                new: true, //de esta forma me devuelve el team actualizado
+                new: true,
             });
             if (!updatedTeam) {
                 res.status(404).json({message: "Team not found"});
             }
         } catch (error) {
-            return res.status(500).send(error); //el id no es un objectId
+            return res.status(500).send(error);
         }
     }
     res.send(validation);
