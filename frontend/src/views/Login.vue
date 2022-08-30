@@ -58,7 +58,6 @@ export default defineComponent({
         this.loginIn = false;
       } else { //Inicio de sesión correcto
         send('|/trn ' + this.$store.state.user.username + ',0,' + assertion.data);
-        console.log("Log in successful");
         this.$router.push({name: "home"});
         this.loginIn = false;
       }

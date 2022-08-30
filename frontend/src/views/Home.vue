@@ -74,7 +74,6 @@ export default defineComponent({
         send('|/utm ' + this.teamSelected);
         send('|/search ' + format);
         this.searchingGame = true;
-        console.log("Searching for a game...");
       } else {
         this.error = true;
       }

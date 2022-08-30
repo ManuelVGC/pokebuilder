@@ -72,8 +72,6 @@ export default defineComponent({
       const res = await getUserTeams(this.$store.state.user.username);
 
       this.userTeams = res.data;
-      console.log('Los teams son:');
-      console.log(this.userTeams);
     },
 
     /** Intentar borrar un equipo de entre la lista de los equipos creados. */

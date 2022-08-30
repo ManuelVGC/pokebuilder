@@ -19,7 +19,7 @@ import {
     getPokemonListFiltered
 } from "../dex";
 import {convertFromJSONToPacked, convertFromStringToJSON, validateTeam} from "../teamValidator";
-import {axiosInstanceShowdown, axiosInstanceRecommendationSystem} from "../axios";
+import {axiosInstanceShowdown} from "../axios";
 
 const router = Router();
 
@@ -33,7 +33,6 @@ router.get('/teams/:user', async (req, res) => {
 /** Añadir un equipo y validarlo. */
 router.post('/teams', async (req, res) => {
     const teamReceived = req.body;
-    console.log(teamReceived.pokemon);
     const validation = validateTeam(teamReceived.pokemon);
 
     if (validation == null) {
@@ -48,13 +47,11 @@ router.post('/teams', async (req, res) => {
 router.get('/teams/:user/:id', async(req, res) => {
    try {
        const team = await Team.findById(req.params.id);
-       if (!team) { //el id podría parecerse a un objectId pero el team no existe
+       if (!team) {
            res.status(404).json({message: "Team not found"});
        }
        res.send(team);
-   } catch (error) {
-       console.log(error); //el id no es un objectId
-   }
+   } catch (error) {}
 });
 
 /** Borrar un equipo creado por un determinado usuario. */

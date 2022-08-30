@@ -215,6 +215,5 @@ export const getMoveInfo = (moveName: string) => {
 /** Función que devuelve el tipo del Pokémon pasado como parámetro. */
 export const getPokemonID = (pokemonName: string) => {
     const id = Dex.mod(gen).species.get(pokemonName);
-    console.log(id);
     return id;
 }

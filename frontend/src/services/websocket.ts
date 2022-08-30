@@ -9,32 +9,21 @@ const ws = new WebSocket('wss://sim3.psim.us/showdown/websocket');
 
 /** Función que abre una conexión en el WebSocket. */
 export const onOpen = () => {
-    ws.onopen = event => {
-        console.log(event);
-        console.log('Conectado al WebSocket');
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    ws.onopen = event => {}
 }
 
 /** Función que se queda a la escucha de mensajes del servidor de Pokémon Showdown. */
 export const messageListener = () => {
     ws.onmessage = event => {
-        console.log(event);
         messageParser(event.data);
     }
 }
 
 /** Función que cierra el WebSocket. */
 export const onClose = () => {
-    ws.onclose = event => {
-        console.log(event);
-    }
-}
-
-/** Función del WebSocket para manejo de errores. */
-export const onError = () => {
-    ws.onerror = event => {
-        console.log(event);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    ws.onclose = event => {}
 }
 
 /** Función para enviar información a través del WebSocket. */

@@ -32,7 +32,6 @@ let userLastPokemonActive = '';
 let rivalLastPokemonActive = '';
 
 export const messageParser = (messageData: string) => {
-    console.log('El data es: ' + messageData);
     let messages: string[];
     let parts : string[];
     // eslint-disable-next-line prefer-const
@@ -50,8 +49,6 @@ export const messageParser = (messageData: string) => {
             const searchData = JSON.parse(parts[1]);
             if (searchData.games != null) { //cuando se encuentra una partida pasamos a Battle.vue
                 const battleInfo = Object.keys(searchData.games)[0];
-                console.log('La battle info es: ');
-                console.log(battleInfo);
                 const battleID = battleInfo.split('-')[2];
                 store.commit('SET_BATTLEINFO', battleInfo);
 
@@ -169,9 +166,6 @@ const battleMessagesParser = async (messages : string[]) => {
             }
             case 'turn': { /** Turno en el que se encuentra la batalla. Es un mensaje del tipo |turn|NUMBER. */
                 store.commit('ADD_MESSAGE', 'Turn ' + message[1]);
-                showUserDetails();
-                showFieldConditionsDetails();
-                showSideConditionsDetails();
                 break;
             }
             case 'win': { /** Ganador de la batalla. Es un mensaje del tipo |win|USER. */
@@ -1800,29 +1794,6 @@ const battleMessagesParser = async (messages : string[]) => {
         }
     }
 }
-
-/** Función auxiliar que utilizo para trackear los cambios en los usuarios. */
-const showUserDetails = () => {
-    console.log('BATTLE USER: ');
-    console.log(store.state.battleUser);
-    console.log('BATTLE RIVAL: ');
-    console.log(store.state.battleRival);
-}
-
-/** Función auxiliar que utilizo para trackear las fieldConditions. */
-const showFieldConditionsDetails = () => {
-    console.log('FIELD CONDITIONS: ');
-    console.log(store.state.fieldConditions);
-}
-
-/** Función auxiliar que utilizo para trackear las sideConditions. */
-const showSideConditionsDetails = () => {
-    console.log('USER SIDE CONDITIONS: ');
-    console.log(store.state.userSideConditions);
-    console.log('RIVAL SIDE CONDITIONS: ');
-    console.log(store.state.rivalSideConditions);
-}
-
 
 /** Añadir mensaje al chat. */
 const addMessageToChat = (message: string, id: string) => {

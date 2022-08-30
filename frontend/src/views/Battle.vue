@@ -250,7 +250,6 @@ export default defineComponent({
         if (value > 0) {
           setTimeout(() => {
             this.$store.commit('SET_TIMERRESET', this.timer - 1);
-            console.log(this.timer);
           }, 1000);
         }
       },
