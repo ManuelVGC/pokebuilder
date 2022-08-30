@@ -1,6 +1,7 @@
 /**
- * Define las rutas con las que va a contar el frontend de la aplicación.
- */
+* Define las rutas con las que va a contar el frontend de la aplicación.
+* @module
+*/
 
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 

@@ -1,20 +1,31 @@
+import {IBattleUser} from "@/interfaces/BattleUser";
+
 /**
- * Interface IFieldConditions y clase FieldConditions.
+ * Interface IFieldConditions.
  *
  * Esta interface define el tipo IFieldConditions, el cual es utilizado para los efectos que afectan al campo de batalla entero.
  * En generaciones posteriores hay varios tipos pero con la que trabajo solo está el weather.
- *
- * La clase correspondiente es utilizada para crear un objeto para guardar la información del weather durante una batalla.
  */
-
 export interface IFieldConditions {
     weather: {
-        active: boolean, /** Weather activo o no. */
-        type: string, /** Tipo de weather, podrá ser Rain, Sunnyday, Sandstorm, Hail o none. */
+        /**
+         * Weather activo o no.
+         */
+        active: boolean,
+
+        /**
+         * Tipo de weather, podrá ser Rain, Sunnyday, Sandstorm, Hail o none.
+         */
+        type: string,
     },
 }
 
-export class FieldConditions {
+/**
+ * Clase FieldConditions.
+ *
+ * Clase utilizada para crear un objeto para guardar la información del weather durante una batalla.
+ */
+export class FieldConditions implements IFieldConditions {
     weather = {
         active: false,
         type: 'none',

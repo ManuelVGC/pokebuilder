@@ -1,7 +1,9 @@
 /**
  * Archivo que se encarga del manejo de Axios para las llamadas HTTP.
- * Concretamente hay una instancia, necesaria para conectar con mi servidor backend.
+ * Concretamente hay una instancia, necesaria para conectar con el servidor backend.
+ * @module
  */
+
 
 import axios, { AxiosInstance} from 'axios'
 

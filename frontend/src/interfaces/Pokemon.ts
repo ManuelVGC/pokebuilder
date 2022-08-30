@@ -3,14 +3,37 @@
  *
  * Esta interface define el tipo IPokemon, el cual es utilizado para los Pokémon que forman un equipo en el teambuilder.
  */
-
 export interface IPokemon {
-    name: string, /** Mote del Pokémon (puede coincidir con la especie del Pokémon). */
-    species: string, /** Especie del Pokémon. --> Ej: Charizard */
-    gender: string, /** Género del Pokémon. */
-    item: string, /** Item que porta el Pokémon. */
-    ability: string, /** Habilidad del Pokémon. */
-    evs: { /** Puntos de esfuerzo del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Puntos_de_esfuerzo). */
+    /**
+     * Mote del Pokémon (puede coincidir con la especie del Pokémon).
+     */
+    name: string,
+
+    /**
+     * Especie del Pokémon. --> Ej: Charizard
+     */
+    species: string,
+
+    /**
+     * Género del Pokémon.
+     */
+    gender: string,
+
+    /**
+     * Objeto que porta el Pokémon.
+     */
+    item: string,
+
+    /**
+     * Habilidad del Pokémon.
+     */
+    ability: string,
+
+    /**
+     * Puntos de esfuerzo del Pokémon. Determinan las estadísticas finales del mismo.
+     * (https://pokemon.fandom.com/es/wiki/Puntos_de_esfuerzo).
+     */
+    evs: {
         hp: number,
         atk: number,
         def: number,
@@ -18,8 +41,16 @@ export interface IPokemon {
         spd: number,
         spe: number,
     },
-    nature: string, /** Naturaleza del Pokémon. */
-    ivs: { /** Valores individuales del Pokémon. Son los "genes" del Pokémon. Determinan las estadísticas finales del mismo. (https://pokemon.fandom.com/es/wiki/Gen%C3%A9tica_Pok%C3%A9mon). */
+
+    /**
+     * Naturaleza del Pokémon.
+     */
+    nature: string,
+
+    /** Valores individuales del Pokémon. Son los "genes" del Pokémon. Determinan las estadísticas finales del mismo.
+     * (https://pokemon.fandom.com/es/wiki/Gen%C3%A9tica_Pok%C3%A9mon).
+     */
+    ivs: {
         hp: number,
         atk: number,
         def: number,
@@ -27,12 +58,19 @@ export interface IPokemon {
         spd: number,
         spe: number,
     },
-    moves: string[], /** Pool de movimientos con los que cuenta el Pokémon, con un máximo de 4. */
-    happiness: number, /** Nivel de felicidad del Pokémon, relevante para ciertos movimientos. */
+
+    /**
+     * Pool de movimientos con los que cuenta el Pokémon, con un máximo de 4.
+     */
+    moves: string[],
+
+    /**
+     * Nivel de felicidad del Pokémon, relevante para ciertos movimientos.
+     */
+    happiness: number,
 }
 
-
-export class Pokemon {
+export class Pokemon implements IPokemon{
     name = '' as string;
     species = '';
     gender = '';

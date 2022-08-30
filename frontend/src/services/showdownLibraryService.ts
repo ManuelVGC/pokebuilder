@@ -1,5 +1,6 @@
 /**
  * Este archivo implementa diferentes funciones para acceder a la información que aporta la biblioteca de pokemon-showdown, la cual se encuentra en el backend.
+ * @module
  */
 
 import {axiosInstanceMyServer} from "../services/axios";
