@@ -180,6 +180,9 @@ export default defineComponent({
     totalEVs() { /** Total de EVs distribuidos en las diferentes estadísticas del Pokémon. */
       const totalEVsDistributed = this.hpEVs + this.atkEVs + this.defEVs + this.spaEVs + this.spdEVs + this.speEVs;
       return totalEVsDistributed;
+    },
+    pokemonName() { /** Nombre del Pokémon de la tarjeta. */
+      return this.pokemon.name;
     }
   },
   methods: {
@@ -360,6 +363,12 @@ export default defineComponent({
 
   },
   watch: {
+    pokemonName: {
+      handler(value) {
+        this.getBaseStats(this.pokemon.name);
+        this.getTypes(this.pokemon.name);
+      }
+    },
     pokemonNature: {
       handler(value) {
         this.finalHP = Math.floor(this.calculateFinalValue('HP', this.baseStats.hp, this.hpEVs, this.hpIVs, this.pokemon));
