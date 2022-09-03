@@ -347,7 +347,7 @@ export default defineComponent({
   watch: {
     pokemonTeamLength: {
       async handler(value) {
-        if (value < 6) {
+        if (value < 6 && value > 0) {
           this.pokemonNameRecommendations = [];
           this.pokemonTeamIDs = [];
           for (let i = 0; i < this.pokemonTeamLength; i++) {
