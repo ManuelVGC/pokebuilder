@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="leftGrid">
-      <img class="imageForm" src="../assets/login/backgroundImage.png" alt="loginImage">
+      <img class="imageForm" src="../assets/login/backgroundImageLeon.jpg" alt="loginImage">
     </div>
     <div class="rightGrid">
       <div class="gridForm">
@@ -52,7 +52,6 @@ export default defineComponent({
     async logIn() {
       this.loginIn = true;
       const assertion = await logInShowdown(this.$store.state.user);
-
       if (assertion.data === -1) { //Fallo en el logeo
         this.error = true;
         this.loginIn = false;
@@ -95,12 +94,13 @@ export default defineComponent({
 .grid {
   display: grid;
   grid-template-columns: 1.75fr 1fr;
-  height: 100vh;
 }
 .rightGrid {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   background: #ffffff;
+  overflow: auto;
+  height: 100vh;
 }
 .gridForm {
   grid-row-start: 2;
@@ -113,6 +113,7 @@ export default defineComponent({
 
 .imageForm {
   height: 100vh;
+  width: 100vw;
 }
 
 .form {

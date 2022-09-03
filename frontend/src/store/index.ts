@@ -18,6 +18,7 @@ export default createStore({
 
 
 
+
         /**
          * Información sobre la batalla. Es del tipo battle-gen3ou-1615773440 (a veces Showdown añade un guión más y más números durante la batalla).
          */

@@ -4,7 +4,7 @@
     <div class="grid">
       <div class="gridLeft">
         <div class="battle" style="overflow: hidden">
-          <iframe ref="battleIframe" class="iframeShowdown" :src="src"></iframe>
+          <iframe name="battleIframe" class="iframeShowdown" :src="src"></iframe>
         </div>
 
         <div class="timerForfeit" v-if="!battleFinished" >
@@ -119,6 +119,7 @@ export default defineComponent({
   data() {
     return {
       chatMessage: '' as string,
+
       src: "https://play.pokemonshowdown.com/" + this.$store.state.battleInfo as string, /** Ruta del iframe. */
       forfeitFlag: false as boolean, /** Flag que controla la rendición en una batalla. */
 
@@ -254,14 +255,14 @@ export default defineComponent({
         }
       },
       immediate: true
-    }
+    },
   },
 })
 </script>
 
 <style scoped>
 .background {
-  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  background-image: url("../assets/home/pokemonWallpaperBackground.jpg");
   min-height: 100vh;
   height: auto;
 }
@@ -289,8 +290,8 @@ export default defineComponent({
   position: relative;
   clip-path: inset(3.6em 80em 12.0em 0em);
   transform: scale(1.74);
-  top: 7.5em;
-  left: 44em;
+  left:64.5%;
+  top: 20%;
   z-index: 1;
 }
 

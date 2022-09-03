@@ -40,7 +40,17 @@
     <div v-if="errorInTeam" class="popUpContainer">
       <div class="popUp">
         <p class="errorTitle">The team has the following errors:</p>
-        <div class="errorDescription" v-for="error in errosInTeam" :key="error">- {{error}}</div>
+        <div class="errorDescription" v-for="error in errosInTeam" :key="error">
+          <div v-if="!error.endsWith('No Ability does not exist in Gen 3.')">
+            <div v-if="error.endsWith('add exactly 1 to one of your EVs, which won\'t change its stats but will ' +
+             'tell us that it wasn\'t a mistake).')">
+              - {{error.split('-')[0]}}.
+            </div>
+            <div v-else>
+              - {{error}}
+            </div>
+          </div>
+        </div>
         <button @click="closeErrorInTeam()" class="buttonCloseError" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Close</button>
       </div>
     </div>
@@ -101,6 +111,7 @@ export default defineComponent({
         pokemonSelected: {} as IPokemon,
         actionType: '' as string,
       },
+
       pokemonTeamArray: [] as IPokemon[], /** Equipo Pokémon en construcción. */
       pokemonTeamName: '' as string, /** Nombre del equipo Pokémon en construcción. */
 
@@ -334,7 +345,7 @@ export default defineComponent({
     },
   },
   watch: {
-    pokemonTeamLength: {
+    /*pokemonTeamLength: {
       async handler(value) {
         if (value < 6) {
           this.pokemonNameRecommendations = [];
@@ -353,7 +364,7 @@ export default defineComponent({
           }
         }
       }
-    }
+    }*/
   },
   mounted() {
     this.loadTeam();
@@ -365,7 +376,7 @@ export default defineComponent({
 
 <style scoped>
 .background {
-  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  background-image: url("../assets/home/pokemonWallpaperBackground.jpg");
   min-height: 100vh;
   height: auto;
 }
@@ -400,7 +411,7 @@ export default defineComponent({
 
 .popUp {
   background-color: white;
-  width: 30em;
+  width: 40em;
   padding: 3em;
   border-radius: 0.5em;
   box-shadow: 0 1em 1em rgba(0, 0, 0, 0.3);

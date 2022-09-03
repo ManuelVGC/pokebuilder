@@ -120,6 +120,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    send('|/hidenext on');
     this.$store.commit('SET_BATTLEFINISHED', true);
     this.loadUserTeams();
   }
@@ -134,7 +135,7 @@ export default defineComponent({
 }
 
 .background {
-  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  background-image: url("../assets/home/pokemonWallpaperBackground.jpg");
   min-height: 100vh;
   height: auto;
 }

@@ -37,6 +37,7 @@ let userLastPokemonActive = '';
 let rivalLastPokemonActive = '';
 
 export const messageParser = (messageData: string) => {
+    console.log('El data es: ' + messageData);
     let messages: string[];
     let parts : string[];
     // eslint-disable-next-line prefer-const
@@ -51,6 +52,7 @@ export const messageParser = (messageData: string) => {
          */
         case 'challstr': {
             store.commit('SET_CHALLSTR', parts[1] + '|' + (parts[2]));
+            console.log(store.state.user.challstr);
             break;
         }
         case 'updateuser':

@@ -104,7 +104,7 @@ export default defineComponent({
 
 <style scoped>
 .background {
-  background-image: url("../assets/home/pokemonWallpaper20Anniversary.jpg");
+  background-image: url("../assets/home/pokemonWallpaperBackground.jpg");
   min-height: 100vh;
   height: auto;
 }
