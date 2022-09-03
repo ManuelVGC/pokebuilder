@@ -345,7 +345,7 @@ export default defineComponent({
     },
   },
   watch: {
-    /*pokemonTeamLength: {
+    pokemonTeamLength: {
       async handler(value) {
         if (value < 6) {
           this.pokemonNameRecommendations = [];
@@ -354,6 +354,8 @@ export default defineComponent({
             let pokemonID = await this.getPokemonID(this.pokemonTeamArray[i].name);
             this.pokemonTeamIDs.push(pokemonID);
           }
+          console.log('Los ids de los Pokémon son: ');
+          console.log(this.pokemonTeamIDs);
           await this.getRecommendationsFromSystem(this.pokemonTeamIDs);
           for (let j = 0; j < this.IDrecommendations.length; j++) {
             for (let x = 0; x < this.pokemonFullList.length; x++) {
@@ -362,9 +364,11 @@ export default defineComponent({
               }
             }
           }
+          console.log('Las recomendaciones son: ');
+          console.log(this.pokemonNameRecommendations);
         }
       }
-    }*/
+    }
   },
   mounted() {
     this.loadTeam();
