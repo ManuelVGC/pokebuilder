@@ -143,7 +143,7 @@ export default defineComponent({
     },
 
     /** Número de Pokémon que conforman el equipo en construcción. */
-    pokemonTeamLength() {
+    pokemonTeamLength(): number {
       return this.pokemonTeamArray.length;
     },
   },
