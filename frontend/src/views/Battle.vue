@@ -119,7 +119,7 @@ export default defineComponent({
   data() {
     return {
       chatMessage: '' as string,
-      
+
       src: "https://play.pokemonshowdown.com/" + this.$store.state.battleInfo as string, /** Ruta del iframe. */
       forfeitFlag: false as boolean, /** Flag que controla la rendición en una batalla. */
 

@@ -17,7 +17,10 @@ export default createStore({
         user: {} as IUser,
 
 
-
+        /**
+         * Equipo Pokémon que se enviará a Showdown para jugarlo en una batalla.
+         */
+        teamSelected: [] as string[],
 
         /**
          * Información sobre la batalla. Es del tipo battle-gen3ou-1615773440 (a veces Showdown añade un guión más y más números durante la batalla).
@@ -97,7 +100,7 @@ export default createStore({
         /**
          * Flag que indica si la batalla ha terminado o no.
          */
-        battleFinished: false as boolean,
+        battleFinished: true as boolean,
 
         /**
          * Variable que sirve para controlar el timer de las batallas. Si es -1 significa que el timer no está activo.
@@ -122,6 +125,9 @@ export default createStore({
         },
 
 
+        SET_TEAMSELECTED(state: any, teamSelected: string[]){
+            state.teamSelected = teamSelected;
+        },
         SET_BATTLEINFO(state: any, battleInfo: string) {
             state.battleInfo = battleInfo;
         },

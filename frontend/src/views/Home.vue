@@ -71,6 +71,7 @@ export default defineComponent({
     searchGame() {
       const format = "gen3ou";
       if (this.teamSelected.length != 0) {
+        this.$store.commit('SET_TEAMSELECTED', this.teamSelected);
         send('|/utm ' + this.teamSelected);
         send('|/search ' + format);
         this.searchingGame = true;
@@ -120,7 +121,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    send('|/hidenext on');
+    send('|/hidenext off');
     this.$store.commit('SET_BATTLEFINISHED', true);
     this.loadUserTeams();
   }
