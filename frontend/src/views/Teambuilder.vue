@@ -22,7 +22,18 @@
           </li>
         </ul>
       </div>
-      <div class="recommendations" v-if="pokemonTeamArray.length < 6" >
+      <div class="recommendations" v-if="pokemonTeamArray.length === 0">
+        <p class="recommendationsTittle">Some Pokémon examples:</p>
+        <div class="recommendationDiv" v-for="randomSuggestion in this.randomPokemonSuggestions" :key="randomSuggestion" >
+          <button class="recommendation" @click="addPokemon(randomSuggestion)">
+            <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
+            <img :src="pokemonURL + randomSuggestion.toLowerCase() + extension">
+            <p class="pokemonNameText">{{ randomSuggestion }}</p>
+          </button>
+        </div>
+      </div>
+      <div class="recommendations" v-if="pokemonTeamArray.length < 6 && pokemonTeamArray.length > 0" >
+        <p class="recommendationsTittle">Recommendations: </p>
         <div class="recommendationDiv" v-for="(recommendation, j) in this.pokemonNameRecommendations" :key="j" >
           <button class="recommendation" @click="addPokemon(recommendation)" v-if="!this.pokemonTeamNames.includes(recommendation)">
             <font-awesome-icon class="pokemonIcon" icon="fas fa-plus-square"/>
@@ -127,6 +138,8 @@ export default defineComponent({
 
       pokemonURL: 'https://play.pokemonshowdown.com/sprites/gen3/' as string,  /** URL donde se encuentran los iconos de los Pokémon. */
       extension: '.png' as string, /** Extensión de los iconos. */
+
+      randomPokemonSuggestions: [] as string [] /** Pokémon aleatorios que mostrar cuando el usuario no ha añadido ningún Pokémon. */
     }
   },
   computed: {
@@ -207,6 +220,7 @@ export default defineComponent({
       this.pokemonNameList = res.data;
       const res2 = await getList('pokemonFullList');
       this.pokemonFullList = res2.data;
+      this.getRandomSuggestions();
     },
 
     /** Filtrar resultados autocompletados a partir de la palabra introducida por el usuario en la barra de búsqueda. */
@@ -217,6 +231,12 @@ export default defineComponent({
           this.resultListAutocomplete.splice(this.resultListAutocomplete.indexOf(this.pokemonTeamNames[i]), 1);
         }
       }
+    },
+
+    /** Función con la que se consiguen recomendaciones aleatorias para sugerir cuando el usuario aún no ha añadido ningún Pokémon. */
+    getRandomSuggestions() {
+      const randomList = this.pokemonNameList;
+      this.randomPokemonSuggestions = randomList.sort(() => 0.5 - Math.random()).slice(0, 5);
     },
 
     /** Evento que se activa cuando el usuario cambia el contenido de la barra de búsqueda. */
@@ -366,6 +386,10 @@ export default defineComponent({
           }
           console.log('Las recomendaciones son: ');
           console.log(this.pokemonNameRecommendations);
+        } else if (value === 0) {
+          this.pokemonNameRecommendations = [];
+          this.pokemonTeamIDs = [];
+          this.getRandomSuggestions();
         }
       }
     }
@@ -593,6 +617,13 @@ export default defineComponent({
   align-self: center;
   justify-self: center;
   margin-left: 1em;
+}
+
+.recommendationsTittle {
+  text-align: center;
+  font-size: x-large;
+  color: #1E1E1E;
+  font-weight: bold;
 }
 
 .recommendationDiv {
