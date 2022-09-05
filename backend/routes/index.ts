@@ -87,7 +87,8 @@ router.put('/teams/:user/:id', async(req, res) => {
     res.send(validation);
 });
 
-/** Recuperar una lista con información acerca de Pokémon. Ya sea una lista con los Pokémon usables, lista de Pokémon de 3gen, lista de items o lista de naturalezas. */
+/** Recuperar una lista con información acerca de Pokémon. Ya sea una lista con los Pokémon usables, lista de Pokémon de
+ *  3gen, lista de items o lista de naturalezas. */
 router.get('/dex/:list', async (req, res) => {
 
     if(req.params.list === 'pokemonListFiltered') {
