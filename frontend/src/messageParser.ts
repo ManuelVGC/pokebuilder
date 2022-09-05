@@ -23,8 +23,8 @@ const battleUser = new BattleUser();
 const battleRival = new BattleUser();
 
 const fieldConditions = new FieldConditions();
-const userSideConditions = new SideConditions();
-const rivalSideConditions = new SideConditions();
+let userSideConditions = new SideConditions();
+let rivalSideConditions = new SideConditions();
 
 /**
  * Variables auxiliares que voy utilizando a lo largo del código.
@@ -56,8 +56,6 @@ export const messageParser = (messageData: string) => {
             console.log(store.state.user.challstr);
             break;
         }
-        case 'updateuser':
-            break;
         /**
          * Mensajes de batalla.
          */
@@ -78,6 +76,7 @@ const battleMessagesParser = async (messages : string[]) => {
         store.commit('SET_BATTLEINFO', battleInfo);
         const battleInfoLength = battleInfo.split('-').length;
         if (battleInfoLength <= 3) {
+            resetValues();
             store.commit('SET_BATTLEUSER', battleUser);
             store.commit('SET_BATTLERIVAL', battleRival);
 
@@ -105,7 +104,7 @@ const battleMessagesParser = async (messages : string[]) => {
 
     }
 
-    if (store.state.battleFinished === false) {
+    if (store.state.battleInfo != '') {
         for (let i = 0; i < messages.length; i++) {
             message = messages[i].substring(1).split('|');
             switch (message[0]){
@@ -2259,5 +2258,17 @@ const getMoveType = async (moveName: string) => {
     const moveData = await getMoveData(moveName);
     const moveType = moveData.data.baseMoveType;
     return moveType;
+}
+
+/**
+ * Reseteo de los valores entre batallas.
+ */
+const resetValues = () => {
+    battleUser.team = [];
+    battleRival.team = [];
+    fieldConditions.weather.type = 'none';
+    fieldConditions.weather.active = false;
+    userSideConditions = {boosts: {atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0 }, lightscreen: false, reflect: false, mist: false, safeguard: false, spikes: 0, leechseed: false};
+    rivalSideConditions = {boosts: {atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0 }, lightscreen: false, reflect: false, mist: false, safeguard: false, spikes: 0, leechseed: false};
 }
 
