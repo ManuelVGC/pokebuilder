@@ -288,10 +288,9 @@ export default defineComponent({
   height: 100%;
   pointer-events: none;
   position: relative;
-  clip-path: inset(3.6em 80em 12.0em 0em);
   transform: scale(1.74);
-  left:64.5%;
   top: 20%;
+  left: 65%;
   z-index: 1;
 }
 

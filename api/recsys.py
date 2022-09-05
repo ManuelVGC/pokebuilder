@@ -64,7 +64,7 @@ def recommend_items(item_history: ItemHistory):
     item_history_dict = item_history.dict()
     item_sequence = item_history_dict["sequence"]
     item_length = len(item_sequence)
-    pad_length = 5  # 5 debido a que las sesiones las consideramos de 5 (tamaño equipo)
+    pad_length = 5  # 5 debido a que las sesiones las consideramos de 6 (tamaño equipo) y se necesita un Pokémon para conseguir las recomendaciones
 
     # Obtener los ids internos de recbole a partir de los proporcionados
     # Hacer un padding con 0s hasta completar la entrada esperada
