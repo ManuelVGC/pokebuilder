@@ -12,6 +12,8 @@ La aplicación web Pokebuilder es una aplicación cuyo objetivo es facilitar la 
 más novatos en el competitivo de la saga como para los más veteranos, aportando sugerencias basadas en datos de uso 
 durante la construcción de un equipo Pokémon.
 
+<img src="./frontend/src/assets/videoDemo.gif">
+
 Además, desde la propia aplicación se pueden jugar batallas en la ladder de Pokémon Showdown.
 
 ## Cómo usarla

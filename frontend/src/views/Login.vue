@@ -9,11 +9,11 @@
           <p class="logInText">Log in to Pokémon Showdown</p>
           <div>
             <div class="form-floating mb-3" style="box-sizing: border-box">
-              <input type="text" placeholder="User" v-model="username" class="form-control" style="border-width: 0.1em;border-color: grey; border-radius: 0.3em" id="floatingUser"/>
+              <input type="text" placeholder="User" v-model="username" class="form-control" style="border-width: 0.1em;border-color: grey; border-radius: 0.3em" id="floatingUser" required/>
               <label for="floatingUser">User</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" placeholder="Password" v-model="password" class="form-control" style="border-width: 0.1em;border-color: grey; border-radius: 0.3em" id="floatingPassword"/>
+              <input type="password" placeholder="Password" v-model="password" class="form-control" style="border-width: 0.1em;border-color: grey; border-radius: 0.3em" id="floatingPassword" required/>
               <label for="floatingPassword">Password</label>
             </div>
             <button v-if="!loginIn" class="buttonLogIn" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Log in</button>
