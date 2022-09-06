@@ -283,14 +283,20 @@ export default defineComponent({
   grid-template-rows: 5fr 0.4fr 1.5fr;
 }
 
+.battle {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
 .iframeShowdown {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   pointer-events: none;
-  position: relative;
+  position: absolute;
   transform: scale(1.74);
   top: 20%;
-  left: 65%;
+  left: 35.9%;
   z-index: 1;
 }
 
