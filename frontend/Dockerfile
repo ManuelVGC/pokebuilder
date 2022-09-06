@@ -1,24 +1,27 @@
-# Create image based off of the official Node 6 image
-FROM node:18
+FROM node:18 as build-stage
 
-# Create a directory where our app will be placed
+
 RUN mkdir -p /usr/src/app-frontend
 
-# Change directory so that our commands run inside this new dir
+
 WORKDIR /usr/src/app-frontend
 
-# Copy dependency definitions
 COPY package.json /usr/src/app-frontend
 COPY package-lock.json /usr/src/app-frontend
 
-# Install dependecies
+
 RUN npm install
 
-# Get all the code needed to run the app
+
 COPY . /usr/src/app-frontend
 
-# Expose the port the app runs in
-EXPOSE 8080
+RUN npm run build
 
-# Serve the app
-CMD ["npm", "run", "serve"]
+
+FROM nginx:1.13.12-alpine as production-stage
+
+COPY --from=build-stage /usr/src/app-frontend/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

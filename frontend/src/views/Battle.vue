@@ -281,6 +281,7 @@ export default defineComponent({
 .gridLeft {
   display: grid;
   grid-template-rows: 5fr 0.4fr 1.5fr;
+
 }
 
 .battle {
