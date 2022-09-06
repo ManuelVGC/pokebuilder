@@ -14,90 +14,93 @@
       </div>
 
       <div class="tableContainer">
-        <table class="table" v-if="actionType === 'ability'">
-          <thead>
-          <tr class="table-head">
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="ability in abilitiesList" :key="ability" class="table-primary">
-            <td style="font-weight: bold">{{ability.name}}</td>
-            <td>{{ability.desc}}</td>
-            <td>
-              <button type="button" class="button" @click="addAbility(ability.name)">Add</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="tables">
+          <table class="table" v-if="actionType === 'ability'">
+            <thead>
+            <tr class="table-head">
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="ability in abilitiesList" :key="ability" class="table-primary">
+              <td style="font-weight: bold">{{ability.name}}</td>
+              <td>{{ability.desc}}</td>
+              <td>
+                <button type="button" class="button" @click="addAbility(ability.name)">Add</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
 
-        <table class="table" v-if="actionType === 'item'">
-          <thead>
-          <tr class="table-head">
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="item in itemsList" :key="item" class="table-primary">
-            <td style="font-weight: bold">{{item.name}}</td>
-            <td>{{item.desc}}</td>
-            <td>
-              <button type="button" class="button" @click="addItem(item.name)">Add</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          <table class="table" v-if="actionType === 'item'">
+            <thead>
+            <tr class="table-head">
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in itemsList" :key="item" class="table-primary">
+              <td style="font-weight: bold">{{item.name}}</td>
+              <td>{{item.desc}}</td>
+              <td>
+                <button type="button" class="button" @click="addItem(item.name)">Add</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
 
-        <table class="table" v-if="actionType === 'move'">
-          <thead>
-          <tr class="table-head">
-            <th scope="col">Type</th>
-            <th scope="col" style="font-weight: bold">Name</th>
-            <th scope="col">Power</th>
-            <th scope="col">Accuracy</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="move in movesList" :key="move" class="table-primary">
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
-              <img :src="typesURL + move.type + extension">
-            </td>
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.name}}</td>
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.basePower}}</td>
-            <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy == true">100</td>
-            <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy != true">{{move.accuracy}}</td>
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.shortDesc}}</td>
-            <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
-              <button type="button" class="button" @click="addMove(move.name)">Add</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          <table class="table" v-if="actionType === 'move'">
+            <thead>
+            <tr class="table-head">
+              <th scope="col">Type</th>
+              <th scope="col" style="font-weight: bold">Name</th>
+              <th scope="col">Power</th>
+              <th scope="col">Accuracy</th>
+              <th scope="col">Description</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="move in movesList" :key="move" class="table-primary">
+              <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
+                <img :src="typesURL + move.type + extension">
+              </td>
+              <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.name}}</td>
+              <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.basePower}}</td>
+              <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy == true">100</td>
+              <td v-if="(this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)) && move.accuracy != true">{{move.accuracy}}</td>
+              <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">{{move.shortDesc}}</td>
+              <td v-if="this.pokemonSelected.moves == null || (this.pokemonSelected.moves != null && this.pokemonSelected.moves.indexOf(move.name) === -1)">
+                <button type="button" class="button" @click="addMove(move.name)">Add</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
 
-        <table class="table" v-if="actionType === 'nature'">
-          <thead>
-          <tr class="table-head">
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="nature in naturesList" :key="nature" class="table-primary">
-            <td style="font-weight: bold">{{nature.name}}</td>
-            <td>{{nature.description}}</td>
-            <td>
-              <button type="button" class="button" @click="addNature(nature.name)">Add</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          <table class="table" v-if="actionType === 'nature'">
+            <thead>
+            <tr class="table-head">
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="nature in naturesList" :key="nature" class="table-primary">
+              <td style="font-weight: bold">{{nature.name}}</td>
+              <td>{{nature.description}}</td>
+              <td>
+                <button type="button" class="button" @click="addNature(nature.name)">Add</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>
@@ -218,8 +221,9 @@ export default defineComponent({
   justify-content: end;
   align-items: start;
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
   top: 0;
   left: 0;
 }
@@ -231,6 +235,12 @@ export default defineComponent({
 
 .tableContainer {
   padding: 1.5em;
+  margin-bottom: 2em;
+}
+
+.tables {
+  height: 80vh;
+  overflow: auto;
 }
 
 .pokemonSelected {

@@ -419,11 +419,6 @@ export default defineComponent({
   height: 10vh;
 }
 
-.sideBar {
-  overflow-y: scroll;
-}
-
-
 .popUpContainer {
   display: flex;
   background-color: rgba(0, 0, 0, 0.5);
@@ -665,6 +660,7 @@ export default defineComponent({
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   margin-top: 3em;
+  width: 100%;
 }
 
 .pokemonCard {
