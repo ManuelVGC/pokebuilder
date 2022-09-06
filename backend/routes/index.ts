@@ -171,7 +171,7 @@ router.post('/logInShowdown/', async (req, res) => {
     const assertion = message.assertion;
 
     if(assertion.substring(0, 2) === ';;') {
-        checkAssertion = -1;
+        checkAssertion = 'badAssertion';
     } else {
         checkAssertion = assertion;
     }
