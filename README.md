@@ -29,8 +29,9 @@ https://play.pokemonshowdown.com/
 ```
 Con la cuenta creada, se pueden utilizar las credenciales para iniciar sesión en la aplicación.
 
-En caso de querer hacer el build de la aplicación, habrá que ejecutar el comando siguiente:
+En caso de querer hacer el build de la aplicación, habrá que ejecutar los comandos siguientes:
 ```
+docker-compose build
 docker-compose up -d
 ```
 ## Detalles
