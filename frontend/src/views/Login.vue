@@ -52,6 +52,8 @@ export default defineComponent({
     async logIn() {
       this.loginIn = true;
       const assertion = await logInShowdown(this.$store.state.user);
+      console.log('La assertion es: ');
+      console.log(assertion.data);
       if (assertion.data === -1) { //Fallo en el logeo
         this.error = true;
         this.loginIn = false;

@@ -165,14 +165,18 @@ router.post('/logInShowdown/', async (req, res) => {
 
     const act = 'login';
     const data = 'act=' + act + '&name=' + user.username + '&pass=' + user.password + '&challstr=' + user.challstr;
-    const response = await axiosInstanceShowdown.post('', data);
-    const message = JSON.parse(response.data.substring(1));
-    const assertion = message.assertion;
+    try {
+        const response = await axiosInstanceShowdown.post('', data);
+        const message = JSON.parse(response.data.substring(1));
+        const assertion = message.assertion;
 
-    if(assertion.substring(0, 2) === ';;') {
-        checkAssertion = -1;
-    } else {
-        checkAssertion = assertion;
+        if(assertion.substring(0, 2) === ';;') {
+            checkAssertion = -1;
+        } else {
+            checkAssertion = assertion;
+        }
+    } catch (error) {
+        checkAssertion = error;
     }
 
     res.send(checkAssertion);
