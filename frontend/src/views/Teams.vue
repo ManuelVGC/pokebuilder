@@ -20,7 +20,7 @@
               </div>
             </div>
             <div class="deleteEditButtons">
-              <button type="button" class="buttonDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="tryDeleteTeam()">Delete team</button>
+              <button type="button" class="buttonDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="tryDeleteTeam(team._id)">Delete team</button>
               <button type="button" class="buttonEdit" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;" @click="editTeam(team._id)">Edit team</button>
             </div>
             <div v-if="deleteTeamFlag" class="popUpContainer">
@@ -28,7 +28,7 @@
                 <p class="errorTitle">Warning!</p>
                 <div class="errorDescription">Are you sure you want to delete this team?</div>
                 <div>
-                  <button @click="deleteTeam(team._id)" class="buttonConfirmDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Delete</button>
+                  <button @click="deleteTeam()" class="buttonConfirmDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Delete</button>
                   <button @click="cancel()" class="buttonCancelDelete" style="box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, 0.3); border-radius: 0.5em;">Cancel</button>
                 </div>
               </div>
@@ -64,6 +64,8 @@ export default defineComponent({
       extension: '.png' as string, /** Extensión de los iconos. */
 
       deleteTeamFlag: false as boolean, /** Flag que controla la confirmación de borrado de un equipo. */
+
+      tryDeleteTeamID: '' as string, /** ID del equipo que se está intentando eliminar. */
     }
   },
   methods: {
@@ -75,13 +77,14 @@ export default defineComponent({
     },
 
     /** Intentar borrar un equipo de entre la lista de los equipos creados. */
-    async tryDeleteTeam() {
+    async tryDeleteTeam(teamID: string) {
+      this.tryDeleteTeamID = teamID;
       this.deleteTeamFlag = true;
     },
 
     /** Borrar un equipo de entre la lista de los equipos creados tras confirmación del usuario. */
-    async deleteTeam(teamID: string) {
-      await deleteTeam(this.$store.state.user.username, teamID);
+    async deleteTeam() {
+      await deleteTeam(this.$store.state.user.username, this.tryDeleteTeamID);
       this.loadUserTeams();
       this.deleteTeamFlag = false;
     },
