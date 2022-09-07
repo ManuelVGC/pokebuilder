@@ -38,7 +38,6 @@ let userLastPokemonActive = '';
 let rivalLastPokemonActive = '';
 
 export const messageParser = (messageData: string) => {
-    console.log('El data es: ' + messageData);
     let messages: string[];
     let parts : string[];
     // eslint-disable-next-line prefer-const
@@ -53,7 +52,6 @@ export const messageParser = (messageData: string) => {
          */
         case 'challstr': {
             store.commit('SET_CHALLSTR', parts[1] + '|' + (parts[2]));
-            console.log(store.state.user.challstr);
             break;
         }
         /**
@@ -71,6 +69,9 @@ export const messageParser = (messageData: string) => {
 const battleMessagesParser = async (messages : string[]) => {
     let message: string[];
 
+    /**
+     * Comienzo de una batalla.
+     */
     if (messages[1] === '|init|battle') {
         const battleInfo = messages[0].trim();
         store.commit('SET_BATTLEINFO', battleInfo);

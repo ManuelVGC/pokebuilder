@@ -186,9 +186,7 @@ export const BattleText = {
     },
     attract: {
         start: "[POKEMON] fell in love!",
-        //startFromItem: "[POKEMON] fell in love from the [ITEM]!",
         end: "[POKEMON] got over its infatuation!",
-        //endFromItem: "[POKEMON] cured its infatuation using its [ITEM]!",
         activate: "[POKEMON] is in love with [TARGET]!",
         cant: "[POKEMON] is immobilized by love!",
     },
@@ -337,7 +335,6 @@ export const BattleText = {
     reflect: {
         start: "Reflect made [TEAM] stronger against physical moves!",
         end: "[TEAM]'s Reflect wore off!",
-        //startGen1: "[POKEMON] gained armor!", // gen 1
     },
     roleplay: {
         changeAbility: "[POKEMON] copied [SOURCE]'s [ABILITY] ability!",
@@ -395,7 +392,6 @@ export const BattleText = {
     },
     torment: {
         start: "[POKEMON] was subjected to torment!",
-        //end: "[POKEMON]'s torment wore off!",
     },
     transform: {
         transform: "[POKEMON] transformed into [SPECIES]!",
