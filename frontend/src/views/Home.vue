@@ -153,6 +153,7 @@ export default defineComponent({
   background: rgba(0, 0, 0, 0.6);
   border-left: 0.2em solid #1e1e1e;
   height: 100vh;
+
 }
 .leftGrid {
   display: grid;
@@ -315,5 +316,23 @@ export default defineComponent({
   font-weight: bold;
 }
 
+@media screen and (max-width: 1400px) {
+  .battle {
+    padding: 2em;
+    width: 80%;
 
+  }
+
+  .buttonSearch {
+    width:90%;
+  }
+
+  .buttonSearching {
+    width:90%;
+  }
+
+  .buttonTeambuilder {
+    width:90%;
+  }
+}
 </style>

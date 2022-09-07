@@ -743,4 +743,20 @@ export default defineComponent({
 .pokemonSprite img {
   width: 3em;
 }
+
+@media screen and (max-height: 800px) {
+  .iframeShowdown {
+    transform: scale(1.5);
+    top: 10%;
+    left: 25%;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .iframeShowdown {
+    transform: scale(1.3);
+    top: -2%;
+    left: 15%;
+  }
+}
 </style>

@@ -415,6 +415,7 @@ export default defineComponent({
   height: 10vh;
 }
 
+
 .popUpContainer {
   display: flex;
   background-color: rgba(0, 0, 0, 0.5);
@@ -531,15 +532,21 @@ export default defineComponent({
   background-color: #4bbf73;
 }
 
+
 .grid {
   display: grid;
   grid-template-rows: 7em 1fr 7em;
 }
 
+.sideBar {
+  z-index: 4;
+}
+
 .teamNameButtons {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   align-items: center;
+  width: 98.5%;
 }
 
 .teamName {
@@ -567,11 +574,10 @@ export default defineComponent({
 
 .buttons {
   justify-self: end;
-  margin-right: 1.5em;
 }
 
 .searchPokemonInput {
-  width: 94vw;
+  width: 100%;
   border-radius: 0.3em;
   height: 3em;
 }
@@ -584,6 +590,7 @@ export default defineComponent({
   margin: 0em 1.5em 1.5em 1.5em;
   padding: 1.5em;
   align-self: center;
+  width: 97.5%;
 }
 
 .autocomplete-results {
@@ -654,7 +661,7 @@ export default defineComponent({
 .pokemonCards {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   margin-top: 3em;
   width: 100%;
 }
@@ -662,5 +669,73 @@ export default defineComponent({
 .pokemonCard {
   margin-bottom: 2.5em;
   justify-self: center;
+}
+
+
+@media screen and (max-width: 1455px){
+ .pokemonCards {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr 1fr 1fr;
+   margin-top: 3em;
+   width: 100%;
+ }
+
+  .grid {
+    display: grid;
+    grid-template-rows: 10em 1fr 10em;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .buttonGoBack {
+    transform: scale(0.8);
+  }
+
+  .buttonSaveTeam {
+    transform: scale(0.8);
+    margin-left: 0;
+  }
+
+
+}
+
+@media screen and (max-width: 980px){
+  .pokemonCards {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 3em;
+    width: 100%;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-rows: 10em 1fr 15em;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .buttonGoBack {
+    grid-row-start: 1;
+  }
+
+  .buttonSaveTeam {
+    grid-row-start: 2;
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .grid {
+    display: grid;
+    grid-template-rows: 10em 1fr 20em;
+  }
 }
 </style>

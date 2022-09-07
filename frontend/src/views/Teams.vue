@@ -320,4 +320,27 @@ export default defineComponent({
   background-color: #1768AC;
 }
 
+
+@media screen and (max-width: 1580px) {
+  .deleteEditButtons {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+  }
+
+  .buttonDelete {
+    grid-row-start: 1;
+    transform: scale(0.8);
+    justify-self: center;
+  }
+
+  .buttonEdit {
+    grid-row-start: 2;
+    transform: scale(0.8);
+    justify-self: center;
+    margin-left: 0;
+  }
+
+}
+
 </style>

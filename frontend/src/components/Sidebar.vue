@@ -236,6 +236,7 @@ export default defineComponent({
 .tableContainer {
   padding: 1.5em;
   margin-bottom: 2em;
+  height: 100%;
 }
 
 .tables {
@@ -297,4 +298,19 @@ export default defineComponent({
   align-self: center;
   cursor: pointer;
 }
+
+@media screen and (max-height: 800px) {
+  .tables {
+    height: 70vh;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-height: 500px) {
+  .tables {
+    height: 50vh;
+    overflow: auto;
+  }
+}
+
 </style>

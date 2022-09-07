@@ -101,11 +101,13 @@ export default defineComponent({
   background: #ffffff;
   overflow: auto;
   height: 100vh;
+  align-items: center;
+  justify-items: center;
 }
 .gridForm {
   grid-row-start: 2;
   grid-row-end: 6;
-  padding: 7em 5em 5em 5em;
+  padding: 12% 10% 10% 10%;
 }
 .leftGrid {
   overflow: hidden;
@@ -205,7 +207,5 @@ export default defineComponent({
   color: red;
   font-weight: bold;
 }
-
-
 
 </style>
