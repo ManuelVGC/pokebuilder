@@ -744,19 +744,39 @@ export default defineComponent({
   width: 3em;
 }
 
-@media screen and (max-height: 800px) {
+@media screen and (max-height: 900px) {
+  .grid {
+    grid-template-columns: 1.25fr 1.9fr;
+  }
+
   .iframeShowdown {
-    transform: scale(1.5);
-    top: 10%;
-    left: 25%;
+    transform: scale(1.45);
+    top: 7%;
+    left: 0%;
   }
 }
 
 @media screen and (max-height: 800px) {
+  .grid {
+    grid-template-columns: 1.25fr 1.3fr;
+  }
+
   .iframeShowdown {
-    transform: scale(1.3);
-    top: -2%;
-    left: 15%;
+    transform: scale(1.25);
+    top: -3%;
+    left: 12%;
+  }
+}
+
+@media screen and (max-height: 670px) {
+  .grid {
+    grid-template-columns: 1.25fr 1.3fr;
+  }
+
+  .iframeShowdown {
+    transform: scale(1.25);
+    top: -4%;
+    left: 12%;
   }
 }
 </style>
