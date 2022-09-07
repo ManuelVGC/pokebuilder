@@ -770,13 +770,42 @@ export default defineComponent({
 
 @media screen and (max-height: 670px) {
   .grid {
-    grid-template-columns: 1.25fr 1.3fr;
+    grid-template-columns: 1.25fr 1fr;
+  }
+
+  .gridLeft {
+    display: grid;
+    grid-template-rows: 5fr 0.4fr 1.5fr;
+    height: 90vh;
   }
 
   .iframeShowdown {
-    transform: scale(1.25);
-    top: -4%;
-    left: 12%;
+    transform: scale(1.2);
+    top: -7%;
+    left: 10%;
   }
+
+  .buttonMove {
+    transform: scale(0.75);
+  }
+  .buttonPokemon {
+    transform: scale(0.75);
+  }
+
+  .buttonForfeit {
+    transform: scale(0.75);
+  }
+
+  .buttonTimer {
+    transform: scale(0.75);
+  }
+
+  .questionText {
+
+    color: #1e1e1e;
+    font-size: small;
+    font-weight: bold;
+  }
+
 }
 </style>
